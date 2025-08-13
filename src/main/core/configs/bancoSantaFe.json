@@ -1,0 +1,124 @@
+{
+  "id": "banco-santa-fe",
+  "name": "banco_santa_fe",
+  "displayName": "Banco Santa Fe",
+  "theme": {
+    "primary": "#198038",
+    "secondary": "#146A2D",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-main.png",
+    "white": "assets/images/logo-white.png",
+    "dark": "assets/images/logo-dark.png"
+  },
+  "api": {
+    "baseUrl": "https://api.bancosantafe.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": true,
+    "offlineMode": true,
+    "dashboardVariant": "minimal",
+    "showQuickActions": true,
+    "showTransactionHistory": false,
+    "showAccountBalance": true,
+    "compactView": false,
+    "showPromotions": true,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": true
+  },
+  "promotions": [
+    {
+      "id": "tarjeta-credito",
+      "title": "Tarjeta de Crédito Verde",
+      "subtitle": "100% sustentable y bonificada por 2 años",
+      "description": "Nueva línea eco-friendly de Santa Fe",
+      "cta": "Hacete cliente",
+      "color": "#198038",
+      "icon": "💳"
+    },
+    {
+      "id": "eco-prestamos",
+      "title": "Préstamos Ecológicos",
+      "subtitle": "Financiá proyectos sustentables con tasas preferenciales",
+      "description": "Apoyamos tu compromiso con el medio ambiente",
+      "cta": "Conocé más",
+      "color": "#059669",
+      "icon": "🌱"
+    },
+    {
+      "id": "energia-renovable",
+      "title": "Financiación Energía Solar",
+      "subtitle": "Hasta 80% de financiación para paneles solares",
+      "description": "Invertí en energía limpia para tu hogar",
+      "cta": "Participar",
+      "color": "#F59E0B",
+      "icon": "☀️"
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "cuentas",
+      "name": "Cuentas",
+      "icon": "🏦",
+      "color": "#198038"
+    },
+    {
+      "id": "tarjetas",
+      "name": "Tarjetas",
+      "icon": "💳",
+      "color": "#146A2D"
+    },
+    {
+      "id": "prestamos",
+      "name": "Préstamos",
+      "icon": "💰",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "inversiones",
+      "name": "Inversiones",
+      "icon": "📈",
+      "color": "#059669"
+    }
+  ],
+  "securityAlerts": [
+    {
+      "id": "phishing",
+      "title": "¡Protegé tus datos bancarios!",
+      "description": "Nunca ingreses tus claves en links recibidos por email o SMS. Siempre accedé desde nuestro sitio oficial.",
+      "type": "warning",
+      "icon": "🔒"
+    }
+  ],
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD", "AMEX", "CABAL"],
+    "maxAmount": 150000,
+    "minAmount": 50,
+    "currencies": ["ARS", "USD"],
+    "defaultCurrency": "ARS"
+  },
+  "support": {
+    "email": "soporte@bancosantafe.com",
+    "phone": "+54 342 4000-7000",
+    "website": "https://www.bancosantafe.com"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "id": "banco-entre-rios",
+  "name": "banco_entre_rios",
+  "displayName": "Banco Entre Ríos",
+  "theme": {
+    "primary": "#1B365D",
+    "secondary": "#2E5984",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-banco-entrerios.svg",
+    "white": "assets/images/logo-banco-entrerios-white.svg",
+    "dark": "assets/images/logo-banco-entrerios-dark.svg"
+  },
+  "api": {
+    "baseUrl": "https://api.bancoentrerios.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": false,
+    "offlineMode": true,
+    "dashboardVariant": "standard",
+    "showQuickActions": true,
+    "showTransactionHistory": true,
+    "showAccountBalance": true,
+    "compactView": false,
+    "showPromotions": true,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": false
+  },
+  "promotions": [
+    {
+      "id": "tarjeta-credito",
+      "title": "Tarjeta de Crédito",
+      "subtitle": "100% online y bonificada por 2 años",
+      "description": "Saca tu Tarjeta de Crédito online",
+      "cta": "Hacete cliente",
+      "color": "#1B365D",
+      "icon": "💳"
+    },
+    {
+      "id": "prestamos-personales",
+      "title": "Préstamos Personales",
+      "subtitle": "Tasas preferenciales para clientes",
+      "description": "Financiá tus proyectos con las mejores condiciones",
+      "cta": "Solicitar",
+      "color": "#2E5984",
+      "icon": "💰"
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "cuentas",
+      "name": "Cuentas",
+      "icon": "🏦",
+      "color": "#1B365D"
+    },
+    {
+      "id": "tarjetas",
+      "name": "Tarjetas",
+      "icon": "💳",
+      "color": "#2E5984"
+    },
+    {
+      "id": "prestamos",
+      "name": "Préstamos",
+      "icon": "💰",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "inversiones",
+      "name": "Inversiones",
+      "icon": "📈",
+      "color": "#059669"
+    }
+  ],
+  "support": {
+    "email": "soporte@bancoentrerios.com",
+    "phone": "+54 11 4000-0000",
+    "website": "https://www.bancoentrerios.com",
+    "chat": true,
+    "whatsapp": "+54 9 11 1234-5678"
+  },
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD", "AMEX"],
+    "maxAmount": 100000,
+    "minAmount": 100,
+    "currencies": ["ARS", "USD"],
+    "defaultCurrency": "ARS"
+  }
+} 

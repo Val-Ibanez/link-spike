@@ -1,0 +1,5 @@
+// Configuración para Banco Entre Ríos
+PRODUCT_BUNDLE_IDENTIFIER = com.myreactnativeapp.bancoentrerios
+PRODUCT_NAME = Banco Entre Ríos
+INFOPLIST_FILE = MyReactNativeApp/Resources/bancoEntreRios/InfoPlist.strings
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.bancoEntreRios 

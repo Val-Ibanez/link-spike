@@ -1,0 +1,5 @@
+// Configuración para Banco Santa Fe
+PRODUCT_BUNDLE_IDENTIFIER = com.myreactnativeapp.bancosantafe
+PRODUCT_NAME = Banco Santa Fe
+INFOPLIST_FILE = MyReactNativeApp/Resources/bancoSantaFe/InfoPlist.strings
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.bancoSantaFe 

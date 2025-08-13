@@ -1,0 +1,39 @@
+{
+  "bundleIds": {
+    "android": "com.myreactnativeapp.bancosantafe",
+    "ios": "com.myreactnativeapp.bancosantafe"
+  },
+  "appNames": {
+    "android": "Banco Santa Fe",
+    "ios": "Banco Santa Fe"
+  },
+  "versioning": {
+    "versionName": "1.0.0",
+    "versionCode": "1",
+    "buildNumber": "1"
+  },
+  "environments": {
+    "development": {
+      "apiBaseUrl": "https://dev-api.bancosantafe.com",
+      "debug": true,
+      "analytics": false
+    },
+    "staging": {
+      "apiBaseUrl": "https://staging-api.bancosantafe.com",
+      "debug": true,
+      "analytics": true
+    },
+    "production": {
+      "apiBaseUrl": "https://api.bancosantafe.com",
+      "debug": false,
+      "analytics": true
+    }
+  },
+  "keystore": {
+    "android": "android/keystores/bancoSantaFe.keystore",
+    "ios": {
+      "teamId": "TEAM_ID_SANTA_FE",
+      "provisioningProfile": "BancoSantaFe_AppStore"
+    }
+  }
+} 

@@ -1,0 +1,39 @@
+{
+  "bundleIds": {
+    "android": "com.myreactnativeapp.bancoentrerios",
+    "ios": "com.myreactnativeapp.bancoentrerios"
+  },
+  "appNames": {
+    "android": "Banco Entre Ríos",
+    "ios": "Banco Entre Ríos"
+  },
+  "versioning": {
+    "versionName": "1.0.0",
+    "versionCode": "1",
+    "buildNumber": "1"
+  },
+  "environments": {
+    "development": {
+      "apiBaseUrl": "https://dev-api.bancoentrerios.com",
+      "debug": true,
+      "analytics": false
+    },
+    "staging": {
+      "apiBaseUrl": "https://staging-api.bancoentrerios.com",
+      "debug": true,
+      "analytics": true
+    },
+    "production": {
+      "apiBaseUrl": "https://api.bancoentrerios.com",
+      "debug": false,
+      "analytics": true
+    }
+  },
+  "keystore": {
+    "android": "android/keystores/bancoEntreRios.keystore",
+    "ios": {
+      "teamId": "TEAM_ID_ENTRE_RIOS",
+      "provisioningProfile": "BancoEntreRios_AppStore"
+    }
+  }
+} 

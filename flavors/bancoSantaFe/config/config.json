@@ -1,0 +1,108 @@
+{
+  "id": "banco-santa-fe",
+  "name": "banco_santa_fe",
+  "displayName": "Banco Santa Fe",
+  "theme": {
+    "primary": "#059669",
+    "secondary": "#047857",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-banco-santafe.svg",
+    "white": "assets/images/logo-banco-santafe-white.svg",
+    "dark": "assets/images/logo-banco-santafe-dark.svg"
+  },
+  "api": {
+    "baseUrl": "https://api.bancosantafe.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": false,
+    "offlineMode": true,
+    "dashboardVariant": "compact",
+    "showQuickActions": true,
+    "showTransactionHistory": true,
+    "showAccountBalance": true,
+    "compactView": true,
+    "showPromotions": false,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": false
+  },
+  "promotions": [
+    {
+      "id": "cuenta-corriente",
+      "title": "Cuenta Corriente",
+      "subtitle": "Sin comisiones de mantenimiento",
+      "description": "Abrí tu cuenta corriente sin costo",
+      "cta": "Abrir cuenta",
+      "color": "#059669",
+      "icon": "🏦"
+    },
+    {
+      "id": "inversiones",
+      "title": "Inversiones",
+      "subtitle": "Rendimientos superiores al mercado",
+      "description": "Invertí tu dinero con las mejores tasas",
+      "cta": "Invertir",
+      "color": "#047857",
+      "icon": "📈"
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "cuentas",
+      "name": "Cuentas",
+      "icon": "🏦",
+      "color": "#059669"
+    },
+    {
+      "id": "tarjetas",
+      "name": "Tarjetas",
+      "icon": "💳",
+      "color": "#047857"
+    },
+    {
+      "id": "prestamos",
+      "name": "Préstamos",
+      "icon": "💰",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "inversiones",
+      "name": "Inversiones",
+      "icon": "📈",
+      "color": "#059669"
+    }
+  ],
+  "support": {
+    "email": "soporte@bancosantafe.com",
+    "phone": "+54 11 4000-0000",
+    "website": "https://www.bancosantafe.com",
+    "chat": true,
+    "whatsapp": "+54 9 11 1234-5678"
+  },
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD"],
+    "maxAmount": 75000,
+    "minAmount": 100,
+    "currencies": ["ARS"],
+    "defaultCurrency": "ARS"
+  }
+} 

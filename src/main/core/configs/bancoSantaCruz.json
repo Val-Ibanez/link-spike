@@ -1,0 +1,124 @@
+{
+  "id": "banco-santa-cruz",
+  "name": "banco_santa_cruz",
+  "displayName": "Banco Santa Cruz",
+  "theme": {
+    "primary": "#116BD9",
+    "secondary": "#2E5984",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-main.png",
+    "white": "assets/images/logo-white.png",
+    "dark": "assets/images/logo-dark.png"
+  },
+  "api": {
+    "baseUrl": "https://api.bancosantacruz.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": true,
+    "offlineMode": true,
+    "dashboardVariant": "minimal",
+    "showQuickActions": true,
+    "showTransactionHistory": false,
+    "showAccountBalance": true,
+    "compactView": false,
+    "showPromotions": true,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": true
+  },
+  "promotions": [
+    {
+      "id": "tarjeta-credito",
+      "title": "Tarjeta de Crédito",
+      "subtitle": "100% online y bonificada por 2 años",
+      "description": "Saca tu Tarjeta de Crédito online",
+      "cta": "Hacete cliente",
+      "color": "#1B365D",
+      "icon": "💳"
+    },
+    {
+      "id": "dia-ninez",
+      "title": "Especial Día de la Niñez",
+      "subtitle": "Comprá tus regalos con los mejores beneficios",
+      "description": "Ofertas especiales para el día del niño",
+      "cta": "Conocé más",
+      "color": "#F59E0B",
+      "icon": "🎁"
+    },
+    {
+      "id": "viaje-londres",
+      "title": "Ganate un viaje doble a Londres",
+      "subtitle": "30 años de Toy Story - Disney y Pixar",
+      "description": "Sumá chances con tus Tarjetas de Crédito Visa",
+      "cta": "Participar",
+      "color": "#059669",
+      "icon": "✈️"
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "cuentas",
+      "name": "Cuentas",
+      "icon": "🏦",
+      "color": "#1B365D"
+    },
+    {
+      "id": "tarjetas",
+      "name": "Tarjetas",
+      "icon": "💳",
+      "color": "#2E5984"
+    },
+    {
+      "id": "prestamos",
+      "name": "Préstamos",
+      "icon": "💰",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "inversiones",
+      "name": "Inversiones",
+      "icon": "📈",
+      "color": "#059669"
+    }
+  ],
+  "securityAlerts": [
+    {
+      "id": "troyanos",
+      "title": "¡Cuidado con los troyanos bancarios!",
+      "description": "Si te aparecen pantallas extrañas pidiendo instalar programas de 'seguridad', es una estafa. Cerrá todo y contactá al banco.",
+      "type": "warning",
+      "icon": "⚠️"
+    }
+  ],
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD", "AMEX"],
+    "maxAmount": 100000,
+    "minAmount": 100,
+    "currencies": ["ARS", "USD"],
+    "defaultCurrency": "ARS"
+  },
+  "support": {
+    "email": "soporte@bancosantacruz.com",
+    "phone": "+54 11 4000-5000",
+    "website": "https://www.bancosantacruz.com"
+  }
+}

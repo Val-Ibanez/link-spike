@@ -1,0 +1,47 @@
+{
+  "id": "banco-entre-rios",
+  "name": "bancoEntreRios",
+  "displayName": "Banco Entre Ríos",
+  "bundleId": {
+    "android": "com.myreactnativeapp.bancoentrerios",
+    "ios": "com.myreactnativeapp.bancoentrerios"
+  },
+  "theme": {
+    "primary": "#1B365D",
+    "secondary": "#2E5984",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669"
+  },
+  "features": {
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "multiCurrency": false,
+    "investment": false,
+    "offlineMode": true,
+    "dashboardVariant": "standard"
+  },
+  "api": {
+    "baseUrl": "https://api.bancoentrerios.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "support": {
+    "email": "soporte@bancoentrerios.com",
+    "phone": "+54 11 4000-0000",
+    "website": "https://www.bancoentrerios.com",
+    "chat": true,
+    "whatsapp": "+54 9 11 1234-5678"
+  },
+  "assets": {
+    "logo": "assets/images/logo-banco-entrerios.svg",
+    "icon": "assets/icons/app-icon.png",
+    "splash": "assets/images/splash-screen.png"
+  }
+}

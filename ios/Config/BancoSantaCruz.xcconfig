@@ -1,0 +1,5 @@
+// Configuración para Banco Santa Cruz
+PRODUCT_BUNDLE_IDENTIFIER = com.myreactnativeapp.bancosantacruz
+PRODUCT_NAME = Banco Santa Cruz
+INFOPLIST_FILE = MyReactNativeApp/Resources/bancoSantaCruz/InfoPlist.strings
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.bancoSantaCruz 

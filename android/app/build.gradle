@@ -2,6 +2,18 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+// React Native Config
+project.ext.    envConfigFiles = [
+        bancoSantaCruzDebug: ".env.bancoSantaCruz",
+        bancoSantaCruzRelease: ".env.bancoSantaCruz",
+        bancoEntreRiosDebug: ".env.bancoEntreRios",
+        bancoEntreRiosRelease: ".env.bancoEntreRios",
+        bancoSantaFeDebug: ".env.bancoSantaFe",
+        bancoSantaFeRelease: ".env.bancoSantaFe",
+    ]
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -82,8 +94,12 @@ android {
         applicationId "com.myreactnativeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode project.env.get("VERSION_CODE")?.toInteger() ?: 1
+        versionName project.env.get("VERSION_NAME") ?: "1.0.0"
+        buildConfigField "String", "BUILD_NUMBER", "\"${project.env.get("BUILD_NUMBER") ?: "1"}\""
+        buildConfigField "String", "RELEASE_STAGE", "\"${project.env.get("RELEASE_STAGE") ?: "dev"}\""
+        resValue "string", "version_name", project.env.get("VERSION_NAME") ?: "1.0.0"
+        resValue "string", "build_number", project.env.get("BUILD_NUMBER") ?: "1"
     }
     signingConfigs {
         debug {
@@ -92,17 +108,87 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        bancoEntreRios {
+            storeFile file('../keystores/bancoEntreRios.keystore')
+            keyAlias 'bancoEntreRios'
+            storePassword System.getenv('BANCO_ENTRE_RIOS_STORE_PASSWORD') ?: 'defaultpass'
+            keyPassword System.getenv('BANCO_ENTRE_RIOS_KEY_PASSWORD') ?: 'defaultpass'
+        }
+        bancoSantaCruz {
+            storeFile file('../keystores/bancoSantaCruz.keystore')
+            keyAlias 'bancoSantaCruz'
+            storePassword System.getenv('BANCO_SANTA_CRUZ_STORE_PASSWORD') ?: 'defaultpass'
+            keyPassword System.getenv('BANCO_SANTA_CRUZ_KEY_PASSWORD') ?: 'defaultpass'
+        }
+        bancoSantaFe {
+            storeFile file('../keystores/bancoSantaFe.keystore')
+            keyAlias 'bancoSantaFe'
+            storePassword System.getenv('BANCO_SANTA_FE_STORE_PASSWORD') ?: 'defaultpass'
+            keyPassword System.getenv('BANCO_SANTA_FE_KEY_PASSWORD') ?: 'defaultpass'
+        }
     }
+    flavorDimensions "default"
+    productFlavors {
+        
+        bancoSantaCruz {
+            dimension "default"
+            applicationId "com.myreactnativeapp.bancosantacruz"
+            versionNameSuffix "-BSC-${project.env.get("BUILD_NUMBER") ?: "1"}"
+            resValue "string", "app_name", "Banco Santa Cruz" 
+            manifestPlaceholders = [
+                app_name: "Banco Santa Cruz",
+                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
+            ]
+        }
+        bancoEntreRios {
+            dimension "default"
+            applicationId "com.myreactnativeapp.bancoentrerios"
+            versionNameSuffix "-BER-${project.env.get("BUILD_NUMBER") ?: "1"}"
+            resValue "string", "app_name", "Banco Entre Ríos" 
+            manifestPlaceholders = [
+                app_name: "Banco Entre Ríos",
+                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
+            ]
+        }
+        bancoSantaFe {
+            dimension "default"
+            applicationId "com.myreactnativeapp.bancosantafe"
+            versionNameSuffix "-BSF-${project.env.get("BUILD_NUMBER") ?: "1"}"
+            resValue "string", "app_name", "Banco Santa Fe" 
+            manifestPlaceholders = [
+                app_name: "Banco Santa Fe",
+                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
+            ]
+        }
+    }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    
+    // Configurar signing para cada flavor
+    productFlavors.all { flavor ->
+        flavor.signingConfig = signingConfigs.debug
+    }
+    
+    // Configurar sourceSets para cada flavor
+    sourceSets {
+        bancoEntreRios {
+            java.srcDirs = ['src/bancoEntreRios/java']
+        }
+        bancoSantaCruz {
+            java.srcDirs = ['src/bancoSantaCruz/java']
+        }
+        bancoSantaFe {
+            java.srcDirs = ['src/bancoSantaFe/java']
         }
     }
 }

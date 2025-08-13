@@ -1,0 +1,39 @@
+{
+  "bundleIds": {
+    "android": "com.myreactnativeapp.bancosantacruz",
+    "ios": "com.myreactnativeapp.bancosantacruz"
+  },
+  "appNames": {
+    "android": "Banco Santa Cruz",
+    "ios": "Banco Santa Cruz"
+  },
+  "versioning": {
+    "versionName": "1.0.0",
+    "versionCode": "1",
+    "buildNumber": "1"
+  },
+  "environments": {
+    "development": {
+      "apiBaseUrl": "https://dev-api.bancosantacruz.com",
+      "debug": true,
+      "analytics": false
+    },
+    "staging": {
+      "apiBaseUrl": "https://staging-api.bancosantacruz.com",
+      "debug": true,
+      "analytics": true
+    },
+    "production": {
+      "apiBaseUrl": "https://api.bancosantacruz.com",
+      "debug": false,
+      "analytics": true
+    }
+  },
+  "keystore": {
+    "android": "android/keystores/bancoSantaCruz.keystore",
+    "ios": {
+      "teamId": "TEAM_ID_SANTA_CRUZ",
+      "provisioningProfile": "BancoSantaCruz_AppStore"
+    }
+  }
+} 

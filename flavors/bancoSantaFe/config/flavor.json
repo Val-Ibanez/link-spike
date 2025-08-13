@@ -1,0 +1,47 @@
+{
+  "id": "banco-santa-fe",
+  "name": "bancoSantaFe",
+  "displayName": "Banco Santa Fe",
+  "bundleId": {
+    "android": "com.myreactnativeapp.bancosantafe",
+    "ios": "com.myreactnativeapp.bancosantafe"
+  },
+  "theme": {
+    "primary": "#DC2626",
+    "secondary": "#EF4444",
+    "accent": "#F59E0B",
+    "background": "#FEF2F2",
+    "surface": "#FFFFFF",
+    "text": "#7F1D1D",
+    "textSecondary": "#991B1B",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669"
+  },
+  "features": {
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "multiCurrency": false,
+    "investment": true,
+    "offlineMode": false,
+    "dashboardVariant": "compact"
+  },
+  "api": {
+    "baseUrl": "https://api.bancosantafe.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "support": {
+    "email": "soporte@bancosantafe.com",
+    "phone": "+54 11 4000-0002",
+    "website": "https://www.bancosantafe.com",
+    "chat": false,
+    "whatsapp": "+54 9 11 1234-5680"
+  },
+  "assets": {
+    "logo": "assets/images/logo-banco-santafe.svg",
+    "icon": "assets/icons/app-icon.png",
+    "splash": "assets/images/splash-screen.png"
+  }
+}

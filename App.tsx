@@ -1,28 +1,37 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * App de Adquirencia - Marca Blanca
+ * Sistema configurable para múltiples bancos con navegación
  *
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import 'react-native-gesture-handler';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+import { ThemeProvider, useTheme } from './src/main/core/themes/ThemeProvider';
+import { AppNavigationContainer } from './src/main/navigation/NavigationContainer';
+
+function AppContent(): React.JSX.Element {
+  const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.primary}
+      />
+      <AppNavigationContainer />
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+function App(): React.JSX.Element {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
 
 export default App;
