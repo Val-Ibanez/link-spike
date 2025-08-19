@@ -22,6 +22,8 @@ function AppContent(): React.JSX.Element {
         backgroundColor={theme.primary}
       />
       <AppNavigationContainer />
+      {/* 🔥 HOT RELOAD TEST - Cambio temporal para probar */}
+      {/* ✅ HOT RELOAD FUNCIONA - Segundo cambio para confirmar */}
     </>
   );
 }

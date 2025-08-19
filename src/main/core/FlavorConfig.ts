@@ -1,15 +1,11 @@
 import { Platform } from 'react-native';
+import Config from 'react-native-config';
+import { TenantConfig } from './types/tenant';
 
 // 🏦 Configuración de Flavors - Arquitectura Estándar de React Native
 
 export interface FlavorConfig {
-  id: string;
-  name: string;
   displayName: string;
-  bundleId: {
-    android: string;
-    ios: string;
-  };
   theme: {
     primary: string;
     secondary: string;
@@ -22,130 +18,221 @@ export interface FlavorConfig {
     warning: string;
     success: string;
   };
+  logo: {
+    main: string;
+    white: string;
+    dark: string;
+  };
   features: {
+    cashAdvance: boolean;
     qrPayments: boolean;
     contactlessPayments: boolean;
     installments: boolean;
+    reports: boolean;
     multiCurrency: boolean;
-    investment: boolean;
     offlineMode: boolean;
-    dashboardVariant: 'standard' | 'compact' | 'extended';
+    dashboardVariant?: 'modern' | 'classic' | 'santacruz' | 'minimal';
+    showQuickActions?: boolean;
+    showTransactionHistory?: boolean;
+    showAccountBalance?: boolean;
+    compactView?: boolean;
+    showPromotions?: boolean;
+    showSecurityAlerts?: boolean;
+    showProductCategories?: boolean;
+    heroSection?: boolean;
   };
   api: {
     baseUrl: string;
     version: string;
     timeout: number;
   };
+  payment: {
+    supportedCards: string[];
+    maxAmount: number;
+    minAmount: number;
+    currencies: string[];
+    defaultCurrency: string;
+  };
   support: {
     email: string;
     phone: string;
     website: string;
-    chat: boolean;
-    whatsapp?: string;
-  };
-  assets: {
-    logo: string;
-    icon: string;
-    splash: string;
   };
 }
 
 // Función para obtener la configuración del flavor actual
-export function getCurrentFlavorConfig(): FlavorConfig {
-  // En un proyecto real, esto se determinaría por build variant
-  // Por ahora, retornamos una configuración por defecto
-  return {
-    id: 'banco-entre-rios',
-    name: 'bancoEntreRios',
-    displayName: 'Banco Entre Ríos',
-    bundleId: {
-      android: 'com.myreactnativeapp.bancoentrerios',
-      ios: 'com.myreactnativeapp.bancoentrerios',
+
+  // Configuraciones específicas para cada flavor
+  export const flavorConfigs: Record<string, TenantConfig> = {
+    bancoEntreRios: {
+      displayName: 'Banco Entre Ríos',
+      theme: {
+        primary: '#1B365D',
+        secondary: '#2E5984',
+        accent: '#F59E0B',
+        background: '#FAFAFA',
+        surface: '#FFFFFF',
+        text: '#1F2937',
+        textSecondary: '#6B7280',
+        error: '#DC2626',
+        warning: '#F59E0B',
+        success: '#059669',
+      },
+      logo: {
+        main: 'flavors/bancoEntreRios/assets/images/logo-banco-entrerios.svg',
+        white: 'flavors/bancoEntreRios/assets/images/logo-banco-entrerios-white.svg',
+        dark: 'flavors/bancoEntreRios/assets/images/logo-banco-entrerios-dark.svg',
+      },
+      features: {
+        cashAdvance: true,
+        qrPayments: true,
+        contactlessPayments: true,
+        installments: true,
+        reports: true,
+        multiCurrency: false,
+        offlineMode: true,
+        dashboardVariant: 'modern',
+        showQuickActions: true,
+        showTransactionHistory: true,
+        showAccountBalance: true,
+        compactView: false,
+        showPromotions: true,
+        showSecurityAlerts: true,
+        showProductCategories: false,
+        heroSection: true,
+      },
+      api: {
+        baseUrl: 'https://api.bancoentrerios.com',
+        version: 'v2',
+        timeout: 30000,
+      },
+      payment: {
+        supportedCards: ['Visa', 'Mastercard', 'American Express'],
+        maxAmount: 1000000,
+        minAmount: 100,
+        currencies: ['ARS', 'USD'],
+        defaultCurrency: 'ARS',
+      },
+      support: {
+        email: 'soporte@bancoentrerios.com',
+        phone: '+54 11 4000-0000',
+        website: 'https://www.bancoentrerios.com',
+      },
     },
-    theme: {
-      primary: '#1B365D',
-      secondary: '#2E5984',
-      accent: '#F59E0B',
-      background: '#FAFAFA',
-      surface: '#FFFFFF',
-      text: '#1F2937',
-      textSecondary: '#6B7280',
-      error: '#DC2626',
-      warning: '#F59E0B',
-      success: '#059669',
+    bancoSantaCruz: {
+      displayName: 'Banco Santa Cruz',
+      theme: {
+        primary: '#0F4C75',
+        secondary: '#3282B8',
+        accent: '#BBE1FA',
+        background: '#F8FAFC',
+        surface: '#FFFFFF',
+        text: '#1E293B',
+        textSecondary: '#64748B',
+        error: '#EF4444',
+        warning: '#F59E0B',
+        success: '#10B981',
+      },
+      logo: {
+        main: 'flavors/bancoSantaCruz/assets/images/logo-banco-santacruz.svg',
+        white: 'flavors/bancoSantaCruz/assets/images/logo-banco-santacruz-white.svg',
+        dark: 'flavors/bancoSantaCruz/assets/images/logo-banco-santacruz-dark.svg',
+      },
+      features: {
+        cashAdvance: true,
+        qrPayments: true,
+        contactlessPayments: true,
+        installments: true,
+        reports: true,
+        multiCurrency: false,
+        offlineMode: true,
+        dashboardVariant: 'modern',
+        showQuickActions: true,
+        showTransactionHistory: true,
+        showAccountBalance: true,
+        compactView: false,
+        showPromotions: true,
+        showSecurityAlerts: true,
+        showProductCategories: false,
+        heroSection: true,
+      },
+      api: {
+        baseUrl: 'https://api.bancosantacruz.com',
+        version: 'v2',
+        timeout: 30000,
+      },
+      payment: {
+        supportedCards: ['Visa', 'Mastercard', 'American Express'],
+        maxAmount: 1000000,
+        minAmount: 100,
+        currencies: ['ARS', 'USD'],
+        defaultCurrency: 'ARS',
+      },
+      support: {
+        email: 'soporte@bancosantacruz.com',
+        phone: '+54 11 4000-0001',
+        website: 'https://www.bancosantacruz.com',
+      },
     },
-    features: {
-      qrPayments: true,
-      contactlessPayments: true,
-      installments: true,
-      multiCurrency: false,
-      investment: false,
-      offlineMode: true,
-      dashboardVariant: 'standard',
-    },
-    api: {
-      baseUrl: 'https://api.bancoentrerios.com',
-      version: 'v2',
-      timeout: 30000,
-    },
-    support: {
-      email: 'soporte@bancoentrerios.com',
-      phone: '+54 11 4000-0000',
-      website: 'https://www.bancoentrerios.com',
-      chat: true,
-      whatsapp: '+54 9 11 1234-5678',
-    },
-    assets: {
-      logo: 'flavors/bancoEntreRios/assets/images/logo-banco-entrerios.svg',
-      icon: 'flavors/bancoEntreRios/assets/icons/app-icon.png',
-      splash: 'flavors/bancoEntreRios/assets/images/splash-screen.png',
+    bancoSantaFe: {
+      displayName: 'Banco Santa Fe',
+      theme: {
+        primary: '#8B0000',
+        secondary: '#DC143C',
+        accent: '#FFD700',
+        background: '#FFF8DC',
+        surface: '#FFFFFF',
+        text: '#2F2F2F',
+        textSecondary: '#696969',
+        error: '#FF0000',
+        warning: '#FFA500',
+        success: '#32CD32',
+      },
+      logo: {
+        main: 'flavors/bancoSantaFe/assets/images/logo-banco-santafe.svg',
+        white: 'flavors/bancoSantaFe/assets/images/logo-banco-santafe-white.svg',
+        dark: 'flavors/bancoSantaFe/assets/images/logo-banco-santafe-dark.svg',
+      },
+      features: {
+        cashAdvance: true,
+        qrPayments: true,
+        contactlessPayments: true,
+        installments: true,
+        reports: true,
+        multiCurrency: false,
+        offlineMode: true,
+        dashboardVariant: 'modern',
+        showQuickActions: true,
+        showTransactionHistory: true,
+        showAccountBalance: true,
+        compactView: false,
+        showPromotions: true,
+        showSecurityAlerts: true,
+        showProductCategories: false,
+        heroSection: true,
+      },
+      api: {
+        baseUrl: 'https://api.bancosantafe.com',
+        version: 'v2',
+        timeout: 30000,
+      },
+      payment: {
+        supportedCards: ['Visa', 'Mastercard', 'American Express'],
+        maxAmount: 1000000,
+        minAmount: 100,
+        currencies: ['ARS', 'USD'],
+        defaultCurrency: 'ARS',
+      },
+      support: {
+        email: 'soporte@bancosantafe.com',
+        phone: '+54 11 4000-0002',
+        website: 'https://www.bancosantafe.com',
+      },
     },
   };
+
+  
+// Devuelve la config de un flavor
+export function getFlavorConfig(flavorName: string): TenantConfig | null {
+  return flavorConfigs[flavorName] || null;
 }
-
-// Función para obtener configuración de un flavor específico
-export async function getFlavorConfig(flavorName: string): Promise<FlavorConfig | null> {
-  try {
-    // En un proyecto real, esto leería desde flavors/[flavorName]/config/flavor.json
-    // Por ahora retornamos null para evitar errores de importación
-    return null;
-  } catch (error) {
-    console.warn(`No se pudo cargar la configuración del flavor: ${flavorName}`, error);
-    return null;
-  }
-}
-
-// Función para obtener todos los flavors disponibles
-export function getAvailableFlavors(): string[] {
-  return ['bancoEntreRios', 'bancoSantaCruz', 'bancoSantaFe'];
-}
-
-// Función para verificar si una feature está habilitada
-export function isFeatureEnabled(featureName: keyof FlavorConfig['features']): boolean {
-  const config = getCurrentFlavorConfig();
-  return Boolean(config.features[featureName]);
-}
-
-// Función para obtener el tema actual
-export function getCurrentTheme() {
-  const config = getCurrentFlavorConfig();
-  return config.theme;
-}
-
-// Función para obtener la configuración de API
-export function getApiConfig() {
-  const config = getCurrentFlavorConfig();
-  return config.api;
-}
-
-// Función para obtener el bundle ID actual
-export function getCurrentBundleId(): string {
-  const config = getCurrentFlavorConfig();
-  return Platform.select({
-    android: config.bundleId.android,
-    ios: config.bundleId.ios,
-  }) || config.bundleId.android;
-}
-
-export default getCurrentFlavorConfig;
-

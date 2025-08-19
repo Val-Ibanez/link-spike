@@ -3,15 +3,13 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 // React Native Config
-project.ext.    envConfigFiles = [
-        bancoSantaCruzDebug: ".env.bancoSantaCruz",
-        bancoSantaCruzRelease: ".env.bancoSantaCruz",
-        bancoEntreRiosDebug: ".env.bancoEntreRios",
-        bancoEntreRiosRelease: ".env.bancoEntreRios",
-        bancoSantaFeDebug: ".env.bancoSantaFe",
-        bancoSantaFeRelease: ".env.bancoSantaFe",
+project.ext.envConfigFiles = [
+        bancoSantaCruz: ".env.bancoSantaCruz",
+        bancoEntreRios: ".env.bancoEntreRios",
+        bancoSantaFe: ".env.bancoSantaFe",
     ]
 
+// Aplicar dotenv.gradle ANTES de usar project.env
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
@@ -91,7 +89,6 @@ android {
 
     namespace "com.myreactnativeapp"
     defaultConfig {
-        applicationId "com.myreactnativeapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode project.env.get("VERSION_CODE")?.toInteger() ?: 1
@@ -136,6 +133,7 @@ android {
             applicationId "com.myreactnativeapp.bancosantacruz"
             versionNameSuffix "-BSC-${project.env.get("BUILD_NUMBER") ?: "1"}"
             resValue "string", "app_name", "Banco Santa Cruz" 
+            resValue "string", "build_config_package", "com.myreactnativeapp.bancosantacruz"
             manifestPlaceholders = [
                 app_name: "Banco Santa Cruz",
                 version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
@@ -146,6 +144,7 @@ android {
             applicationId "com.myreactnativeapp.bancoentrerios"
             versionNameSuffix "-BER-${project.env.get("BUILD_NUMBER") ?: "1"}"
             resValue "string", "app_name", "Banco Entre Ríos" 
+            resValue "string", "build_config_package", "com.myreactnativeapp.bancoentrerios"
             manifestPlaceholders = [
                 app_name: "Banco Entre Ríos",
                 version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
@@ -156,6 +155,7 @@ android {
             applicationId "com.myreactnativeapp.bancosantafe"
             versionNameSuffix "-BSF-${project.env.get("BUILD_NUMBER") ?: "1"}"
             resValue "string", "app_name", "Banco Santa Fe" 
+            resValue "string", "build_config_package", "com.myreactnativeapp.bancosantafe"
             manifestPlaceholders = [
                 app_name: "Banco Santa Fe",
                 version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
@@ -174,21 +174,40 @@ android {
         }
     }
     
+    // Solo generar variantes Debug para desarrollo
+    variantFilter { variant ->
+        def buildType = variant.buildType.name
+        if (buildType == "release") {
+            variant.setIgnore(true)
+        }
+    }
+    
     // Configurar signing para cada flavor
     productFlavors.all { flavor ->
-        flavor.signingConfig = signingConfigs.debug
+        if (flavor.name == "bancoEntreRios") {
+            flavor.signingConfig = signingConfigs.bancoEntreRios
+        } else if (flavor.name == "bancoSantaCruz") {
+            flavor.signingConfig = signingConfigs.bancoSantaCruz
+        } else if (flavor.name == "bancoSantaFe") {
+            flavor.signingConfig = signingConfigs.bancoSantaFe
+        } else {
+            flavor.signingConfig = signingConfigs.debug
+        }
     }
     
     // Configurar sourceSets para cada flavor
     sourceSets {
         bancoEntreRios {
             java.srcDirs = ['src/bancoEntreRios/java']
+            manifest.srcFile 'src/bancoEntreRios/AndroidManifest.xml'
         }
         bancoSantaCruz {
             java.srcDirs = ['src/bancoSantaCruz/java']
+            manifest.srcFile 'src/bancoSantaCruz/AndroidManifest.xml'
         }
         bancoSantaFe {
             java.srcDirs = ['src/bancoSantaFe/java']
+            manifest.srcFile 'src/bancoSantaFe/AndroidManifest.xml'
         }
     }
 }

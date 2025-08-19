@@ -1,6 +1,5 @@
 export interface TenantConfig {
-  id: string;
-  name: string;
+  // Solo displayName es necesario ya que id y name son redundantes con la key del objeto
   displayName: string;
   
   // Branding

@@ -14,11 +14,24 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const tenantConfig = configManager.getCurrentTenant();
-  const theme = tenantConfig.theme;
+  let tenantConfig: TenantConfig;
+
+  try {
+    tenantConfig = configManager.getCurrentTenant();
+    console.log(`✅ ThemeProvider: Usando flavor '${tenantConfig.displayName}'`);
+  } catch (error) {
+    console.error('❌ Error al obtener configuración del tenant:', error);
+
+    // Fallback: primero Santa Cruz, después Entre Ríos
+    tenantConfig =
+      configManager.getFlavorConfig('bancoSantaCruz') ||
+      configManager.getFlavorConfig('bancoEntreRios')!;
+
+    console.log(`⚠️ Usando configuración por defecto: ${tenantConfig.displayName}`);
+  }
 
   const contextValue: ThemeContextType = {
-    theme,
+    theme: tenantConfig.theme,
     tenantConfig,
   };
 
@@ -32,7 +45,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    // En lugar de lanzar error, usar configuración por defecto
     const defaultConfig = configManager.getCurrentTenant();
     return {
       theme: defaultConfig.theme,
