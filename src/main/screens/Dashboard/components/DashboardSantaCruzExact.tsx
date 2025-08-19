@@ -67,6 +67,7 @@ export default function DashboardSantaCruzExact({
       {/* Hero Section - Exacto como la Web */}
       <View style={dynamicStyles.heroSection}>
         <View style={styles.heroContent}>
+        <Text style={styles.navPillTextActive}>{theme.primary}</Text>
           <Text style={styles.heroTitle}>Tu banco de confianza</Text>
           <Text style={styles.heroSubtitle}>
             Más de 50 años acompañando tu crecimiento

@@ -8,20 +8,25 @@ export default function ProfileScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
   const styles = createThemedStyles(theme);
 
+  const email = 'usuario' + tenantConfig.displayName + '@example.com'
+
   // Datos de ejemplo del usuario
   const userProfile = {
     name: 'Usuario Demo',
-    email: 'usuario@example.com',
+    email: email,
     phone: '+1 234 567 8900',
     merchantId: 'MERCH_12345',
     status: 'Activo',
     since: '2024'
   };
 
+
+  console.log('holis')
   const ProfileItem = ({ label, value }: { label: string; value: string }) => (
     <View style={{ marginBottom: 16 }}>
       <Text style={[styles.bodyTextSecondary, { fontSize: 12, textTransform: 'uppercase' }]}>{label}</Text>
       <Text style={[styles.bodyText, { fontSize: 16, marginTop: 4 }]}>{value}</Text>
+      <Text style={[styles.bodyText, { fontSize: 16, marginTop: 4 }]}>theme: {theme.primary}</Text>
     </View>
   );
 

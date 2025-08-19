@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import { getFlavorConfig } from './FlavorConfig';
 import { TenantConfig } from './types/tenant';
+import { getFlavorNative, getFlavorNativeSync } from './utils/FlavorDetector';
 
 class ConfigManager {
   private currentTenant: TenantConfig | null = null;
@@ -8,21 +9,18 @@ class ConfigManager {
   getCurrentTenant(): TenantConfig {
     if (this.currentTenant) return this.currentTenant;
 
-    // Tomamos el flavor de las env vars
-    const flavor = Config.FLAVOR;
+    // Usar getFlavorNativeSync para obtener el flavor del BuildConfig (sincrónico)
+    const flavor = getFlavorNativeSync();
     
-    if (!flavor) {
-      console.error('❌ Config.FLAVOR es undefined - react-native-config no está funcionando');
-      throw new Error('FLAVOR no configurado - verificar react-native-config y BuildConfig.java');
-    }
-
-    console.log(`🔍 Config.FLAVOR detectado: ${flavor}`);
+    console.log(`🔍 ConfigManager.getCurrentTenant() - Flavor detectado: ${flavor}`);
 
     const tenantConfig = getFlavorConfig(flavor);
     if (!tenantConfig) {
+      console.error(`❌ ConfigManager.getCurrentTenant() - No se encontró configuración para flavor: ${flavor}`);
       throw new Error(`No se encontró configuración para flavor: ${flavor}`);
     }
 
+    console.log(`✅ ConfigManager.getCurrentTenant() - Usando configuración para: ${tenantConfig.displayName}`);
     this.currentTenant = tenantConfig;
     return tenantConfig;
   }
@@ -35,7 +33,7 @@ class ConfigManager {
     const config = this.getCurrentTenant();
     return {
       displayName: config.displayName,
-      flavor: Config.FLAVOR || 'NO_DETECTADO',
+      flavor: getFlavorNativeSync() || 'NO_DETECTADO',
       bundleId: Config.BUNDLE_ID || 'com.myreactnativeapp',
       version: Config.VERSION_NAME || '1.0.0',
       buildNumber: Config.BUILD_NUMBER || '1',
@@ -46,24 +44,29 @@ class ConfigManager {
 
   // Métodos de conveniencia para acceder a configuraciones específicas
   getTheme() {
-    return this.getCurrentTenant().theme;
+    const config = this.getCurrentTenant();
+    return config.theme;
   }
   
   getApiBaseUrl(): string {
-    return this.getCurrentTenant().api.baseUrl;
+    const config = this.getCurrentTenant();
+    return config.api.baseUrl;
   }
   
   isFeatureEnabled(feature: keyof TenantConfig['features']): boolean {
-    const features = this.getCurrentTenant().features;
+    const config = this.getCurrentTenant();
+    const features = config.features;
     return features?.[feature] === true;
   }
   
   getSupportInfo() {
-    return this.getCurrentTenant().support;
+    const config = this.getCurrentTenant();
+    return config.support;
   }
   
   getPaymentConfig() {
-    return this.getCurrentTenant().payment;
+    const config = this.getCurrentTenant();
+    return config.payment;
   }
 
   getVersionInfo() {

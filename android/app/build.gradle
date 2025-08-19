@@ -2,11 +2,14 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-// React Native Config
+// React Native Config - Especificar TODAS las variantes para cada flavor
 project.ext.envConfigFiles = [
-        bancoSantaCruz: ".env.bancoSantaCruz",
-        bancoEntreRios: ".env.bancoEntreRios",
-        bancoSantaFe: ".env.bancoSantaFe",
+        bancoSantaCruzDebug: ".env.bancoSantaCruz",
+        bancoSantaCruzRelease: ".env.bancoSantaCruz",
+        bancoEntreRiosDebug: ".env.bancoEntreRios",
+        bancoEntreRiosRelease: ".env.bancoEntreRios",
+        bancoSantaFeDebug: ".env.bancoSantaFe",
+        bancoSantaFeRelease: ".env.bancoSantaFe",
     ]
 
 // Aplicar dotenv.gradle ANTES de usar project.env

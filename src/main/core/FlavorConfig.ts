@@ -67,7 +67,7 @@ export interface FlavorConfig {
     bancoEntreRios: {
       displayName: 'Banco Entre Ríos',
       theme: {
-        primary: '#1B365D',
+        primary: '#bd1515',
         secondary: '#2E5984',
         accent: '#F59E0B',
         background: '#FAFAFA',
