@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, Alert } from 'r
 import { useTheme } from '../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../core/themes/styles';
 import DynamicHeaderLogo from '../../components/DynamicHeaderLogo';
+import ZustandTest from '../../components/ZustandTest';
 
 export default function ProfileScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
@@ -99,6 +100,12 @@ export default function ProfileScreen(): React.JSX.Element {
           >
             <Text style={styles.primaryButtonText}>😪 Cerrar Sesión</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* 🧪 Test de Zustand */}
+        <View style={styles.card}>
+          <Text style={styles.heading3}>🧪 Test de Estado Global</Text>
+          <ZustandTest />
         </View>
       </ScrollView>
     </SafeAreaView>

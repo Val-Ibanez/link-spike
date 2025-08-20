@@ -18,9 +18,9 @@
     "shadow": "rgba(0, 0, 0, 0.05)"
   },
   "logo": {
-    "main": "assets/images/logo-banco-santafe.svg",
-    "white": "assets/images/logo-banco-santafe-white.svg",
-    "dark": "assets/images/logo-banco-santafe-dark.svg"
+    "main": "logo-banco-santafe.svg",
+    "white": "logo-banco-santafe-white.svg",
+    "dark": "logo-banco-santafe-dark.svg"
   },
   "api": {
     "baseUrl": "https://api.bancosantafe.com",

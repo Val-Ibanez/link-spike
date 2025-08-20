@@ -18,9 +18,9 @@
     "shadow": "rgba(0, 0, 0, 0.05)"
   },
   "logo": {
-    "main": "assets/images/logo-banco-entrerios.svg",
-    "white": "assets/images/logo-banco-entrerios-white.svg",
-    "dark": "assets/images/logo-banco-entrerios-dark.svg"
+    "main": "logo-banco-entrerios.svg",
+    "white": "logo-banco-entrerios-white.svg",
+    "dark": "logo-banco-entrerios-dark.svg"
   },
   "features": {
     "cashAdvance": true,

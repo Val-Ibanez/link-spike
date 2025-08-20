@@ -18,9 +18,9 @@
     "shadow": "rgba(0, 0, 0, 0.05)"
   },
   "logo": {
-    "main": "assets/images/logo-banco-santacruz.svg",
-    "white": "assets/images/logo-banco-santacruz-white.svg",
-    "dark": "assets/images/logo-banco-santacruz-dark.svg"
+    "main": "logo-banco-santacruz.svg",
+    "white": "logo-banco-santacruz-white.svg",
+    "dark": "logo-banco-santacruz-dark.svg"
   },
   "features": {
     "cashAdvance": true,
