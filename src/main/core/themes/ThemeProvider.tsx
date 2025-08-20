@@ -1,11 +1,10 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { configManager } from '../ConfigManager';
-import { TenantConfig } from '../types/tenant';
+import { useFlavorStore, useCurrentConfig } from '../../stores';
 
 interface ThemeContextType {
-  theme: TenantConfig['theme'];
-  tenantConfig: TenantConfig;
+  theme: any;
+  tenantConfig: any;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -15,35 +14,29 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [tenantConfig, setTenantConfig] = React.useState<TenantConfig | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  // Usar Zustand para el estado del flavor
+  const { currentFlavor, setFlavor, refreshConfig } = useFlavorStore();
+  const currentConfig = useCurrentConfig();
 
-  React.useEffect(() => {
-    const loadTenantConfig = () => {
+  useEffect(() => {
+    const initializeFlavor = async () => {
       try {
-        const config = configManager.getCurrentTenant();
-        console.log(`✅ ThemeProvider: Usando flavor '${config.displayName}'`);
-        setTenantConfig(config);
+        // Si no hay flavor configurado, usar el por defecto
+        if (!currentFlavor) {
+          await setFlavor('bancoSantaCruz');
+        } else {
+          // Refrescar configuración del flavor actual
+          await refreshConfig();
+        }
       } catch (error) {
-        console.error('❌ Error al obtener configuración del tenant:', error);
-
-        // Fallback: usar el primer flavor disponible dinámicamente
-        const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios'];
-        const fallbackConfig = allFlavors.map(f => configManager.getFlavorConfig(f)).find(Boolean)!;
-
-        console.log(`⚠️ Usando configuración por defecto: ${fallbackConfig.displayName}`);
-        setTenantConfig(fallbackConfig);
-      } finally {
-        setIsLoading(false);
+        console.error('❌ Error al inicializar flavor:', error);
       }
     };
 
-    loadTenantConfig();
-  }, []);
+    initializeFlavor();
+  }, [currentFlavor, setFlavor, refreshConfig]);
 
-
-
-  if (isLoading || !tenantConfig) {
+  if (!currentConfig) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Cargando configuración del tema...</Text>
@@ -52,8 +45,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }
 
   const contextValue: ThemeContextType = {
-    theme: tenantConfig.theme,
-    tenantConfig: tenantConfig,
+    theme: currentConfig.theme,
+    tenantConfig: currentConfig,
   };
 
   return (
@@ -66,14 +59,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    // Fallback sincrónico si no hay contexto - usar el primer flavor disponible
-    const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios'];
-    const fallbackConfig = allFlavors.map(f => configManager.getFlavorConfig(f)).find(Boolean)!;
+    // Fallback usando Zustand directamente
+    const currentConfig = useCurrentConfig();
+    if (!currentConfig) {
+      throw new Error('useTheme debe ser usado dentro de ThemeProvider');
+    }
     
-    console.warn('⚠️ useTheme() llamado fuera del ThemeProvider - usando fallback:', fallbackConfig.displayName);
     return {
-      theme: fallbackConfig.theme,
-      tenantConfig: fallbackConfig,
+      theme: currentConfig.theme,
+      tenantConfig: currentConfig,
     };
   }
   return context;
