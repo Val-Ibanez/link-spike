@@ -30,10 +30,10 @@ export default function SettingsScreen(): React.JSX.Element {
 
         <SettingItem
           title="Información de la App"
-          subtitle={`Versión ${appInfo.version.fullVersion} - ${appInfo.flavor}`}
+          subtitle={`Versión ${appInfo.version} - ${appInfo.flavor}`}
           onPress={() => Alert.alert(
             'Información de la App',
-            `Banco: ${tenantConfig.displayName}\nFlavor: ${appInfo.flavor}\nVersión: ${appInfo.version.fullVersion}\nBuild: ${appInfo.version.buildNumber}\nEnvironment: ${appInfo.environment}`
+            `Banco: ${tenantConfig.displayName}\nFlavor: ${appInfo.flavor}\nVersión: ${appInfo.version}\nBuild: ${appInfo.buildNumber}\nEnvironment: ${appInfo.enviroment}`
           )}
         />
 

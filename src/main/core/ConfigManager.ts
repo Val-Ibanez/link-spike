@@ -39,6 +39,7 @@ class ConfigManager {
       buildNumber: Config.BUILD_NUMBER || '1',
       apiBaseUrl: config.api.baseUrl,
       theme: config.theme,
+      enviroment: 'prueba'
     };
   }
 

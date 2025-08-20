@@ -2,6 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+// Aplicar configuración de flavors
+apply from: "flavor-config.gradle"
+
 // React Native Config - Especificar TODAS las variantes para cada flavor
 project.ext.envConfigFiles = [
         bancoSantaCruzDebug: ".env.bancoSantaCruz",
@@ -133,36 +136,15 @@ android {
         
         bancoSantaCruz {
             dimension "default"
-            applicationId "com.myreactnativeapp.bancosantacruz"
-            versionNameSuffix "-BSC-${project.env.get("BUILD_NUMBER") ?: "1"}"
-            resValue "string", "app_name", "Banco Santa Cruz" 
-            resValue "string", "build_config_package", "com.myreactnativeapp.bancosantacruz"
-            manifestPlaceholders = [
-                app_name: "Banco Santa Cruz",
-                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
-            ]
+            applyFlavorConfig(it, "bancoSantaCruz")
         }
         bancoEntreRios {
             dimension "default"
-            applicationId "com.myreactnativeapp.bancoentrerios"
-            versionNameSuffix "-BER-${project.env.get("BUILD_NUMBER") ?: "1"}"
-            resValue "string", "app_name", "Banco Entre Ríos" 
-            resValue "string", "build_config_package", "com.myreactnativeapp.bancoentrerios"
-            manifestPlaceholders = [
-                app_name: "Banco Entre Ríos",
-                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
-            ]
+            applyFlavorConfig(it, "bancoEntreRios")
         }
         bancoSantaFe {
             dimension "default"
-            applicationId "com.myreactnativeapp.bancosantafe"
-            versionNameSuffix "-BSF-${project.env.get("BUILD_NUMBER") ?: "1"}"
-            resValue "string", "app_name", "Banco Santa Fe" 
-            resValue "string", "build_config_package", "com.myreactnativeapp.bancosantafe"
-            manifestPlaceholders = [
-                app_name: "Banco Santa Fe",
-                version_display: "${project.env.get("VERSION_NAME") ?: "1.0.0"} (${project.env.get("BUILD_NUMBER") ?: "1"})"
-            ]
+            applyFlavorConfig(it, "bancoSantaFe")
         }
     }
 

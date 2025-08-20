@@ -1,0 +1,69 @@
+// 🏦 Flavor Configuration Script
+// Lee dinámicamente la configuración de cada flavor desde build.json
+
+ext.loadFlavorConfig = { flavorName ->
+    def flavorConfigFile = file("../../flavors/${flavorName}/config/build.json")
+    
+    if (!flavorConfigFile.exists()) {
+        println "⚠️ Warning: build.json not found for flavor ${flavorName}, using defaults"
+        return [
+            bundleId: "com.myreactnativeapp.${flavorName.toLowerCase()}",
+            appName: flavorName.replaceAll(/([A-Z])/, ' $1').trim(),
+            versionName: "1.0.0",
+            versionCode: "1",
+            buildNumber: "1"
+        ]
+    }
+    
+    try {
+        def flavorConfig = new groovy.json.JsonSlurper().parse(flavorConfigFile)
+        println "✅ Loaded config for flavor: ${flavorName}"
+        
+        return [
+            bundleId: flavorConfig.bundleIds?.android ?: "com.myreactnativeapp.${flavorName.toLowerCase()}",
+            appName: flavorConfig.appNames?.android ?: flavorName.replaceAll(/([A-Z])/, ' $1').trim(),
+            versionName: flavorConfig.versioning?.versionName ?: "1.0.0",
+            versionCode: flavorConfig.versioning?.versionCode ?: "1",
+            buildNumber: flavorConfig.versioning?.buildNumber ?: "1",
+            apiBaseUrl: flavorConfig.environments?.development?.apiBaseUrl ?: "",
+            keystorePath: flavorConfig.keystore?.android ?: "../keystores/${flavorName}.keystore"
+        ]
+    } catch (Exception e) {
+        println "❌ Error loading config for flavor ${flavorName}: ${e.message}"
+        return [
+            bundleId: "com.myreactnativeapp.${flavorName.toLowerCase()}",
+            appName: flavorName.replaceAll(/([A-Z])/, ' $1').trim(),
+            versionName: "1.0.0",
+            versionCode: "1",
+            buildNumber: "1"
+        ]
+    }
+}
+
+// Función para aplicar configuración a un flavor
+ext.applyFlavorConfig = { flavor, flavorName ->
+    def config = loadFlavorConfig(flavorName)
+    
+    flavor.applicationId config.bundleId
+    flavor.resValue "string", "app_name", config.appName
+    flavor.resValue "string", "build_config_package", config.bundleId
+    
+    // Versioning dinámico
+    def versionSuffix = getVersionSuffix(flavorName, config.buildNumber)
+    flavor.versionNameSuffix versionSuffix
+    
+    // Manifest placeholders
+    flavor.manifestPlaceholders = [
+        app_name: config.appName,
+        version_display: "${config.versionName} (${config.buildNumber})",
+        api_base_url: config.apiBaseUrl
+    ]
+    
+    println "✅ Applied config for ${flavorName}: ${config.appName} (${config.bundleId})"
+}
+
+// Función para generar suffix de versión
+ext.getVersionSuffix = { flavorName, buildNumber ->
+    def flavorCode = flavorName.replaceAll(/banco/, '').replaceAll(/([A-Z])/, '$1')
+    return "-${flavorCode}-${buildNumber}"
+}
