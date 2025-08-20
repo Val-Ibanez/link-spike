@@ -9,7 +9,7 @@ export const useApp = () => {
   // Flavor Store
   const currentFlavor = useCurrentFlavor()
   const currentConfig = useCurrentConfig()
-  const { setFlavor, refreshConfig } = useFlavorStore()
+  const { refreshConfig } = useFlavorStore()
 
   // App Store
   const appSettings = useAppSettings()
@@ -28,27 +28,17 @@ export const useApp = () => {
   // Acciones combinadas
   const initializeApp = useCallback(async () => {
     try {
-      // Inicializar con el flavor por defecto si no hay uno
-      if (!currentFlavor) {
-        await setFlavor('bancoSantaCruz')
-      }
+      // Los flavors se detectan automáticamente
+      console.log('🚀 initializeApp: Los flavors se detectan automáticamente')
       
       // Refrescar configuración
       await refreshConfig()
     } catch (error) {
       console.error('❌ Error inicializando app:', error)
     }
-  }, [currentFlavor, setFlavor, refreshConfig])
+  }, [refreshConfig])
 
-  const changeFlavor = useCallback(async (flavorName: string) => {
-    try {
-      await setFlavor(flavorName)
-      // Limpiar transacciones al cambiar de flavor
-      clearTransactions()
-    } catch (error) {
-      console.error('❌ Error cambiando flavor:', error)
-    }
-  }, [setFlavor, clearTransactions])
+  // Función removida: changeFlavor - Los flavors se detectan automáticamente
 
   return {
     // Estado
@@ -62,7 +52,6 @@ export const useApp = () => {
     
     // Acciones
     initializeApp,
-    changeFlavor,
     login,
     logout,
     updateUser,

@@ -16,17 +16,7 @@ export const ZustandTest: React.FC = () => {
         <Text>Dashboard: modern</Text>
         
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Banco Santa Cruz</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Banco Entre Ríos</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Banco Santa Fe</Text>
-          </TouchableOpacity>
+          <Text style={styles.buttonText}>Flavor detectado automáticamente</Text>
         </View>
       </View>
 

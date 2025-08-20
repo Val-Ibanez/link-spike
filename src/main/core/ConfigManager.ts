@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { Platform } from 'react-native';
 import { getFlavorConfig } from './FlavorConfig';
 import { TenantConfig } from './types/tenant';
 import { getFlavorNative, getFlavorNativeSync } from './utils/FlavorDetector';
@@ -13,6 +14,7 @@ class ConfigManager {
     const flavor = getFlavorNativeSync();
     
     console.log(`🔍 ConfigManager.getCurrentTenant() - Flavor detectado: ${flavor}`);
+    console.log(`🔍 ConfigManager.getCurrentTenant() - Platform: ${Platform.OS}`);
 
     const tenantConfig = getFlavorConfig(flavor);
     if (!tenantConfig) {
@@ -21,6 +23,7 @@ class ConfigManager {
     }
 
     console.log(`✅ ConfigManager.getCurrentTenant() - Usando configuración para: ${tenantConfig.displayName}`);
+    console.log(`✅ ConfigManager.getCurrentTenant() - Theme primary: ${tenantConfig.theme.primary}`);
     this.currentTenant = tenantConfig;
     return tenantConfig;
   }

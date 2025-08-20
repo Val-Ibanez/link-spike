@@ -40,7 +40,7 @@ export const FlavorSelector: React.FC = () => {
               styles.flavorButton,
               currentFlavor === flavor && styles.activeFlavorButton
             ]}
-            onPress={() => handleFlavorChange(flavor)}
+            //onPress={() => handleFlavorChange(flavor)}
             disabled={currentFlavor === flavor}
           >
             <Text style={[
