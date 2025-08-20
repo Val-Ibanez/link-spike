@@ -1,7 +1,8 @@
 export interface TenantConfig {
   // Solo displayName es necesario ya que id y name son redundantes con la key del objeto
   displayName: string;
-  
+  id: string;
+  name: string;
   // Branding
   theme: {
     primary: string;
@@ -14,6 +15,9 @@ export interface TenantConfig {
     error: string;
     warning: string;
     success: string;
+    textTertiary: string;
+    border: string;
+    shadow: string
   };
   
   // Assets
@@ -40,7 +44,7 @@ export interface TenantConfig {
     multiCurrency: boolean;
     offlineMode: boolean;
     // 🎨 Dashboard Features
-    dashboardVariant?: 'modern' | 'classic' | 'santacruz' | 'minimal';
+    dashboardVariant?: 'modern' | 'classic' | 'minimal' | 'compact' | undefined;
     showQuickActions?: boolean;
     showTransactionHistory?: boolean;
     showAccountBalance?: boolean;
@@ -65,7 +69,27 @@ export interface TenantConfig {
     email: string;
     phone: string;
     website: string;
+    chat?: boolean;
+    whatsapp?: string;
   };
+  
+  // Optional: Promotions and Product Categories
+  promotions?: Array<{
+    id: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    cta: string;
+    color: string;
+    icon: string;
+  }>;
+  
+  productCategories?: Array<{
+    id: string;
+    name: string;
+    icon: string;
+    color: string;
+  }>;
 }
 
 export interface Environment {

@@ -3,16 +3,16 @@
   "name": "banco_santa_fe",
   "displayName": "Banco Santa Fe",
   "theme": {
-    "primary": "#059669",
-    "secondary": "#047857",
-    "accent": "#F59E0B",
-    "background": "#FAFAFA",
+    "primary": "#3c8b00",
+    "secondary": "#DC143C",
+    "accent": "#FFD700",
+    "background": "#FFF8DC",
     "surface": "#FFFFFF",
-    "text": "#1F2937",
-    "textSecondary": "#6B7280",
-    "error": "#DC2626",
-    "warning": "#F59E0B",
-    "success": "#059669",
+    "text": "#2F2F2F",
+    "textSecondary": "#696969",
+    "error": "#FF0000",
+    "warning": "#FFA500",
+    "success": "#32CD32",
     "textTertiary": "#9CA3AF",
     "border": "#E5E7EB",
     "shadow": "rgba(0, 0, 0, 0.05)"
@@ -105,4 +105,4 @@
     "currencies": ["ARS"],
     "defaultCurrency": "ARS"
   }
-} 
+}
