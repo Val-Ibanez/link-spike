@@ -3,10 +3,10 @@
   "name": "banco_entre_rios",
   "displayName": "Banco Entre Ríos",
   "theme": {
-    "primary": "#bd1515",
-    "secondary": "#2E5984",
+    "primary": "#CA0B0B",
+    "secondary": "#d43b3b",
     "accent": "#F59E0B",
-    "background": "#FAFAFA",
+    "background": "#F0F2F5",
     "surface": "#FFFFFF",
     "text": "#1F2937",
     "textSecondary": "#6B7280",

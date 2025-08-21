@@ -17,11 +17,19 @@ import { useTheme } from '../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../core/themes/styles';
 import { featureFlags } from '../../core/utils/FeatureFlags';
 import { QrSvg, ContactlessSvg, ChartSvg, PaySvg } from '../../components/SVG';
+import { BalanceCard } from '../../components';
 
 export default function PaymentsMainScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
   const styles = createThemedStyles(theme);
   const navigation = useNavigation();
+
+    const mockBalance = {
+    balance: '$125.430,50',
+    currency: 'ARS',
+    accountType: 'Cuenta Corriente',
+    accountNumber: '1234567890',
+  };
 
   const PaymentMethodCard = ({
     title,
@@ -73,15 +81,15 @@ export default function PaymentsMainScreen(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
-        {/* Header */}
-        <View style={[styles.card, styles.headerCard]}>
-          <Text style={[styles.heading2, styles.whiteText]}>
-            Métodos de Pago Disponibles
-          </Text>
-          <Text style={[styles.bodyText, styles.whiteText]}>
-            Selecciona el método de pago que deseas utilizar
-          </Text>
-        </View>
+
+          {/* Balance Card */}
+                <BalanceCard
+                  balance={mockBalance.balance}
+                  currency={mockBalance.currency}
+                  accountType={mockBalance.accountType}
+                  accountNumber={mockBalance.accountNumber}
+                  onPress={ () => Alert.alert('Movimiento')}
+                />
 
         {/* Métodos de Pago */}
         <PaymentMethodCard

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { TenantConfig } from '../types/tenant';
+import { fonts } from './fonts';
 
 export const createThemedStyles = (theme: TenantConfig['theme']) => {
   return StyleSheet.create({
@@ -24,38 +25,44 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
       elevation: 3,
     },
     
-    // Typography
+    // Typography with Roboto
     heading1: {
       fontSize: 32,
       fontWeight: 'bold',
       color: theme.text,
       marginBottom: 16,
+      fontFamily: fonts.bold,
     },
     heading2: {
       fontSize: 24,
       fontWeight: 'bold',
       color: theme.text,
       marginBottom: 12,
+      fontFamily: fonts.bold,
     },
     heading3: {
       fontSize: 20,
       fontWeight: '600',
       color: theme.text,
       marginBottom: 8,
+      fontFamily: fonts.medium,
     },
     bodyText: {
       fontSize: 16,
       color: theme.text,
       lineHeight: 24,
+      fontFamily: fonts.regular,
     },
     bodyTextSecondary: {
       fontSize: 14,
       color: theme.textSecondary,
       lineHeight: 20,
+      fontFamily: fonts.regular,
     },
     caption: {
       fontSize: 12,
       color: theme.textSecondary,
+      fontFamily: fonts.regular,
     },
     
     // Buttons
@@ -70,6 +77,7 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
       color: '#FFFFFF',
       fontSize: 16,
       fontWeight: '600',
+      fontFamily: fonts.medium,
     },
     secondaryButton: {
       backgroundColor: 'transparent',
@@ -84,6 +92,7 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
       color: theme.primary,
       fontSize: 16,
       fontWeight: '600',
+      fontFamily: fonts.medium,
     },
     
     // Input Fields
@@ -96,6 +105,7 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
       fontSize: 16,
       color: theme.text,
       backgroundColor: theme.surface,
+      fontFamily: fonts.regular,
     },
     inputFocused: {
       borderColor: theme.primary,
@@ -108,14 +118,17 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
     errorText: {
       color: theme.error,
       fontSize: 14,
+      fontFamily: fonts.regular,
     },
     successText: {
       color: theme.success,
       fontSize: 14,
+      fontFamily: fonts.regular,
     },
     warningText: {
       color: theme.warning,
       fontSize: 14,
+      fontFamily: fonts.regular,
     },
     
     // Layout

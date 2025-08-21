@@ -16,7 +16,7 @@ import {
 import { useTheme } from '../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../core/themes/styles';
 
-import DashboardSantaCruzExact from './components/DashboardSantaCruzExact';
+import DashboardBase from './components/DashboardBase';
 
 export default function DashboardScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
@@ -25,8 +25,7 @@ export default function DashboardScreen(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
-        {/* Dashboard Principal - Banco Santa Cruz */}
-        <DashboardSantaCruzExact 
+        <DashboardBase
           onNavigateToPayments={() => Alert.alert('Payments', 'Navegando a pagos...')}
           onNavigateToTransactions={() => Alert.alert('Transactions', 'Navegando a transacciones...')}
           onNavigateToSettings={() => Alert.alert('Settings', 'Navegando a configuración...')}

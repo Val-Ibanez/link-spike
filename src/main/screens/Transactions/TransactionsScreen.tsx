@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../core/themes/styles';
+import { MovementsChart, BalanceLineChart } from '../../components';
 
 export default function TransactionsScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
@@ -15,6 +16,28 @@ export default function TransactionsScreen(): React.JSX.Element {
     { id: '3', amount: 200.00, type: 'Cuotas', time: '12:45', status: 'Pendiente', card: '****9012' },
     { id: '4', amount: 45.75, type: 'Tarjeta', time: '11:20', status: 'Completada', card: '****3456' },
     { id: '5', amount: 120.00, type: 'QR', time: '10:15', status: 'Completada', card: '****7890' },
+  ];
+
+  // Datos para el gráfico de movimientos
+  const chartData = [
+    { label: 'Lun', value: 15000, type: 'credit' as const },
+    { label: 'Mar', value: 8500, type: 'debit' as const },
+    { label: 'Mié', value: 22000, type: 'credit' as const },
+    { label: 'Jue', value: 12000, type: 'debit' as const },
+    { label: 'Vie', value: 18000, type: 'credit' as const },
+    { label: 'Sáb', value: 9500, type: 'debit' as const },
+    { label: 'Dom', value: 25000, type: 'credit' as const },
+  ];
+
+  // Datos para el gráfico de línea del balance
+  const balanceChartData = [
+    { date: '15', value: 65000 },
+    { date: '16', value: 68000 },
+    { date: '17', value: 72000 },
+    { date: '18', value: 69000 },
+    { date: '19', value: 75000 },
+    { date: '20', value: 78435 },
+    { date: '21', value: 82000 },
   ];
 
   const totalToday = transactions.reduce((sum, t) => t.status === 'Completada' ? sum + t.amount : sum, 0);
@@ -86,9 +109,23 @@ export default function TransactionsScreen(): React.JSX.Element {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <View style={[styles.card, styles.headerCard]}>
-          <Text style={[styles.heading1, styles.whiteText]}>Transacciones</Text>
+          <Text style={[styles.heading1, styles.whiteText]}>Movimientos</Text>
           <Text style={[styles.bodyText, styles.whiteText]}>{tenantConfig.displayName}</Text>
         </View>
+
+        {/* Gráfico de Balance */}
+        <BalanceLineChart 
+          data={balanceChartData}
+          title="Evolución del Balance"
+          showPercentage={true}
+          percentageChange={8.5}
+        />
+
+        {/* Gráfico de Movimientos */}
+        <MovementsChart 
+          data={chartData}
+          title="Movimientos de la Semana"
+        />
 
         {/* Resumen del día */}
         <View style={styles.card}>

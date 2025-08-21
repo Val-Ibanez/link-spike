@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, Alert, TextInpu
 import { useTheme } from '../../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../../core/themes/styles';
 import { QrSvg } from '../../../components/SVG';
+import { useNavigation } from '@react-navigation/native';
 
 export default function QRPaymentScreen(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
@@ -19,6 +20,8 @@ export default function QRPaymentScreen(): React.JSX.Element {
       `Monto: $${amount}\nBanco: ${tenantConfig.displayName}\n\n[QR CODE aquí]\n\nMuestra este código al cliente para procesar el pago.`
     );
   };
+
+    const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -38,9 +41,24 @@ export default function QRPaymentScreen(): React.JSX.Element {
             keyboardType="numeric"
             placeholderTextColor={theme.textSecondary}
           />
-          <TouchableOpacity style={[styles.primaryButton, { marginTop: 16 }]} onPress={generateQR}>
-            <Text style={styles.primaryButtonText}>📱 Generar Código QR</Text>
+
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 2,
+
+          }}>
+<TouchableOpacity style={[styles.primaryButton, { marginTop: 16, width: 180 }]} 
+          onPress={() => (navigation as any).navigate('PaymentsMain')}>
+            <Text style={styles.primaryButtonText}> cancelar</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.primaryButton, { marginTop: 16, width: 180 }]} 
+          onPress={generateQR}>
+            <Text style={styles.primaryButtonText}> Generar QR</Text>
+          </TouchableOpacity>
+          </View>
+          
         </View>
 
         <View style={styles.card}>

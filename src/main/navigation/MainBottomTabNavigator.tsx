@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { useTheme } from '../core/themes/ThemeProvider';
 import { featureFlags } from '../core/utils/FeatureFlags';
 import DynamicHeaderLogo from '../components/DynamicHeaderLogo';
@@ -16,7 +16,14 @@ import PaymentsStackNavigator from './PaymentsStackNavigator';
 import TransactionsScreen from '../screens/Transactions/TransactionsScreen';
 import ProfileScreen from '../screens/Profile/ProfileScreen';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
-import { HomeSvg, PaySvg, ProfileSvg, SettingsSvg, StatsSvg } from '../components/SVG';
+import {
+  HomeSvg,
+  PaySvg,
+  ProfileSvg,
+  SettingsSvg,
+  StatsSvg,
+} from '../components/SVG';
+import { Header } from '../components';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,17 +34,39 @@ export function MainBottomTabNavigator(): React.JSX.Element {
   const getTabIcon = (routeName: string, focused: boolean) => {
     const iconSize = focused ? 24 : 20;
     const iconColor = focused ? theme.primary : theme.textSecondary;
-    
+
     const icons: Record<string, React.ReactElement> = {
-      Dashboard: <HomeSvg width={iconSize} height={iconSize} color={iconColor}/>,
+      Dashboard: (
+        <HomeSvg width={iconSize} height={iconSize} color={iconColor} />
+      ),
       Payments: <PaySvg width={iconSize} height={iconSize} color={iconColor} />,
-      Transactions: <StatsSvg width={iconSize} height={iconSize} color={iconColor} />,
-      Profile: <ProfileSvg width={iconSize} height={iconSize} color={iconColor} />,
-      Settings: <SettingsSvg width={iconSize} height={iconSize} color={iconColor} />,
+      Transactions: (
+        <StatsSvg width={iconSize} height={iconSize} color={iconColor} />
+      ),
+      Profile: (
+        <ProfileSvg width={iconSize} height={iconSize} color={iconColor} />
+      ),
+      Settings: (
+        <SettingsSvg width={iconSize} height={iconSize} color={iconColor} />
+      ),
     };
 
-    return icons[routeName] || <HomeSvg width={iconSize} height={iconSize} color={iconColor} />;
+    return (
+      icons[routeName] || (
+        <HomeSvg width={iconSize} height={iconSize} color={iconColor} />
+      )
+    );
   };
+  const options = {
+       headerTitle: () => (
+            <Header
+              onMenuPress={() => Alert.alert('Menú', 'Menú lateral abierto')}
+              onProfilePress={() => Alert.alert('Menú', 'Menú lateral abierto')}
+              title="Mi Cuenta"
+              showBalance={false}
+            />
+          ),
+  }
 
   return (
     <Tab.Navigator
@@ -59,54 +88,34 @@ export function MainBottomTabNavigator(): React.JSX.Element {
         headerTitleAlign: 'center',
       })}
     >
-      <Tab.Screen 
-        name="Dashboard" 
+      <Tab.Screen
+        name="Dashboard"
         component={DashboardScreen}
-        options={{
-          title: `Inicio`,
-          headerTitle: () => <DynamicHeaderLogo />,
-          headerTitleAlign: 'left',
-          headerTitleStyle: {
-            flex: 1,
-            textAlign: 'center',
-          },
-        }}
+        options={options}
       />
-      
-      <Tab.Screen 
-        name="Payments" 
+
+      <Tab.Screen
+        name="Payments"
         component={PaymentsStackNavigator}
-        options={{
-          title: 'Pagos',
-          headerShown: false, // El stack navigator maneja su propio header
-        }}
+        options={options}
       />
-      
-      <Tab.Screen 
-        name="Transactions" 
+
+      <Tab.Screen
+        name="Transactions"
         component={TransactionsScreen}
-        options={{
-          title: 'Transacciones',
-          headerShown: false,
-        }}
+        options={options}
       />
-      
-      <Tab.Screen 
-        name="Profile" 
+
+      <Tab.Screen
+        name="Profile"
         component={ProfileScreen}
-        options={{
-          title: 'Perfil',
-          headerShown: false,
-        }}
+        options={options}
       />
-      
-      <Tab.Screen 
-        name="Settings" 
+
+      <Tab.Screen
+        name="Settings"
         component={SettingsScreen}
-        options={{
-          title: 'Configuración',
-          headerShown: false,
-        }}
+        options={options}
       />
     </Tab.Navigator>
   );
