@@ -123,6 +123,14 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           onPress={() => (navigation as any).navigate('Installments')}
         />
 
+         <PaymentMethodCard
+          title="Reintegros"
+          description="Revisa tus reintegros"
+          icon={<PaySvg width={32} height={32} color={theme.primary} />}
+          enabled={featureFlags.isInstallmentsEnabled()}
+          onPress={() => Alert.alert('Reintegros', 'Aqui estaran tus futuros reintegros')}
+        />
+
         <PaymentMethodCard
           title="Pago Sin Contacto"
           description="Paga acercando la tarjeta al lector NFC"

@@ -21,7 +21,7 @@ export default function ProfileScreen(): React.JSX.Element {
 
   // Datos de ejemplo del usuario
   const userProfile = {
-    name: 'Usuario Demo',
+    name: 'Comercio',
     email: email,
     phone: '+1 234 567 8900',
     merchantId: 'MERCH_12345',

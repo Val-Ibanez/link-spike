@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     borderRadius: 16,
     padding: 20,
+   
   },
   title: {
     fontSize: 18,
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
   chartContainer: {
     flexDirection: 'row',
     height: CHART_HEIGHT,
+    marginLeft: -10,
   },
   yAxis: {
     width: 60,
