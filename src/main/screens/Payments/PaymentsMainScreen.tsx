@@ -101,14 +101,6 @@ export default function PaymentsMainScreen(): React.JSX.Element {
         />
 
         <PaymentMethodCard
-          title="Pago Sin Contacto"
-          description="Paga acercando la tarjeta al lector NFC"
-          icon={<ContactlessSvg width={32} height={32} color={theme.primary} />}
-          enabled={featureFlags.isContactlessPaymentsEnabled()}
-          onPress={() => (navigation as any).navigate('ContactlessPayment')}
-        />
-
-        <PaymentMethodCard
           title="Pagos en Cuotas"
           description="Divide tu pago en múltiples cuotas"
           icon={<ChartSvg width={32} height={32} color={theme.primary} />}
@@ -116,7 +108,19 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           onPress={() => (navigation as any).navigate('Installments')}
         />
 
+
+
         <PaymentMethodCard
+          title="Pago Sin Contacto"
+          description="Paga acercando la tarjeta al lector NFC"
+          icon={<ContactlessSvg width={32} height={32} color={theme.primary} />}
+          enabled={featureFlags.isContactlessPaymentsEnabled()}
+          onPress={() => (navigation as any).navigate('ContactlessPayment')}
+        />
+
+        
+
+        {/* <PaymentMethodCard
           title="Pago con Tarjeta"
           description="Inserta o desliza tu tarjeta de débito/crédito"
           icon={<PaySvg width={32} height={32} color={theme.primary} />}
@@ -128,7 +132,7 @@ export default function PaymentsMainScreen(): React.JSX.Element {
               tenantConfig.payment.supportedCards.join('\n• ')
             );
           }}
-        />
+        /> */}
 
         {/* Información adicional */}
         <View style={styles.card}>
