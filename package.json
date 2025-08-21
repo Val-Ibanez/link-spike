@@ -52,6 +52,7 @@
     "react-native": "0.80.2",
     "react-native-config": "^1.5.5",
     "react-native-gesture-handler": "^2.27.2",
+    "react-native-qrcode-svg": "^6.3.15",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.13.1",
     "react-native-svg": "^15.12.1",

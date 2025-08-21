@@ -97,7 +97,7 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           description="Escanea el QR para realizar pagos rápidos"
           icon={<QrSvg width={32} height={32} color={theme.primary} />}
           enabled={featureFlags.isQrPaymentsEnabled()}
-          onPress={() => (navigation as any).navigate('QRPayment')}
+          onPress={() => (navigation as any).navigate('QRGeneratorScreen')}
         />
 
         <PaymentMethodCard

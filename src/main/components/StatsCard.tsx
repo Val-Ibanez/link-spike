@@ -93,11 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 12,
     marginHorizontal: 4,
-   // shadowColor: '#000',
-   // shadowOffset: { width: 0, height: 2 },
-   // shadowOpacity: 0.1,
-   // shadowRadius: 4,
-   // elevation: 3,
   },
   header: {
     flexDirection: 'row',

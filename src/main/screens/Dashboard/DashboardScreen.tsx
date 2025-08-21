@@ -29,6 +29,7 @@ export default function DashboardScreen(): React.JSX.Element {
           onNavigateToPayments={() => Alert.alert('Payments', 'Navegando a pagos...')}
           onNavigateToTransactions={() => Alert.alert('Transactions', 'Navegando a transacciones...')}
           onNavigateToSettings={() => Alert.alert('Settings', 'Navegando a configuración...')}
+         // onNavigateToQR={handleNavigateToQR}
         />
       </ScrollView>
     </SafeAreaView>

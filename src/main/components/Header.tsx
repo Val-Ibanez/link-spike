@@ -55,7 +55,6 @@ export default function Header({
           activeOpacity={0.7}
         >
           <View style={[styles.avatar,
-            // { backgroundColor: theme.primary }
              ]}>
             <ProfileSvg width={20} height={20} color="#989797c2" />
             

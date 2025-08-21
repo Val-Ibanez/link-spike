@@ -22,12 +22,14 @@ interface DashboardBaseProps {
   onNavigateToPayments: () => void;
   onNavigateToTransactions: () => void;
   onNavigateToSettings: () => void;
+  onNavigateToQR?: () => void;
 }
 
 export default function DashboardBase({ 
   onNavigateToPayments, 
   onNavigateToTransactions, 
-  onNavigateToSettings 
+  onNavigateToSettings,
+  onNavigateToQR 
 }: DashboardBaseProps): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
 
@@ -99,7 +101,7 @@ export default function DashboardBase({
     { date: '21', value: 82000 },
   ];
 
- // Estilos dinámicos basados en el theme actual
+  // Estilos dinámicos basados en el theme actual
   const dynamicStyles = StyleSheet.create({
     navPillActive: {
       backgroundColor: theme.primary, // Dinámico
@@ -127,6 +129,14 @@ export default function DashboardBase({
     onNavigateToTransactions();
   };
 
+  const handleQRPress = () => {
+    if (onNavigateToQR) {
+      onNavigateToQR();
+    } else {
+      Alert.alert('QR', 'Funcionalidad de QR en desarrollo');
+    }
+  };
+
   return (
     <View style={styles.container}>
       
@@ -136,7 +146,8 @@ export default function DashboardBase({
           <Text style={[styles.welcomeTitle, { color: theme.text }]}>
             Hola, Comercio!
           </Text>
-         
+          
+
 
 
         </View>
@@ -186,8 +197,8 @@ export default function DashboardBase({
           </View>
         </View>
 
-        {/* Acciones Rápidas
-        <View style={styles.quickActionsSection}>
+        {/* Acciones Rápidas */}
+        {/* <View style={styles.quickActionsSection}>
           <Text style={[styles.sectionTitle, { color: theme.text }]}>Acciones Rápidas</Text>
           
           <View style={styles.quickActionsGrid}>
@@ -203,12 +214,12 @@ export default function DashboardBase({
 
             <TouchableOpacity 
               style={[styles.quickActionCard, { backgroundColor: theme.surface }]}
-              onPress={() => Alert.alert('QR', 'Pago con QR')}
+              onPress={handleQRPress}
             >
               <View style={[styles.actionIcon, { backgroundColor: theme.primary + '20' }]}>
                 <QrSvg width={24} height={24} color={theme.primary} />
               </View>
-              <Text style={[styles.actionTitle, { color: theme.text }]}>QR</Text>
+              <Text style={[styles.actionTitle, { color: theme.text }]}>Generar QR</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -320,11 +331,11 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 12,
     alignItems: 'center',
-   // shadowColor: '#000',
-   // shadowOffset: { width: 0, height: 2 },
-   // shadowOpacity: 0.1,
-   // shadowRadius: 4,
-    //elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   actionIcon: {
     width: 48,
@@ -344,34 +355,11 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     borderRadius: 16,
     padding: 20,
-    //shadowColor: '#000',
-    //shadowOffset: { width: 0, height: 2 },
-    //shadowOpacity: 0.1,
-    //shadowRadius: 4,
-    //elevation: 3,
-  },
-  navPills: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    marginTop: 10,
-  },
-  navPill: {
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    marginHorizontal: 4,
-    borderRadius: 12,
-    backgroundColor: 'transparent',
-  },
-   navPillTextActive: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-   navPillText: {
-    fontSize: 14,
-    color: '#6C757D',
-    fontWeight: '500',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   promotionCard: {
     borderRadius: 12,
@@ -404,5 +392,28 @@ const styles = StyleSheet.create({
   footerSubtext: {
     fontSize: 12,
     fontStyle: 'italic',
+  },
+  navPills: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  navPill: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    marginHorizontal: 4,
+    borderRadius: 12,
+    backgroundColor: 'transparent',
+  },
+   navPillTextActive: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+    navPillText: {
+    fontSize: 14,
+    color: '#6C757D',
+    fontWeight: '500',
   },
 });

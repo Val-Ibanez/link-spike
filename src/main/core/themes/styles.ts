@@ -18,11 +18,6 @@ export const createThemedStyles = (theme: TenantConfig['theme']) => {
       borderRadius: 8,
       padding: 16,
       marginVertical: 8,
-      shadowColor: theme.text,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
     },
     
     // Typography with Roboto
