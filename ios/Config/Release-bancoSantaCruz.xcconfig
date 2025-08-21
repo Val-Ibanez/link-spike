@@ -1,0 +1,2 @@
+#include? "Pods/Target Support Files/Pods-MyReactNativeApp/Pods-MyReactNativeApp.bancosantacruz release.xcconfig"
+ENVFILE=../.env.bancoSantaCruz
