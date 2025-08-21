@@ -24,7 +24,7 @@ export default function PaymentsMainScreen(): React.JSX.Element {
   const styles = createThemedStyles(theme);
   const navigation = useNavigation();
 
-    const mockBalance = {
+  const mockBalance = {
     balance: '$125.430,50',
     currency: 'ARS',
     accountType: 'Cuenta Corriente',
@@ -51,6 +51,7 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           opacity: enabled ? 1 : 0.5,
           borderColor: '#DEE2E6',
           borderWidth: 1,
+          marginHorizontal: 12
         },
       ]}
       onPress={enabled ? onPress : undefined}
@@ -59,14 +60,29 @@ export default function PaymentsMainScreen(): React.JSX.Element {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ marginRight: 16, padding: 8 }}>{icon}</View>
         <View style={{ flex: 1 }}>
-          <Text style={[styles.heading3, { color: enabled ? theme.text : theme.textSecondary }]}>
+          <Text
+            style={[
+              styles.heading3,
+              { color: enabled ? theme.text : theme.textSecondary },
+            ]}
+          >
             {title}
           </Text>
-          <Text style={[styles.bodyTextSecondary, { color: enabled ? theme.textSecondary : '#E0E0E0' }]}>
+          <Text
+            style={[
+              styles.bodyTextSecondary,
+              { color: enabled ? theme.textSecondary : '#E0E0E0' },
+            ]}
+          >
             {description}
           </Text>
           {!enabled && (
-            <Text style={[styles.bodyTextSecondary, { color: theme.error, fontSize: 12 }]}>
+            <Text
+              style={[
+                styles.bodyTextSecondary,
+                { color: theme.error, fontSize: 12 },
+              ]}
+            >
               No disponible para {tenantConfig.displayName}
             </Text>
           )}
@@ -81,15 +97,14 @@ export default function PaymentsMainScreen(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
-
-          {/* Balance Card */}
-                <BalanceCard
-                  balance={mockBalance.balance}
-                  currency={mockBalance.currency}
-                  accountType={mockBalance.accountType}
-                  accountNumber={mockBalance.accountNumber}
-                  onPress={ () => Alert.alert('Movimiento')}
-                />
+        {/* Balance Card */}
+        <BalanceCard
+          balance={mockBalance.balance}
+          currency={mockBalance.currency}
+          accountType={mockBalance.accountType}
+          accountNumber={mockBalance.accountNumber}
+          onPress={() => Alert.alert('Movimiento')}
+        />
 
         {/* Métodos de Pago */}
         <PaymentMethodCard
@@ -108,8 +123,6 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           onPress={() => (navigation as any).navigate('Installments')}
         />
 
-
-
         <PaymentMethodCard
           title="Pago Sin Contacto"
           description="Paga acercando la tarjeta al lector NFC"
@@ -117,8 +130,6 @@ export default function PaymentsMainScreen(): React.JSX.Element {
           enabled={featureFlags.isContactlessPaymentsEnabled()}
           onPress={() => (navigation as any).navigate('ContactlessPayment')}
         />
-
-        
 
         {/* <PaymentMethodCard
           title="Pago con Tarjeta"
@@ -135,7 +146,7 @@ export default function PaymentsMainScreen(): React.JSX.Element {
         /> */}
 
         {/* Información adicional */}
-        <View style={styles.card}>
+        <View style={[styles.card, { marginHorizontal: 12}]}>
           <Text style={styles.heading3}>Límites de Transacción</Text>
           <Text style={styles.bodyTextSecondary}>
             Monto mínimo: ${tenantConfig.payment.minAmount.toLocaleString()}

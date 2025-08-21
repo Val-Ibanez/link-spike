@@ -8,43 +8,37 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useTheme } from '../../../core/themes/ThemeProvider';
-import { 
-  Header, 
-  BalanceCard, 
-  QuickStats, 
+import {
   RecentMovements,
   BalanceLineChart,
-  StatsCard
+  StatsCard,
 } from '../../../components';
-import { PaySvg, SettingsSvg, HomeSvg, ProfileSvg, QrSvg, ContactlessSvg } from '../../../components/SVG';
 
-interface DashboardBaseProps {
-  onNavigateToPayments: () => void;
-  onNavigateToTransactions: () => void;
-  onNavigateToSettings: () => void;
-  onNavigateToQR?: () => void;
-}
-
-export default function DashboardBase({ 
-  onNavigateToPayments, 
-  onNavigateToTransactions, 
-  onNavigateToSettings,
-  onNavigateToQR 
-}: DashboardBaseProps): React.JSX.Element {
+export default function DashboardBase(): React.JSX.Element {
   const { theme, tenantConfig } = useTheme();
 
-  // Datos de ejemplo para el dashboard
-  const mockBalance = {
-    balance: '$125.430,50',
-    currency: 'ARS',
-    accountType: 'Cuenta Corriente',
-    accountNumber: '1234567890',
-  };
-
   const mockStats = [
-    { label: 'Ingresos', value: '+$89.450', change: '8%', changeType: 'positive' as const, icon: '💰' },
-    { label: 'Gastos', value: '-$45.230', change: '12%', changeType: 'negative' as const, icon: '💸' },
-    { label: 'Ahorros', value: '$23.120', change: '5%', changeType: 'neutral' as const, icon: '🏦' },
+    {
+      label: 'Ingresos',
+      value: '+$89.450',
+      change: '8%',
+      changeType: 'positive' as const,
+      icon: '💰',
+    },
+    {
+      label: 'Gastos',
+      value: '-$45.230',
+      change: '12%',
+      changeType: 'negative' as const,
+      icon: '💸',
+    },
+    {
+      label: 'Ahorros',
+      value: '$23.120',
+      change: '5%',
+      changeType: 'neutral' as const,
+      icon: '🏦',
+    },
   ];
 
   const mockMovements = [
@@ -117,43 +111,25 @@ export default function DashboardBase({
     },
   });
 
-  const handleBalancePress = () => {
-    onNavigateToTransactions();
-  };
-
   const handleMovementPress = (movement: any) => {
     Alert.alert('Movimiento', `Detalle de: ${movement.description}`);
   };
 
-  const handleViewAllMovements = () => {
-    onNavigateToTransactions();
-  };
-
-  const handleQRPress = () => {
-    if (onNavigateToQR) {
-      onNavigateToQR();
-    } else {
-      Alert.alert('QR', 'Funcionalidad de QR en desarrollo');
-    }
-  };
-
   return (
     <View style={styles.container}>
-      
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Mensaje de bienvenida */}
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.welcomeSection}>
           <Text style={[styles.welcomeTitle, { color: theme.text }]}>
             Hola, Comercio!
           </Text>
-          
-
-
-
         </View>
-
-<View style={styles.navPills}>
-          <TouchableOpacity style={[styles.navPill, dynamicStyles.navPillActive]}>
+        <View style={styles.navPills}>
+          <TouchableOpacity
+            style={[styles.navPill, dynamicStyles.navPillActive]}
+          >
             <Text style={styles.navPillTextActive}>Movimientos </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navPill}>
@@ -161,16 +137,6 @@ export default function DashboardBase({
           </TouchableOpacity>
         </View>
 
-        {/* Balance Card */}
-        {/* <BalanceCard
-          balance={mockBalance.balance}
-          currency={mockBalance.currency}
-          accountType={mockBalance.accountType}
-          accountNumber={mockBalance.accountNumber}
-          onPress={handleBalancePress}
-        /> */}
-
-        {/* Gráfico de Balance */}
         <BalanceLineChart
           data={balanceChartData}
           title="Balance Total"
@@ -178,9 +144,10 @@ export default function DashboardBase({
           percentageChange={12.5}
         />
 
-        {/* Estadísticas Rápidas */}
         <View style={styles.statsSection}>
-          <Text style={[styles.sectionTitle, { color: theme.text }]}>Resumen del Mes</Text>
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>
+            Resumen del Mes
+          </Text>
           <View style={styles.statsGrid}>
             {mockStats.map((stat, index) => (
               <StatsCard
@@ -190,8 +157,13 @@ export default function DashboardBase({
                 change={stat.change}
                 changeType={stat.changeType}
                 icon={stat.icon}
-                color={stat.changeType === 'positive' ? theme.success : 
-                       stat.changeType === 'negative' ? theme.error : theme.primary}
+                color={
+                  stat.changeType === 'positive'
+                    ? theme.success
+                    : stat.changeType === 'negative'
+                      ? theme.error
+                      : theme.primary
+                }
               />
             ))}
           </View>
@@ -244,30 +216,41 @@ export default function DashboardBase({
           </View>
         </View> */}
 
-        {/* Movimientos Recientes */}
         <RecentMovements
           movements={mockMovements}
           onMovementPress={handleMovementPress}
-          onViewAllPress={handleViewAllMovements}
+          onViewAllPress={() => Alert.alert('Movimientos recientes')}
         />
 
-        {/* Promociones Section */}
-        <View style={[styles.promotionsSection, { backgroundColor: theme.surface }]}>
-          <Text style={[styles.sectionTitle, { color: theme.text }]}>Promociones</Text>
-          
-          <TouchableOpacity style={[styles.promotionCard, { backgroundColor: theme.primary + '10' }]}>
+        <View
+          style={[styles.promotionsSection, { backgroundColor: theme.surface }]}
+        >
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>
+            Promociones
+          </Text>
+
+          <TouchableOpacity
+            style={[
+              styles.promotionCard,
+              { backgroundColor: theme.primary + '10' },
+            ]}
+          >
             <View style={styles.promotionContent}>
               <Text style={[styles.promotionTitle, { color: theme.primary }]}>
                 🎉 20% OFF en Supermercados
               </Text>
-              <Text style={[styles.promotionSubtitle, { color: theme.textSecondary }]}>
+              <Text
+                style={[
+                  styles.promotionSubtitle,
+                  { color: theme.textSecondary },
+                ]}
+              >
                 Con tu tarjeta de débito hasta el 31 de agosto
               </Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        {/* Footer */}
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.textSecondary }]}>
             {tenantConfig.displayName}
@@ -406,12 +389,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: 'transparent',
   },
-   navPillTextActive: {
+  navPillTextActive: {
     fontSize: 14,
     color: '#FFFFFF',
     fontWeight: '600',
   },
-    navPillText: {
+  navPillText: {
     fontSize: 14,
     color: '#6C757D',
     fontWeight: '500',

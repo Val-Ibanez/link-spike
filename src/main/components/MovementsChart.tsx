@@ -47,7 +47,7 @@ export default function MovementsChart({
 
   const renderBar = (item: ChartData, index: number) => {
     const barHeight = (Math.abs(item.value) / maxValue) * (height - 60);
-    const barColor = item.type === 'credit' ? theme.success : theme.error;
+    const barColor = item.type === 'credit' ? theme.primary : theme.secondary;
     
     return (
       <View key={index} style={styles.barContainer}>
@@ -113,11 +113,11 @@ export default function MovementsChart({
       {/* Leyenda */}
       <View style={styles.legend}>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: theme.success }]} />
+          <View style={[styles.legendDot, { backgroundColor: theme.primary }]} />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>Ingresos</Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: theme.error }]} />
+          <View style={[styles.legendDot, { backgroundColor: theme.secondary }]} />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>Gastos</Text>
         </View>
       </View>
@@ -127,7 +127,7 @@ export default function MovementsChart({
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    marginHorizontal: 12,
     marginVertical: 16,
     borderRadius: 16,
     padding: 20,

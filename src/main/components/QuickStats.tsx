@@ -18,8 +18,6 @@ interface QuickStatsProps {
   stats: StatItem[];
 }
 
-const { width } = Dimensions.get('window');
-
 export default function QuickStats({ stats }: QuickStatsProps): React.JSX.Element {
   const { theme } = useTheme();
 

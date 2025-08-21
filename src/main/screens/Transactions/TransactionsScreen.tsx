@@ -68,7 +68,7 @@ export default function TransactionsScreen(): React.JSX.Element {
   );
 
   const TransactionItem = ({ transaction }: { transaction: any }) => (
-    <View style={[styles.card, { flexDirection: 'row', alignItems: 'center' }]}>
+    <View style={[styles.card, { flexDirection: 'row', alignItems: 'center', marginHorizontal: 12 }]}>
       <View style={{
         width: 40,
         height: 40,
@@ -108,27 +108,17 @@ export default function TransactionsScreen(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
-        <View style={[styles.card, styles.headerCard]}>
-          <Text style={[styles.heading1, styles.whiteText]}>Movimientos</Text>
-          <Text style={[styles.bodyText, styles.whiteText]}>{tenantConfig.displayName}</Text>
-        </View>
 
-        {/* Gráfico de Balance */}
+        {/* Gráfico de Balance
         <BalanceLineChart 
           data={balanceChartData}
           title="Evolución del Balance"
           showPercentage={true}
           percentageChange={8.5}
-        />
+        /> */}
 
-        {/* Gráfico de Movimientos */}
-        <MovementsChart 
-          data={chartData}
-          title="Movimientos de la Semana"
-        />
-
-        {/* Resumen del día */}
-        <View style={styles.card}>
+         {/* Resumen del día */}
+        <View style={[styles.card, { marginHorizontal: 12}]}>
           <Text style={styles.heading2}>Resumen de Hoy</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View>
@@ -142,8 +132,16 @@ export default function TransactionsScreen(): React.JSX.Element {
           </View>
         </View>
 
+        {/* Gráfico de Movimientos */}
+        <MovementsChart 
+          data={chartData}
+          title="Movimientos de la Semana"
+        />
+
+       
+
         {/* Filtros */}
-        <View style={styles.card}>
+        <View style={[styles.card, { marginHorizontal: 12}]}>
           <Text style={styles.heading3}>Filtrar por:</Text>
           <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <FilterButton filterType="all" label="Todas" />
@@ -153,7 +151,7 @@ export default function TransactionsScreen(): React.JSX.Element {
         </View>
 
         {/* Lista de transacciones */}
-        <View style={styles.card}>
+        <View style={[styles.card, { marginHorizontal: 12}]}>
           <Text style={styles.heading3}>Historial de Transacciones</Text>
         </View>
         

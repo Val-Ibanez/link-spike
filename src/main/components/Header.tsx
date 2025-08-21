@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Image,
-} from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '../core/themes/ThemeProvider';
 import { ProfileSvg } from './SVG';
 import DynamicHeaderLogo from './DynamicHeaderLogo';
@@ -19,54 +12,48 @@ interface HeaderProps {
   balance?: string;
 }
 
-const { width } = Dimensions.get('window');
-
-export default function Header({ 
-  onMenuPress, 
-  onProfilePress, 
-}: HeaderProps): React.JSX.Element {
+const Header = ({
+  onMenuPress,
+  onProfilePress,
+}: HeaderProps): React.JSX.Element => {
   const { theme, tenantConfig } = useTheme();
-
-   const avatarUrl = 'https://example.com/avatar.jpg'; // Reemplaza con tu URL
-
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      {/* Top Bar */}
       <View style={styles.topBar}>
-        {/* Menu Burger */}
-        <TouchableOpacity 
-          style={styles.menuButton} 
+        <TouchableOpacity
+          style={styles.menuButton}
           onPress={onMenuPress}
           activeOpacity={0.7}
         >
           <View style={styles.burgerIcon}>
-            <View style={[styles.burgerLine, { backgroundColor: theme.text }]} />
-            <View style={[styles.burgerLine, { backgroundColor: theme.text }]} />
-            <View style={[styles.burgerLine, { backgroundColor: theme.text }]} />
+            <View
+              style={[styles.burgerLine, { backgroundColor: theme.text }]}
+            />
+            <View
+              style={[styles.burgerLine, { backgroundColor: theme.text }]}
+            />
+            <View
+              style={[styles.burgerLine, { backgroundColor: theme.text }]}
+            />
           </View>
         </TouchableOpacity>
-
         <DynamicHeaderLogo />
-
-        <TouchableOpacity 
-          style={styles.avatarContainer} 
+        <TouchableOpacity
+          style={styles.avatarContainer}
           onPress={onProfilePress}
           activeOpacity={0.7}
         >
-          <View style={[styles.avatar,
-             ]}>
+          <View style={styles.avatar}>
             <ProfileSvg width={20} height={20} color="#989797c2" />
-            
           </View>
         </TouchableOpacity>
       </View>
-
-      {/* Bottom Border */}
-      <View style={[styles.bottomBorder, { backgroundColor: theme.border || '#E9ECEF' }]} />
     </View>
   );
-}
+};
+
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
@@ -79,11 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 3,
-    width: '100%'
-  },
-  image:{
-width: 90,
-    height: 90,
+    width: '100%',
   },
   menuButton: {
     width: 44,
@@ -102,7 +85,6 @@ width: 90,
     height: 2,
     borderRadius: 1,
   },
-  
   avatarContainer: {
     width: 44,
     height: 44,
@@ -116,11 +98,6 @@ width: 90,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#989797c2',
-    borderWidth: 2, 
-   
-  },
-  bottomBorder: {
-    height: 1,
-    width: '100%',
+    borderWidth: 2,
   },
 });

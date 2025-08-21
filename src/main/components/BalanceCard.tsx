@@ -29,7 +29,7 @@ export default function BalanceCard({
 
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor: theme.primary }]}
+      style={[styles.container, { backgroundColor: theme.primary, marginTop: 12 }]}
       onPress={onPress}
       activeOpacity={0.9}
     >
