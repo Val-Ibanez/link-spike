@@ -41,5 +41,16 @@ module.exports = {
         appName: 'Banco Santa Fe',
       },
     },
+    link: {
+      ios: {
+        bundleId: 'com.myreactnativeapp.link',
+        appName: 'Link',
+        xcconfig: 'ios/Config/Link.xcconfig',
+      },
+      android: {
+        packageName: 'com.myreactnativeapp.link',
+        appName: 'Banco Link',
+      },
+    },
   },
 };

@@ -1,0 +1,33 @@
+{
+  "android": {
+    "packageName": "com.myreactnativeapp.link",
+    "appName": "Link",
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "bundleIds": {
+      "android": "com.myreactnativeapp.link"
+    },
+    "appNames": {
+      "android": "Link"
+    },
+    "versioning": {
+      "versionName": "1.0.0",
+      "versionCode": "1",
+      "buildNumber": "1"
+    },
+    "environments": {
+      "development": {
+        "apiBaseUrl": "https://api.link.com"
+      }
+    },
+    "keystore": {
+      "android": "../keystores/link.keystore"
+    }
+  },
+  "ios": {
+    "bundleId": "com.myreactnativeapp.link",
+    "appName": "Link",
+    "version": "1.0.0",
+    "build": "1"
+  }
+}

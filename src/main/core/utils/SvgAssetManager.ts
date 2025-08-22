@@ -1,6 +1,6 @@
 import { configManager } from '../ConfigManager';
 
-export type LogoType = 'bancoSantaCruz' | 'bancoEntreRios' | 'bancoSantaFe';
+export type LogoType = 'bancoSantaCruz' | 'bancoEntreRios' | 'bancoSantaFe' | 'link';
 
 class SvgAssetManager {
   /**
@@ -16,6 +16,8 @@ class SvgAssetManager {
         return 'bancoEntreRios';
       case 'bancoSantaFe':
         return 'bancoSantaFe';
+      case 'link':
+        return 'link';
       default:
         return 'bancoSantaCruz'; // Default fallback
     }
@@ -32,6 +34,8 @@ class SvgAssetManager {
         return 'bancoEntreRios';
       case 'bancoSantaFe':
         return 'bancoSantaFe';
+      case 'link':
+        return 'link';
       default:
         return 'bancoSantaCruz';
     }
@@ -41,7 +45,7 @@ class SvgAssetManager {
    * Valida que el tipo de logo sea válido
    */
   public isValidLogoType(logoType: string): logoType is LogoType {
-    return ['bancoSantaCruz', 'bancoEntreRios', 'bancoSantaFe'].includes(logoType);
+    return ['bancoSantaCruz', 'bancoEntreRios', 'bancoSantaFe', 'link'].includes(logoType);
   }
 }
 

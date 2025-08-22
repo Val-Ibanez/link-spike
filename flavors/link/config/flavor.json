@@ -1,0 +1,47 @@
+{
+  "id": "link",
+  "name": "link",
+  "displayName": "Link",
+  "bundleId": {
+    "android": "com.myreactnativeapp.link",
+    "ios": "com.myreactnativeapp.link"
+  },
+  "theme": {
+    "primary": "#0066CC",
+    "secondary": "#4A90E2",
+    "accent": "#FF6B35",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669"
+  },
+  "features": {
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "multiCurrency": true,
+    "investment": true,
+    "offlineMode": true,
+    "dashboardVariant": "premium"
+  },
+  "api": {
+    "baseUrl": "https://api.bancolink.com",
+    "version": "v2",
+    "timeout": 30000
+  },
+  "support": {
+    "email": "soporte@bancolink.com",
+    "phone": "+54 11 4000-0000",
+    "website": "https://www.bancolink.com",
+    "chat": true,
+    "whatsapp": "+54 9 11 1234-5678"
+  },
+  "assets": {
+    "logo": "assets/images/logo-link.svg",
+    "icon": "assets/images/logo-link.svg",
+    "splash": "assets/images/splash-screen.png"
+  }
+}

@@ -1,14 +1,17 @@
 import bancoEntreRios from '../../../flavors/bancoEntreRios/config/config.json';
 import bancoSantaCruz from '../../../flavors/bancoSantaCruz/config/config.json';
 import bancoSantaFe from '../../../flavors/bancoSantaFe/config/config.json';
+import link from '../../../flavors/link/config/config.json';
 import Config from 'react-native-config';
 
 import { TenantConfig } from './types/tenant';
 
+///aca se agrega un nuevo tenant
 const flavorConfigs = {
   bancoEntreRios,
   bancoSantaCruz,
   bancoSantaFe,
+  link,
 } as Record<string, TenantConfig>;
 
 

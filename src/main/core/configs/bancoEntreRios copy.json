@@ -1,0 +1,60 @@
+{
+  "id": "banco-entre-rios",
+  "name": "bancoEntreRios",
+  "displayName": "Banco Entre Ríos",
+  "theme": {
+    "primary": "#DA1E28",
+    "secondary": "#E74C3C",
+    "accent": "#F59E0B",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-main.png",
+    "white": "assets/images/logo-white.png",
+    "dark": "assets/images/logo-dark.png"
+  },
+  "api": {
+    "baseUrl": "https://api.bancoentrerios.com",
+    "version": "v1",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": false,
+    "offlineMode": true,
+    "dashboardVariant": "minimal",
+    "showQuickActions": true,
+    "showTransactionHistory": true,
+    "showAccountBalance": false,
+    "compactView": false,
+    "showPromotions": true,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": true
+  },
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD"],
+    "maxAmount": 75000,
+    "minAmount": 50,
+    "currencies": ["ARS"],
+    "defaultCurrency": "ARS"
+  },
+  "support": {
+    "email": "soporte@bancoentrerios.com",
+    "phone": "+54 9 11 5555-5678",
+    "website": "https://www.bancoentrerios.com"
+  }
+}

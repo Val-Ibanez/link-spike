@@ -13,6 +13,8 @@ project.ext.envConfigFiles = [
         bancoEntreRiosRelease: ".env.bancoEntreRios",
         bancoSantaFeDebug: ".env.bancoSantaFe",
         bancoSantaFeRelease: ".env.bancoSantaFe",
+        linkDebug: ".env.link",
+        linkRelease: ".env.link",
     ]
 
 // Aplicar dotenv.gradle ANTES de usar project.env
@@ -130,6 +132,12 @@ android {
             storePassword System.getenv('BANCO_SANTA_FE_STORE_PASSWORD') ?: 'defaultpass'
             keyPassword System.getenv('BANCO_SANTA_FE_KEY_PASSWORD') ?: 'defaultpass'
         }
+        link {
+            storeFile file('../keystores/link.keystore')
+            keyAlias 'link'
+            storePassword System.getenv('LINK_STORE_PASSWORD') ?: 'defaultpass'
+            keyPassword System.getenv('LINK_KEY_PASSWORD') ?: 'defaultpass'
+        }
     }
     flavorDimensions "default"
     productFlavors {
@@ -145,6 +153,10 @@ android {
         bancoSantaFe {
             dimension "default"
             applyFlavorConfig(it, "bancoSantaFe")
+        }
+        link {
+            dimension "default"
+            applyFlavorConfig(it, "link")
         }
     }
 
@@ -175,6 +187,8 @@ android {
             flavor.signingConfig = signingConfigs.bancoSantaCruz
         } else if (flavor.name == "bancoSantaFe") {
             flavor.signingConfig = signingConfigs.bancoSantaFe
+        } else if (flavor.name == "link") {
+            flavor.signingConfig = signingConfigs.link
         } else {
             flavor.signingConfig = signingConfigs.debug
         }
@@ -193,6 +207,10 @@ android {
         bancoSantaFe {
             java.srcDirs = ['src/bancoSantaFe/java']
             manifest.srcFile 'src/bancoSantaFe/AndroidManifest.xml'
+        }
+        link {
+            java.srcDirs = ['src/link/java']
+            manifest.srcFile 'src/link/AndroidManifest.xml'
         }
     }
 }

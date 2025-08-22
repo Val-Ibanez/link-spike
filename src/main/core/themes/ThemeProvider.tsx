@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         console.error('❌ Error al obtener configuración del tenant:', error);
 
         // Fallback: usar el primer flavor disponible dinámicamente
-        const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios'];
+        const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios', 'link'];
         const fallbackConfig = allFlavors.map(f => configManager.getFlavorConfig(f)).find(Boolean)!;
 
         console.log(`⚠️ Usando configuración por defecto: ${fallbackConfig.displayName}`);
@@ -67,7 +67,7 @@ export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
     // Fallback sincrónico si no hay contexto - usar el primer flavor disponible
-    const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios'];
+    const allFlavors = ['bancoSantaCruz', 'bancoSantaFe', 'bancoEntreRios', 'link'];
     const fallbackConfig = allFlavors.map(f => configManager.getFlavorConfig(f)).find(Boolean)!;
     
     console.warn('⚠️ useTheme() llamado fuera del ThemeProvider - usando fallback:', fallbackConfig.displayName);

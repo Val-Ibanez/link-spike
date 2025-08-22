@@ -1,0 +1,4 @@
+PRODUCT_BUNDLE_IDENTIFIER = com.myreactnativeapp.link
+PRODUCT_NAME = Banco Link
+DISPLAY_NAME = Banco Link
+PRODUCT_BUNDLE_NAME = Banco Link

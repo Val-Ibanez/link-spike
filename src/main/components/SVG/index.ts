@@ -9,6 +9,7 @@ export { default as PaySvg } from './PaySvg';
 export { default as BancoSantaCruzSvgLogo } from './BancoSantaCruzSvgLogo';
 export { default as BancoEntreRiosSvgLogo } from './BancoEntreRiosSvgLogo';
 export { default as BancoSantaFeSvgLogo } from './BancoSantaFeSvgLogo';
+export { default as LinkSvgLogo } from './LinkSvgLogo';
 export { default as QrSvg } from './QrSvg';
 export { default as ContactlessSvg } from './ContactlessSvg';
 export { default as ChartSvg } from './ChartSvg';
@@ -22,6 +23,8 @@ export type IconType =
   | 'pay' 
   | 'bancoSantaCruz' 
   | 'bancoEntreRios'
+  | 'bancoSantaFe'
+  | 'link'
   | 'qr'
   | 'contactless'
   | 'chart';

@@ -1,0 +1,60 @@
+{
+  "id": "link",
+  "name": "link",
+  "displayName": "Link",
+  "theme": {
+    "primary": "#007778",
+    "secondary": "#DBFDE0",
+    "accent": "#FF6B35",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "textSecondary": "#6B7280",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "success": "#059669",
+    "textTertiary": "#9CA3AF",
+    "border": "#E5E7EB",
+    "shadow": "rgba(0, 0, 0, 0.05)"
+  },
+  "logo": {
+    "main": "assets/images/logo-link.svg",
+    "white": "assets/images/logo-link.svg",
+    "dark": "assets/images/logo-link.svg"
+  },
+  "api": {
+    "baseUrl": "https://api.bancolink.com",
+    "version": "v1",
+    "timeout": 30000
+  },
+  "features": {
+    "cashAdvance": true,
+    "qrPayments": true,
+    "contactlessPayments": true,
+    "installments": true,
+    "reports": true,
+    "multiCurrency": true,
+    "offlineMode": true,
+    "dashboardVariant": "premium",
+    "showQuickActions": true,
+    "showTransactionHistory": true,
+    "showAccountBalance": true,
+    "compactView": false,
+    "showPromotions": true,
+    "showSecurityAlerts": true,
+    "showProductCategories": true,
+    "heroSection": true
+  },
+  "payment": {
+    "supportedCards": ["VISA", "MASTERCARD", "AMEX"],
+    "maxAmount": 100000,
+    "minAmount": 50,
+    "currencies": ["ARS", "USD"],
+    "defaultCurrency": "ARS"
+  },
+  "support": {
+    "email": "soporte@bancolink.com",
+    "phone": "+54 11 4000-0000",
+    "website": "https://www.bancolink.com"
+  }
+}
