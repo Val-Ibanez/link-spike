@@ -1,17 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useApp, useFlavorConfig } from '../stores';
+import { useFlavorActions } from '../stores/flavorStore';
 
 // 🏦 Flavor Selector - Componente de ejemplo usando Zustand
 export const FlavorSelector: React.FC = () => {
-  const { currentFlavor, changeFlavor, isLoading } = useApp();
+  const { currentFlavor, isLoading } = useApp();
   const { config } = useFlavorConfig();
+  const { setFlavor } = useFlavorActions();
 
   const flavors = ['bancoSantaCruz', 'bancoEntreRios', 'bancoSantaFe'];
 
   const handleFlavorChange = async (flavorName: string) => {
     try {
-      await changeFlavor(flavorName);
+      await setFlavor(flavorName);
     } catch (error) {
       console.error('Error cambiando flavor:', error);
     }
@@ -40,7 +42,7 @@ export const FlavorSelector: React.FC = () => {
               styles.flavorButton,
               currentFlavor === flavor && styles.activeFlavorButton
             ]}
-            //onPress={() => handleFlavorChange(flavor)}
+            onPress={() => handleFlavorChange(flavor)}
             disabled={currentFlavor === flavor}
           >
             <Text style={[

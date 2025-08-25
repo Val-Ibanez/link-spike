@@ -6,7 +6,7 @@ import Config from 'react-native-config';
 
 import { TenantConfig } from './types/tenant';
 
-///aca se agrega un nuevo tenant
+// Configuraciones de flavors disponibles
 const flavorConfigs = {
   bancoEntreRios,
   bancoSantaCruz,
@@ -14,9 +14,8 @@ const flavorConfigs = {
   link,
 } as Record<string, TenantConfig>;
 
-
 export function getCurrentFlavor(): TenantConfig | null {
-  const flavorName = Config.FLAVOR; // o Config.FLAVOR si usás react-native-config
+  const flavorName = Config.FLAVOR;
   return flavorName ? getFlavorConfig(flavorName) : null;
 }
   
