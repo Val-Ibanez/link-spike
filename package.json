@@ -27,12 +27,8 @@
     "status": "./scripts/project-status.sh",
     "config:list": "node scripts/config-manager.js list",
     "config:validate": "node scripts/config-manager.js validate",
-    "assets:list": "node scripts/assets-processor.js list",
-    "assets:validate": "node scripts/assets-processor.js validate",
-    "assets:process": "node scripts/assets-processor.js process",
-    "assets:clean": "node scripts/assets-processor.js clean",
-    "svg:convert": "node scripts/convert-svg-to-components.js",
-    "svg:update": "node scripts/convert-svg-to-components.js && echo 'SVG components updated'",
+
+
     "version:status": "node scripts/version-manager.js status",
     "build:release": "./scripts/build-release.sh",
     "keystores:generate": "./scripts/generate-keystores.sh",
@@ -41,7 +37,7 @@
     "dashboard:toggle": "node scripts/toggle-dashboard-features.js toggle",
     "dashboard:variant": "node scripts/toggle-dashboard-features.js variant",
     "dashboard:swap": "node scripts/toggle-dashboard-features.js swap",
-    "debug:logo": "node scripts/test-logo-visibility.js",
+
     "setup:client": "./scripts/client-setup.sh"
   },
   "dependencies": {
