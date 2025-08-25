@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useApp, useFlavorConfig } from '../stores';
-import { useFlavorActions } from '../stores/flavorStore';
+import { useApp, useFlavorConfig } from '../../stores';
+import { useFlavorActions } from '../../stores/flavorStore';
 
 // 🏦 Flavor Selector - Componente de ejemplo usando Zustand
 export const FlavorSelector: React.FC = () => {

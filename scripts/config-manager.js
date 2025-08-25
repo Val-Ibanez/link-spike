@@ -16,6 +16,9 @@ const path = require('path');
 const FLAVORS_DIR = path.join(__dirname, '..', 'flavors');
 const CONFIG_FILES = ['config.json', 'build.json', 'features.json', 'api.json', 'metadata.json'];
 
+// Bancos existentes en el proyecto
+const EXISTING_FLAVORS = ['bancoEntreRios', 'bancoSantaCruz', 'bancoSantaFe', 'link'];
+
 // Colores para output
 const colors = {
   green: '\x1b[32m',
@@ -99,37 +102,45 @@ function validateBuild(flavor, buildData) {
   
   // Validar bundle IDs únicos
   const bundleId = buildData.bundleId;
-  const androidPackage = buildData.androidPackage;
+  const androidPackage = buildData.bundleIds?.android;
   
   if (!bundleId || !androidPackage) {
     errors.push(`❌ Faltan bundleId o androidPackage`);
+  }
+  
+  // Validar versiones
+  if (buildData.version) {
+    if (!/^\d+\.\d+\.\d+$/.test(buildData.version)) {
+      errors.push(`❌ Formato de versión inválido: ${buildData.version}`);
+    }
   }
   
   return errors;
 }
 
 function validateFlavor(flavor) {
-  log(`🔍 Validando ${flavor}...`, 'blue');
-  let totalErrors = 0;
-  
   const flavorDir = path.join(FLAVORS_DIR, flavor);
-  const configDir = path.join(flavorDir, 'config');
   
-  if (!fs.existsSync(configDir)) {
-    log(`❌ No existe la carpeta config para ${flavor}`, 'red');
-    return false;
+  if (!fs.existsSync(flavorDir)) {
+    log(`❌ Flavor '${flavor}' no existe`, 'red');
+    return;
   }
   
+  log(`🔍 Validando flavor: ${flavor}`, 'blue');
+  
+  let hasErrors = false;
+  
   CONFIG_FILES.forEach(configFile => {
-    const filePath = path.join(configDir, configFile);
+    const filePath = path.join(flavorDir, configFile);
     
     if (!fs.existsSync(filePath)) {
-      log(`⚠️  Falta archivo: ${configFile}`, 'yellow');
+      log(`⚠️  ${configFile}: No encontrado`, 'yellow');
       return;
     }
     
     try {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      
       let errors = [];
       
       switch (configFile) {
@@ -145,58 +156,45 @@ function validateFlavor(flavor) {
       }
       
       if (errors.length > 0) {
-        log(`📄 ${configFile}:`, 'yellow');
+        hasErrors = true;
+        log(`❌ ${configFile}:`, 'red');
         errors.forEach(error => log(`  ${error}`, 'red'));
-        totalErrors += errors.length;
       } else {
-        log(`✅ ${configFile}`, 'green');
+        log(`✅ ${configFile}: Válido`, 'green');
       }
       
     } catch (error) {
-      log(`❌ Error parsing ${configFile}: ${error.message}`, 'red');
-      totalErrors++;
+      hasErrors = true;
+      log(`❌ ${configFile}: Error de JSON - ${error.message}`, 'red');
     }
   });
   
-  if (totalErrors === 0) {
-    log(`🎉 ${flavor} validado exitosamente!`, 'green');
-    return true;
-  } else {
-    log(`💥 ${flavor} tiene ${totalErrors} errores`, 'red');
-    return false;
+  if (!hasErrors) {
+    log(`✅ Flavor '${flavor}' validado correctamente`, 'green');
   }
 }
 
 function listFlavors() {
-  log('🏦 Flavors disponibles:', 'blue');
+  log('🏦 Flavors disponibles:', 'bold');
+  log('=====================');
   
-  if (!fs.existsSync(FLAVORS_DIR)) {
-    log('❌ No existe la carpeta flavors', 'red');
-    return;
-  }
-  
-  const flavors = fs.readdirSync(FLAVORS_DIR)
-    .filter(item => fs.statSync(path.join(FLAVORS_DIR, item)).isDirectory());
-  
-  flavors.forEach(flavor => {
-    const configDir = path.join(FLAVORS_DIR, flavor, 'config');
-    const hasConfig = fs.existsSync(configDir);
-    const configCount = hasConfig ? 
-      fs.readdirSync(configDir).filter(f => f.endsWith('.json')).length : 0;
-    
-    const status = hasConfig ? 
-      (configCount === CONFIG_FILES.length ? '✅' : '⚠️ ') : '❌';
-    
-    log(`${status} ${flavor} (${configCount}/${CONFIG_FILES.length} archivos)`, 
-        hasConfig ? 'green' : 'red');
+  EXISTING_FLAVORS.forEach(flavor => {
+    const flavorDir = path.join(FLAVORS_DIR, flavor);
+    if (fs.existsSync(flavorDir)) {
+      log(`✅ ${flavor}`, 'green');
+    } else {
+      log(`❌ ${flavor} (no encontrado)`, 'red');
+    }
   });
+  
+  log('');
+  log('Para validar un flavor específico:', 'yellow');
+  log('  node scripts/config-manager.js validate <flavor>', 'blue');
 }
 
 function compareConfigs(flavor1, flavor2) {
-  log(`🔍 Comparando ${flavor1} vs ${flavor2}`, 'blue');
-  
-  const config1Dir = path.join(FLAVORS_DIR, flavor1, 'config');
-  const config2Dir = path.join(FLAVORS_DIR, flavor2, 'config');
+  const config1Dir = path.join(FLAVORS_DIR, flavor1);
+  const config2Dir = path.join(FLAVORS_DIR, flavor2);
   
   if (!fs.existsSync(config1Dir) || !fs.existsSync(config2Dir)) {
     log('❌ Uno o ambos flavors no existen', 'red');
@@ -264,11 +262,8 @@ switch (command) {
     if (arg1) {
       validateFlavor(arg1);
     } else {
-      // Validar todos los flavors
-      const flavors = fs.readdirSync(FLAVORS_DIR)
-        .filter(item => fs.statSync(path.join(FLAVORS_DIR, item)).isDirectory());
-      
-      flavors.forEach(flavor => {
+      // Validar todos los flavors existentes
+      EXISTING_FLAVORS.forEach(flavor => {
         validateFlavor(flavor);
         console.log('');
       });
@@ -295,8 +290,11 @@ switch (command) {
     log('  diff flavor1 flavor2  - Comparar configuraciones');
     log('  list                  - Listar flavors disponibles');
     log('');
+    log('Flavors disponibles:', 'yellow');
+    log(`  ${EXISTING_FLAVORS.join(', ')}`, 'blue');
+    log('');
     log('Ejemplos:', 'yellow');
-    log('  node scripts/config-manager.js validate bancoNacional');
-    log('  node scripts/config-manager.js diff bancoNacional bancoPopular');
+    log('  node scripts/config-manager.js validate bancoEntreRios');
+    log('  node scripts/config-manager.js diff bancoEntreRios bancoSantaCruz');
     log('  node scripts/config-manager.js list');
 }

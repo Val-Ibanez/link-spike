@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import { getDesignTokens } from '../../tokens';
+import { getDesignTokens } from '../tokens';
 
-interface CardProps {
+export interface CardProps {
   children: React.ReactNode;
   variant?: 'default' | 'elevated' | 'outlined' | 'filled';
   padding?: 'none' | 'sm' | 'md' | 'lg';

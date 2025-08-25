@@ -3,8 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
+import { useTheme } from '../../core/themes/ThemeProvider';
 
 interface StatsCardProps {
   title: string;

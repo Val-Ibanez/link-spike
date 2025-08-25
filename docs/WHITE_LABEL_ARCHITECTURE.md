@@ -4,35 +4,38 @@
 
 ```
 MyReactNativeApp/
-├── app/                          # Código común compartido
-│   ├── core/                     # Funcionalidades principales
-│   │   ├── types/               # Definiciones TypeScript
-│   │   ├── themes/              # Sistema de temas
-│   │   ├── utils/               # Utilidades comunes
-│   │   └── ConfigManager.ts     # Gestor de configuración
-│   ├── components/              # Componentes UI reutilizables
-│   ├── services/                # APIs, autenticación, etc.
-│   └── screens/                 # Pantallas de la aplicación
+├── src/                         # Código común compartido
+│   ├── main/                    # Funcionalidades principales
+│   │   ├── core/               # Tipos, temas, utilidades
+│   │   ├── components/         # Componentes UI reutilizables
+│   │   ├── services/           # APIs, autenticación, etc.
+│   │   └── screens/            # Pantallas de la aplicación
 │
-├── flavors/                      # Configuraciones por banco
-│   ├── bancoNacional/
+├── flavors/                     # Configuraciones por banco
+│   ├── bancoEntreRios/
 │   │   ├── config/
-│   │   │   ├── config.json      # Configuración del banco
-│   │   │   └── build.json       # Configuración de build
-│   │   └── assets/              # Assets específicos del banco
+│   │   │   ├── config.json     # Configuración del banco
+│   │   │   └── build.json      # Configuración de build
+│   │   └── assets/             # Assets específicos del banco
 │   │       ├── images/
 │   │       └── fonts/
-│   └── bancoPopular/
+│   ├── bancoSantaCruz/
+│   │   ├── config/
+│   │   └── assets/
+│   ├── bancoSantaFe/
+│   │   ├── config/
+│   │   └── assets/
+│   └── link/
 │       ├── config/
 │       └── assets/
 │
-├── scripts/                      # Scripts de automatización
-│   ├── build_release.sh         # Build automático por flavor
-│   └── changelog_generator.js   # Generador de changelog
+├── scripts/                     # Scripts de automatización
+│   ├── build-release.sh        # Build automático por flavor
+│   └── config-manager.js       # Gestor de configuraciones
 │
-├── ci/                          # Configuración CI/CD
-├── test/                        # Tests compartidos
-└── docs/                        # Documentación
+├── android/                     # Configuración Android
+├── ios/                        # Configuración iOS
+└── docs/                       # Documentación
 ```
 
 ## 🏦 Concepto de Flavors
@@ -51,11 +54,11 @@ Cada **flavor** representa un banco diferente con:
 En lugar de cambiar bancos en runtime, cada app se buildea para un banco específico:
 
 ```bash
-# Build para Banco Nacional en desarrollo
-./scripts/build_release.sh bancoNacional development android
+# Build para Banco Entre Ríos en desarrollo
+./scripts/build-release.sh bancoEntreRios development android
 
-# Build para Banco Popular en producción
-./scripts/build_release.sh bancoPopular production android
+# Build para Banco Santa Cruz en producción
+./scripts/build-release.sh bancoSantaCruz production android
 ```
 
 ### 2. Configuración Automática
@@ -72,8 +75,10 @@ El script de build:
 
 Cada build genera una app completamente independiente:
 
-- **Banco Nacional**: `com.banconacional.pos`
-- **Banco Popular**: `com.bancopopular.acquire`
+- **Banco Entre Ríos**: `com.myreactnativeapp.bancoentrerios`
+- **Banco Santa Cruz**: `com.myreactnativeapp.bancosantacruz`
+- **Banco Santa Fe**: `com.myreactnativeapp.bancosantafe`
+- **Link**: `com.myreactnativeapp.link`
 - Diferentes iconos, nombres, configuraciones
 
 ## 🚀 Comandos Disponibles
@@ -82,176 +87,216 @@ Cada build genera una app completamente independiente:
 
 ```bash
 # Scripts rápidos desde package.json
-npm run flavor:banco-nacional:dev
-npm run flavor:banco-nacional:prod
-npm run flavor:banco-popular:dev
-npm run flavor:banco-popular:prod
+npm run android:banco-entre-rios
+npm run android:banco-santa-cruz
+npm run android:banco-santa-fe
+npm run android:link
 
 # Script directo con más opciones
-./scripts/build_release.sh [flavor] [environment] [platform]
+./scripts/build-release.sh [flavor] [environment] [platform]
 
 # Ejemplos:
-./scripts/build_release.sh bancoNacional production android
-./scripts/build_release.sh bancoPopular development ios
-./scripts/build_release.sh bancoNacional staging both
+./scripts/build-release.sh bancoEntreRios production android
+./scripts/build-release.sh bancoSantaCruz development ios
+./scripts/build-release.sh bancoSantaFe staging both
 ```
 
 ### Gestión de Versiones
 
 ```bash
-npm run version:patch   # 1.0.0 → 1.0.1
-npm run version:minor   # 1.0.0 → 1.1.0
-npm run version:major   # 1.0.0 → 2.0.0
+# Ver estado de versiones
+npm run version:status
+
+# Incrementar versión
+npm run version:bump bancoEntreRios patch
+npm run version:bump bancoSantaCruz minor
+npm run version:bump bancoSantaFe major
 ```
 
-### Testing
+## 🔧 Configuración por Flavor
 
-```bash
-npm test                # Tests comunes
-npm run test:flavor     # Tests específicos por flavor
-```
-
-## 📋 Configuración de Flavor
-
-### config.json
-
-Define las características del banco:
+### Archivo config.json
 
 ```json
 {
-  "id": "banco-nacional",
-  "displayName": "Banco Nacional",
+  "id": "banco-entre-rios",
+  "name": "bancoEntreRios",
+  "displayName": "Banco Entre Ríos",
+  "bundleId": {
+    "android": "com.myreactnativeapp.bancoentrerios",
+    "ios": "com.myreactnativeapp.bancoentrerios"
+  },
   "theme": {
-    "primary": "#0066CC",
-    "secondary": "#004499"
+    "primary": "#1E3A8A",
+    "secondary": "#3B82F6",
+    "surface": "#FFFFFF"
   },
   "features": {
-    "qrPayments": true,
+    "qrPayment": true,
+    "contactless": true,
     "multiCurrency": false
-  },
-  "api": {
-    "baseUrl": "https://api.banconacional.com"
   }
 }
 ```
 
-### build.json
-
-Configuración específica del build:
+### Archivo build.json
 
 ```json
 {
-  "appName": "Banco Nacional POS",
-  "bundleId": "com.banconacional.pos",
-  "environments": {
-    "development": { "suffix": ".dev" },
-    "production": { "suffix": "" }
+  "version": "1.0.0",
+  "buildNumber": "1",
+  "bundleIds": {
+    "android": "com.myreactnativeapp.bancoentrerios",
+    "ios": "com.myreactnativeapp.bancoentrerios"
+  },
+  "appName": "Banco Entre Ríos",
+  "appIcon": "ic_launcher_banco_entre_rios"
+}
+```
+
+## 🎨 Personalización de Temas
+
+### Colores por Banco
+
+```typescript
+// src/main/core/themes/index.ts
+export const themes = {
+  bancoEntreRios: {
+    primary: '#1E3A8A',    // Azul oscuro
+    secondary: '#3B82F6',  // Azul medio
+    accent: '#F59E0B'      // Naranja
+  },
+  bancoSantaCruz: {
+    primary: '#059669',    // Verde oscuro
+    secondary: '#10B981',  // Verde medio
+    accent: '#DC2626'      // Rojo
+  },
+  bancoSantaFe: {
+    primary: '#7C3AED',    // Violeta
+    secondary: '#A855F7',  // Violeta medio
+    accent: '#F59E0B'      // Naranja
+  },
+  link: {
+    primary: '#1F2937',    // Gris oscuro
+    secondary: '#6B7280',  // Gris medio
+    accent: '#3B82F6'      // Azul
   }
-}
+};
 ```
 
-## 🎨 Sistema de Temas
+## 📱 Gestión de Assets
 
-Cada flavor tiene su tema personalizado que se aplica automáticamente:
+### Estructura de Assets
 
-```typescript
-// El ConfigManager carga automáticamente el flavor correcto
-const theme = configManager.getTheme();
-
-// Los componentes usan el tema actual
-const styles = createThemedStyles(theme);
+```
+flavors/bancoEntreRios/assets/
+├── images/
+│   ├── logo.png
+│   ├── splash.png
+│   └── onboarding.png
+├── fonts/
+│   ├── Roboto-Bold.ttf
+│   ├── Roboto-Medium.ttf
+│   └── Roboto-Regular.ttf
+└── icons/
+    ├── android/
+    └── ios/
 ```
 
-## 🔧 Features por Flavor
+### Configuración Automática
 
-Las características se habilitan/deshabilitan por banco:
+Los assets se copian automáticamente durante el build:
 
-```typescript
-// Verificar si una feature está habilitada
-if (featureFlags.isQrPaymentsEnabled()) {
-  // Mostrar opción de QR
-}
+1. **Android**: `android/app/src/bancoEntreRios/res/`
+2. **iOS**: `ios/MyReactNativeApp/Resources/bancoEntreRios/`
 
-if (featureFlags.isMultiCurrencyEnabled()) {
-  // Mostrar selector de monedas
-}
-```
+## 🚀 Deployment
 
-## 📦 Distribución
-
-### Desarrollo
+### Android
 
 ```bash
-# Banco Nacional desarrollo
-FLAVOR=bancoNacional npm start
-npm run android
+# Generar APK de debug
+cd android && ./gradlew assembleBancoEntreRiosDebug
 
-# Banco Popular desarrollo  
-FLAVOR=bancoPopular npm start
-npm run android
+# Generar APK de release
+cd android && ./gradlew assembleBancoEntreRiosRelease
+
+# Generar AAB para Play Store
+cd android && ./gradlew bundleBancoEntreRiosRelease
 ```
 
-### Producción
+### iOS
 
 ```bash
-# Build release para distribución
-./scripts/build_release.sh bancoNacional production android
-./scripts/build_release.sh bancoPopular production android
+# Configurar flavor
+npm run ios:config:banco-entre-rios
 
-# Outputs:
-# - android/app/build/outputs/apk/release/banco-nacional-release.apk
-# - android/app/build/outputs/apk/release/banco-popular-release.apk
+# Ejecutar en simulador
+npm run ios:banco-entre-rios
+
+# Build para distribución
+xcodebuild -workspace MyReactNativeApp.xcworkspace \
+  -scheme BancoEntreRios \
+  -configuration Release \
+  -archivePath build/BancoEntreRios.xcarchive \
+  archive
 ```
 
-## 🔄 Agregar Nuevo Banco
+## 🔍 Monitoreo y Testing
 
-1. **Crear estructura**:
-   ```bash
-   mkdir -p flavors/nuevoBank/{config,assets/{images,fonts}}
-   ```
-
-2. **Configurar banco**:
-   ```bash
-   cp flavors/bancoNacional/config/config.json flavors/nuevoBank/config/
-   # Editar con datos del nuevo banco
-   ```
-
-3. **Agregar assets**:
-   ```bash
-   # Copiar logos, iconos, fonts específicos
-   cp logos/* flavors/nuevoBank/assets/images/
-   ```
-
-4. **Actualizar scripts**:
-   ```json
-   {
-     "flavor:nuevo-bank:prod": "./scripts/build_release.sh nuevoBank production android"
-   }
-   ```
-
-5. **Build y test**:
-   ```bash
-   npm run flavor:nuevo-bank:dev
-   ```
-
-## 🧪 Testing por Flavor
+### Verificación de Configuración
 
 ```bash
-# Test con flavor específico
-FLAVOR=bancoNacional npm test
+# Validar configuraciones
+npm run config:validate
 
-# Test de todos los flavors
-npm run test:all-flavors
+# Listar flavors disponibles
+npm run config:list
+
+# Comparar configuraciones
+npm run config:diff bancoEntreRios bancoSantaCruz
 ```
 
-## 📱 Resultado Final
+### Testing por Flavor
 
-Cada flavor genera una app completamente independiente:
+```bash
+# Ejecutar tests para flavor específico
+FLAVOR=bancoEntreRios npm test
 
-- **Apps diferentes** en las stores
-- **Bundle IDs únicos** para distribución
-- **Configuraciones específicas** por banco
-- **No hay selección** de banco en runtime
-- **Builds reproducibles** y automatizados
+# Ejecutar tests para todos los flavors
+npm run test:all
+```
 
-Esta arquitectura permite escalar fácilmente a múltiples bancos manteniendo un código base común y configuraciones específicas separadas.
+## 📚 Mejores Prácticas
+
+### 1. **Nomenclatura Consistente**
+- Usar camelCase para nombres de flavors
+- Mantener estructura de directorios uniforme
+- Seguir convenciones de bundle IDs
+
+### 2. **Configuración Centralizada**
+- Mantener configuraciones en archivos JSON
+- Usar variables de entorno para secrets
+- Validar configuraciones antes del build
+
+### 3. **Assets Optimizados**
+- Comprimir imágenes y fuentes
+- Usar formatos modernos (WebP, WOFF2)
+- Mantener consistencia visual entre flavors
+
+### 4. **Testing Automatizado**
+- Tests unitarios por flavor
+- Tests de integración
+- Validación de configuraciones
+
+## 🎯 Conclusión
+
+Esta arquitectura permite:
+
+- **Desarrollo eficiente** de múltiples apps desde un solo código base
+- **Personalización completa** por banco sin duplicación
+- **Build automatizado** con configuración específica
+- **Mantenimiento simplificado** de funcionalidades comunes
+- **Escalabilidad** para agregar nuevos bancos fácilmente
+
+La clave está en la **separación clara** entre código común y configuración específica, permitiendo que cada banco tenga su app personalizada mientras se mantiene la funcionalidad compartida.

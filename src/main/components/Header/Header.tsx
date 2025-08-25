@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
-import { ProfileSvg } from './SVG';
-import DynamicHeaderLogo from './DynamicHeaderLogo';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTheme } from '../../core/themes/ThemeProvider';
+import { ProfileSvg } from '../SVG';
+import { DynamicHeaderLogo } from '../DynamicHeaderLogo';
 
 interface HeaderProps {
   onMenuPress: () => void;

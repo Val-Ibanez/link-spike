@@ -6,4 +6,4 @@ export * from './main/core/FlavorConfig';
 export * from './main/core/ConfigManager';
 
 // Solo exportar componentes que realmente existen
-export { default as DynamicHeaderLogo } from './main/components/DynamicHeaderLogo';
+export { DynamicHeaderLogo } from './main/components/DynamicHeaderLogo';

@@ -33,11 +33,6 @@
     "build:release": "./scripts/build-release.sh",
     "keystores:generate": "./scripts/generate-keystores.sh",
     "keystores:info": "./scripts/keystore-info.sh",
-    "dashboard:show": "node scripts/toggle-dashboard-features.js show",
-    "dashboard:toggle": "node scripts/toggle-dashboard-features.js toggle",
-    "dashboard:variant": "node scripts/toggle-dashboard-features.js variant",
-    "dashboard:swap": "node scripts/toggle-dashboard-features.js swap",
-
     "setup:client": "./scripts/client-setup.sh"
   },
   "dependencies": {

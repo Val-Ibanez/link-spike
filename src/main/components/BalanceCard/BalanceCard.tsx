@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
+import { useTheme } from '../../core/themes/ThemeProvider';
 
 interface BalanceCardProps {
   balance: string;

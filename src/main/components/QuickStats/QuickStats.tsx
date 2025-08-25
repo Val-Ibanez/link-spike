@@ -4,8 +4,9 @@ import {
   Text,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
+import { useTheme } from '../../core/themes/ThemeProvider';
 
 interface StatItem {
   label: string;

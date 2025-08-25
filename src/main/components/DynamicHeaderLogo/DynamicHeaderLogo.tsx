@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
-import { svgAssetManager } from '../core/utils/SvgAssetManager';
-import BancoSantaCruzSvgLogo from './SVG/BancoSantaCruzSvgLogo';
-import BancoEntreRiosSvgLogo from './SVG/BancoEntreRiosSvgLogo';
-import BancoSantaFeSvgLogo from './SVG/BancoSantaFeSvgLogo';
-import LinkSvgLogo from './SVG/LinkSvgLogo';
+import { useTheme } from '../../core/themes/ThemeProvider';
+import { svgAssetManager } from '../../core/utils/SvgAssetManager';
+import BancoSantaCruzSvgLogo from '../SVG/BancoSantaCruzSvgLogo';
+import BancoEntreRiosSvgLogo from '../SVG/BancoEntreRiosSvgLogo';
+import BancoSantaFeSvgLogo from '../SVG/BancoSantaFeSvgLogo';
+import LinkSvgLogo from '../SVG/LinkSvgLogo';
 
 interface DynamicHeaderLogoProps {
   width?: number;

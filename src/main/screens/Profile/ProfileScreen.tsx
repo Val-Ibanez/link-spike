@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import { useTheme } from '../../core/themes/ThemeProvider';
 import { createThemedStyles } from '../../core/themes/styles';
-import DynamicHeaderLogo from '../../components/DynamicHeaderLogo';
-import ZustandTest from '../../components/ZustandTest';
+import { DynamicHeaderLogo } from '../../components/DynamicHeaderLogo';
+import { ZustandTest } from '../../components/ZustandTest';
 import { ProfileSvg } from '../../components/SVG';
 
 export default function ProfileScreen(): React.JSX.Element {

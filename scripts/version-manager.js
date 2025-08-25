@@ -3,6 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Bancos existentes en el proyecto
+const EXISTING_FLAVORS = ['bancoEntreRios', 'bancoSantaCruz', 'bancoSantaFe', 'link'];
+
 // Función para leer archivo .env
 function readEnvFile(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -65,12 +68,10 @@ function main() {
   const bumpType = args[2];
   
   if (command === 'status') {
-    // Mostrar estado de versiones de todos los flavors
+    // Mostrar estado de versiones de todos los flavors existentes
     console.log('\n🏦 Estado de Versiones por Flavor\n' + '='.repeat(50));
     
-    const flavors = ['bancoNacional', 'bancoPopular'];
-    
-    flavors.forEach(f => {
+    EXISTING_FLAVORS.forEach(f => {
       try {
         const envPath = `.env.${f}`;
         const env = readEnvFile(envPath);
@@ -92,7 +93,13 @@ function main() {
   if (command === 'bump') {
     if (!flavor || !bumpType) {
       console.log('Uso: node version-manager.js bump <flavor> <patch|minor|major>');
-      console.log('Ejemplo: node version-manager.js bump bancoNacional patch');
+      console.log('Flavors disponibles:', EXISTING_FLAVORS.join(', '));
+      console.log('Ejemplo: node version-manager.js bump bancoEntreRios patch');
+      return;
+    }
+    
+    if (!EXISTING_FLAVORS.includes(flavor)) {
+      console.log(`❌ Flavor '${flavor}' no existe. Flavors disponibles:`, EXISTING_FLAVORS.join(', '));
       return;
     }
     
@@ -100,41 +107,34 @@ function main() {
       const envPath = `.env.${flavor}`;
       const env = readEnvFile(envPath);
       
-      // Incrementar versión
-      const oldVersion = env.VERSION_NAME || '1.0.0';
-      const newVersion = bumpVersion(oldVersion, bumpType);
+      const currentVersion = env.VERSION_NAME || '1.0.0';
+      const newVersion = bumpVersion(currentVersion, bumpType);
       
-      // Incrementar códigos
-      const oldVersionCode = parseInt(env.VERSION_CODE || '1');
-      const newVersionCode = oldVersionCode + 1;
-      
-      const oldBuildNumber = parseInt(env.BUILD_NUMBER || '1');
-      const newBuildNumber = oldBuildNumber + 1;
-      
-      // Actualizar valores
       env.VERSION_NAME = newVersion;
-      env.VERSION_CODE = newVersionCode.toString();
-      env.BUILD_NUMBER = newBuildNumber.toString();
+      env.VERSION_CODE = (parseInt(env.VERSION_CODE || '1') + 1).toString();
       
-      // Escribir archivo
       writeEnvFile(envPath, env);
       
-      console.log(`\n✅ Versión actualizada para ${flavor.toUpperCase()}`);
-      console.log(`   ${oldVersion} (${oldBuildNumber}) → ${newVersion} (${newBuildNumber})`);
-      console.log(`   Version Code: ${oldVersionCode} → ${newVersionCode}`);
-      console.log(`   Archivo: ${envPath}\n`);
+      console.log(`✅ ${flavor}: ${currentVersion} → ${newVersion}`);
+      console.log(`   Build: ${env.VERSION_CODE}`);
       
     } catch (error) {
-      console.error(`❌ Error: ${error.message}`);
+      console.log(`❌ Error actualizando versión de ${flavor}: ${error.message}`);
     }
     
     return;
   }
   
-  if (command === 'release') {
+  if (command === 'sync') {
     if (!flavor) {
-      console.log('Uso: node version-manager.js release <flavor>');
-      console.log('Ejemplo: node version-manager.js release bancoNacional');
+      console.log('Uso: node version-manager.js sync <flavor>');
+      console.log('Flavors disponibles:', EXISTING_FLAVORS.join(', '));
+      console.log('Ejemplo: node version-manager.js sync bancoEntreRios');
+      return;
+    }
+    
+    if (!EXISTING_FLAVORS.includes(flavor)) {
+      console.log(`❌ Flavor '${flavor}' no existe. Flavors disponibles:`, EXISTING_FLAVORS.join(', '));
       return;
     }
     
@@ -142,32 +142,40 @@ function main() {
       const envPath = `.env.${flavor}`;
       const env = readEnvFile(envPath);
       
-      // Cambiar a producción
-      env.RELEASE_STAGE = 'prod';
+      // Sincronizar con package.json
+      const packagePath = path.join(__dirname, '..', 'package.json');
+      const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+      
+      env.VERSION_NAME = packageData.version;
       writeEnvFile(envPath, env);
       
-      console.log(`\n🚀 ${flavor.toUpperCase()} marcado como PRODUCTION`);
-      console.log(`   Versión: ${env.VERSION_NAME} (${env.BUILD_NUMBER})`);
-      console.log(`   Stage: ${env.RELEASE_STAGE}\n`);
+      console.log(`✅ ${flavor} sincronizado con package.json: ${packageData.version}`);
       
     } catch (error) {
-      console.error(`❌ Error: ${error.message}`);
+      console.log(`❌ Error sincronizando ${flavor}: ${error.message}`);
     }
     
     return;
   }
   
-  // Mostrar ayuda
-  console.log('\n🔧 Version Manager para Flavors\n' + '='.repeat(40));
+  // Comando no reconocido
+  console.log('🏦 Version Manager - Gestión de versiones por flavor');
+  console.log('');
   console.log('Comandos disponibles:');
-  console.log('  status                           - Mostrar estado de todos los flavors');
-  console.log('  bump <flavor> <patch|minor|major> - Incrementar versión de un flavor');
-  console.log('  release <flavor>                 - Marcar flavor como production');
-  console.log('\nEjemplos:');
-  console.log('  node version-manager.js status');
-  console.log('  node version-manager.js bump bancoNacional patch');
-  console.log('  node version-manager.js bump bancoPopular minor');
-  console.log('  node version-manager.js release bancoNacional\n');
+  console.log('  status                    - Mostrar estado de versiones');
+  console.log('  bump <flavor> <type>      - Incrementar versión');
+  console.log('  sync <flavor>             - Sincronizar con package.json');
+  console.log('');
+  console.log('Flavors disponibles:', EXISTING_FLAVORS.join(', '));
+  console.log('Tipos de bump: patch, minor, major');
+  console.log('');
+  console.log('Ejemplos:');
+  console.log('  node scripts/version-manager.js status');
+  console.log('  node scripts/version-manager.js bump bancoEntreRios patch');
+  console.log('  node scripts/version-manager.js sync bancoEntreRios');
 }
 
-main();
+// Ejecutar si es llamado directamente
+if (require.main === module) {
+  main();
+}

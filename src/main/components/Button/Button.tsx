@@ -6,9 +6,9 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import { getDesignTokens } from '../../tokens';
+import { getDesignTokens } from '../tokens';
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';

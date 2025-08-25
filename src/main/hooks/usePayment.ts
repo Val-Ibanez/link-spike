@@ -32,7 +32,7 @@ export interface UsePaymentReturn {
 }
 
 export function usePayment(): UsePaymentReturn {
-  const { tenantConfig } = useApp();
+  const { currentConfig } = useApp();
   const [paymentData, setPaymentData] = useState<PaymentData>({
     amount: '',
     description: '',
@@ -98,12 +98,12 @@ export function usePayment(): UsePaymentReturn {
       errors.push('El monto debe ser mayor a 0');
     }
 
-    if (tenantConfig?.payment) {
-      if (amount < tenantConfig.payment.minAmount) {
-        errors.push(`El monto mínimo es $${tenantConfig.payment.minAmount.toLocaleString()}`);
+    if (currentConfig?.payment) {
+      if (amount < currentConfig.payment.minAmount) {
+        errors.push(`El monto mínimo es $${currentConfig.payment.minAmount.toLocaleString()}`);
       }
-      if (amount > tenantConfig.payment.maxAmount) {
-        errors.push(`El monto máximo es $${tenantConfig.payment.maxAmount.toLocaleString()}`);
+      if (amount > currentConfig.payment.maxAmount) {
+        errors.push(`El monto máximo es $${currentConfig.payment.maxAmount.toLocaleString()}`);
       }
     }
 
@@ -121,7 +121,7 @@ export function usePayment(): UsePaymentReturn {
 
     setValidation({ isValid, errors, warnings });
     return { isValid, errors, warnings };
-  }, [paymentData, tenantConfig, parseAmount]);
+  }, [paymentData, currentConfig, parseAmount]);
 
   // Procesar pago
   const processPayment = useCallback(async (): Promise<boolean> => {
@@ -155,7 +155,7 @@ export function usePayment(): UsePaymentReturn {
     
     try {
       // Simular procesamiento de pago
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise<void>(resolve => setTimeout(() => resolve(), 2000));
       
       Alert.alert(
         'Pago Exitoso',

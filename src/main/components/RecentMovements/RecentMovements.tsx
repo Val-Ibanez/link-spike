@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import { useTheme } from '../core/themes/ThemeProvider';
+import { useTheme } from '../../core/themes/ThemeProvider';
 
 interface Movement {
   id: string;

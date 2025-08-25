@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Alert, Text, View } from 'react-native';
 import { useTheme } from '../core/themes/ThemeProvider';
 import { featureFlags } from '../core/utils/FeatureFlags';
-import DynamicHeaderLogo from '../components/DynamicHeaderLogo';
+import { DynamicHeaderLogo } from '../components/DynamicHeaderLogo';
 
 // Screens
 import DashboardScreen from '../screens/Dashboard/DashboardScreen';

@@ -1,287 +1,277 @@
-# 🏛️ Guía de Publicación para Clientes
+# 📱 Guía de Publicación para Clientes - React Native White Label
 
-## 🎯 Opciones de Publicación
+## 🎯 Objetivo
 
-### **Opción 1: Acceso como Colaborador** ⭐ (RECOMENDADO)
-Tu cliente te da acceso a sus cuentas de desarrollador:
+Esta guía explica cómo publicar la aplicación de marca blanca en las tiendas de aplicaciones (Google Play Store y Apple App Store) para diferentes bancos.
 
-#### 🤖 Google Play Console
-**El cliente debe:**
-1. **Invitarte** a su Google Play Console
-2. **Rol requerido**: Admin o "Manage releases"
-3. **Acceso a**: Play Console → Users and permissions → Invite new user
+## 📋 Checklist de Preparación
 
-**Ventajas:**
-- ✅ App queda bajo **ownership del cliente**
-- ✅ **No transferencias** complicadas después
-- ✅ Cliente mantiene **control total**
-
-#### 🍎 App Store Connect  
-**El cliente debe:**
-1. **Invitarte** a su Apple Developer Team
-2. **Rol requerido**: App Manager o Admin
-3. **Acceso a**: App Store Connect → Users and Access → + (Plus button)
-
----
-
-### **Opción 2: Service Accounts** 🤖 (AUTOMATIZACIÓN)
-Para CI/CD y deploys automatizados:
-
-#### 🤖 Google Play - Service Account
-**El cliente debe crear:**
-```bash
-# 1. En Google Cloud Console
-# 2. Crear Service Account
-# 3. Descargar JSON key
-# 4. Vincular a Play Console
-```
-
-**Archivos que necesitas:**
-- `service-account-key.json` (para uploads automáticos)
-
-#### 🍎 App Store - App Store Connect API
-**El cliente debe proveer:**
-- **Issuer ID**
-- **Key ID** 
-- **Private Key (.p8 file)**
-
----
-
-### **Opción 3: Desarrollo + Transferencia** 🔄
-Desarrollas bajo tu cuenta y luego transfieres:
-
-#### Proceso:
-1. **Desarrollas** bajo tu Apple/Google account
-2. **Publicas** versión inicial
-3. **Transfieres ownership** al cliente
-4. Cliente asume control
-
-**⚠️ Desventajas:**
-- Proceso más complejo
-- Tiempo adicional de transferencia
-- Posibles interrupciones
-
----
-
-## 📋 Checklist por Cliente
-
-### 🏦 **Lo que CADA BANCO debe proveer:**
-
-#### 📱 **Información Básica**
-- [ ] **Nombre legal** de la empresa
-- [ ] **Bundle ID deseado** (ej: `com.banconacional.adquirencia`)
-- [ ] **App Name** para las tiendas
-- [ ] **Descripción** y metadata
-- [ ] **Iconos oficiales** (todos los tamaños)
-- [ ] **Screenshots** o mockups
-
-#### 🔐 **Credenciales Google Play**
-- [ ] **Acceso a Play Console** (como colaborador)
-- [ ] O **Service Account JSON** (para automatización)
-- [ ] **Signing Key** preferences (puedes generar o ellos proveen)
-
-#### 🍎 **Credenciales App Store**
-- [ ] **Apple Developer Account** activo ($99/año)
-- [ ] **Acceso a App Store Connect** (como team member)
-- [ ] O **App Store Connect API keys**
+### 1. **Configuración del Proyecto**
+- [ ] **Flavor configurado** correctamente
 - [ ] **Bundle ID** registrado en su cuenta
+- [ ] **Certificados de firma** generados
+- [ ] **Assets personalizados** (iconos, splash screens)
+- [ ] **Configuración de build** verificada
 
-#### 💳 **Información de Pago**
-- [ ] **Merchant info** para in-app purchases (si aplica)
-- [ ] **Tax information** configurada
-- [ ] **Banking details** para revenue
+### 2. **Assets Requeridos**
+- [ ] **Icono de la app** (512x512px para Android, múltiples tamaños para iOS)
+- [ ] **Splash screen** (1080x1920px)
+- [ ] **Screenshots** de la aplicación (mínimo 2)
+- [ ] **Descripción** de la app
+- [ ] **Palabras clave** para SEO
 
----
+### 3. **Configuración de Build**
+- [ ] **Versión** incrementada
+- [ ] **Build number** actualizado
+- [ ] **Flavor** seleccionado correctamente
+- [ ] **Configuración de release** aplicada
 
-## 🔧 Setup Técnico por Cliente
+## 🚀 Proceso de Build
 
-### 🤖 **Android - Configuración**
+### Android
 
-#### **Opción A: Como Colaborador**
 ```bash
-# El cliente te invita a Play Console
-# Tú haces upload manual de APKs
-./gradlew bundleRelease  # Generar AAB
-# Upload en Play Console web
+# 1. Limpiar build anterior
+cd android && ./gradlew clean
+
+# 2. Generar APK de release
+./gradlew assembleBancoEntreRiosRelease
+
+# 3. Generar AAB para Play Store
+./gradlew bundleBancoEntreRiosRelease
+
+# 4. Verificar archivos generados
+ls -la app/build/outputs/
 ```
 
-#### **Opción B: Service Account**
+### iOS
+
 ```bash
-# Cliente provee service-account-key.json
-# Setup de fastlane o similar
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/service-account-key.json"
+# 1. Configurar flavor
+npm run ios:config:banco-entre-rios
 
-# Deploy automatizado
-npm run deploy:android:bancoNacional
-```
+# 2. Limpiar build
+cd ios && xcodebuild clean
 
-### 🍎 **iOS - Configuración**
-
-#### **Opción A: Como Team Member**
-```bash
-# Cliente te invita a Developer Team
-# Tú usas Xcode para archive y upload
-# Product → Archive → Distribute to App Store
-```
-
-#### **Opción B: API Keys**
-```bash
-# Cliente provee:
-# - AuthKey_[KEY_ID].p8
-# - Issuer ID  
-# - Key ID
-
-# Setup de altool o fastlane
-xcrun altool --upload-app -f "app.ipa" \
-  --apiKey [KEY_ID] \
-  --apiIssuer [ISSUER_ID]
-```
-
----
-
-## 🔐 Manejo Seguro de Credenciales
-
-### **Variables de Entorno por Cliente**
-```bash
-# .env.credentials.bancoNacional
-GOOGLE_SERVICE_ACCOUNT_KEY_PATH="./credentials/bn-service-account.json"
-APPLE_API_KEY_PATH="./credentials/bn-apple-api-key.p8"
-APPLE_API_KEY_ID="ABC123DEF4"
-APPLE_API_ISSUER_ID="69a6de80-cfdd-47c3-8664-acf4b3b6b3ca"
-
-# .env.credentials.bancoPopular  
-GOOGLE_SERVICE_ACCOUNT_KEY_PATH="./credentials/bp-service-account.json"
-APPLE_API_KEY_PATH="./credentials/bp-apple-api-key.p8"
-APPLE_API_KEY_ID="XYZ789GHI0"
-APPLE_API_ISSUER_ID="12b3de45-cfdd-47c3-8664-acf4b3b6b3ca"
-```
-
-### **Estructura de Credenciales**
-```
-credentials/
-├── bancoNacional/
-│   ├── google-service-account.json
-│   ├── apple-api-key.p8
-│   └── android-keystore.jks
-├── bancoPopular/
-│   ├── google-service-account.json
-│   ├── apple-api-key.p8
-│   └── android-keystore.jks
-└── .gitignore  # ¡NUNCA commitear credenciales!
-```
-
----
-
-## 🚀 Scripts de Deploy Automatizado
-
-### **Deploy Android**
-```bash
-# scripts/deploy-android.sh
-#!/bin/bash
-FLAVOR=$1
-CREDENTIALS_DIR="credentials/$FLAVOR"
-
-# Load service account
-export GOOGLE_APPLICATION_CREDENTIALS="$CREDENTIALS_DIR/google-service-account.json"
-
-# Build AAB
-cd android && ./gradlew "bundle${FLAVOR^}Release"
-
-# Upload to Play Store
-bundle exec fastlane android deploy flavor:$FLAVOR
-```
-
-### **Deploy iOS**
-```bash  
-# scripts/deploy-ios.sh
-#!/bin/bash
-FLAVOR=$1
-CREDENTIALS_DIR="credentials/$FLAVOR"
-
-# Build IPA
-xcodebuild -workspace ios/MyReactNativeApp.xcworkspace \
-  -scheme "MyReactNativeApp-${FLAVOR^}" \
+# 3. Build para distribución
+xcodebuild -workspace MyReactNativeApp.xcworkspace \
+  -scheme BancoEntreRios \
   -configuration Release \
-  archive -archivePath "build/$FLAVOR.xcarchive"
+  -archivePath build/BancoEntreRios.xcarchive \
+  archive
 
-# Export IPA
+# 4. Exportar IPA
 xcodebuild -exportArchive \
-  -archivePath "build/$FLAVOR.xcarchive" \
-  -exportPath "build/" \
-  -exportOptionsPlist "ios/ExportOptions.plist"
-
-# Upload with API key
-xcrun altool --upload-app \
-  -f "build/MyReactNativeApp.ipa" \
-  --apiKey $(cat "$CREDENTIALS_DIR/apple-api-key-id.txt") \
-  --apiIssuer $(cat "$CREDENTIALS_DIR/apple-api-issuer.txt")
+  -archivePath build/BancoEntreRios.xcarchive \
+  -exportPath build/BancoEntreRios \
+  -exportOptionsPlist exportOptions.plist
 ```
 
----
+## 📱 Google Play Store
 
-## 📞 **Template de Email para Clientes**
+### 1. **Crear Aplicación**
+- Ir a [Google Play Console](https://play.google.com/console)
+- Crear nueva aplicación
+- Seleccionar "Aplicación" como tipo
 
-```
-Asunto: Configuración para Publicación de App - [BANCO_NAME]
+### 2. **Configuración Básica**
+- **Nombre de la app**: Nombre del banco
+- **Idioma predeterminado**: Español
+- **Categoría**: Finanzas
+- **Etiquetas**: Banco, pagos, finanzas
 
-Estimado equipo de [BANCO_NAME],
-
-Para proceder con la publicación de su aplicación de adquirencia en las tiendas de aplicaciones, necesitamos la siguiente información:
-
-📱 INFORMACIÓN BÁSICA:
-- Nombre oficial de la app para las tiendas
-- Bundle ID deseado (ej: com.banconacional.adquirencia)  
-- Descripción de la app (máx. 4000 caracteres)
-- Iconos oficiales del banco (todos los tamaños)
-
-🤖 GOOGLE PLAY STORE:
-Opción A: Invitarme como colaborador a su Google Play Console
-Opción B: Proveer Service Account JSON para automatización
-
-🍎 APP STORE:
-Opción A: Invitarme a su Apple Developer Team  
-Opción B: Proveer App Store Connect API credentials
-
-🔐 SEGURIDAD:
-- Todas las credenciales se manejarán bajo estricta confidencialidad
-- Acceso limitado solo para publicación de esta app específica
-- Posibilidad de revocar accesos en cualquier momento
-
-📋 TIMELINE ESTIMADO:
-- Setup inicial: 2-3 días hábiles
-- Primera publicación: 5-7 días hábiles  
-- Revisión de tiendas: 1-7 días (variable)
-
-¿Prefieren la opción de acceso colaborativo o manejo por API keys?
-
-Saludos,
-[TU_NOMBRE]
+### 3. **Subir APK/AAB**
+```bash
+# Usar el archivo generado en:
+android/app/build/outputs/bundle/release/app-bancoEntreRios-release.aab
 ```
 
----
+### 4. **Configuración de Store**
+- **Descripción corta**: Descripción en 80 caracteres
+- **Descripción completa**: Descripción detallada
+- **Screenshots**: Mínimo 2 imágenes
+- **Icono**: 512x512px
+- **Imagen destacada**: 1024x500px
 
-## ⚠️ **Consideraciones Legales**
+### 5. **Configuración de Contenido**
+- **Clasificación de contenido**: 3+ años
+- **Anuncios**: No contiene anuncios
+- **Contenido**: Solo contenido financiero
 
-### **Contratos y NDAs**
-- [ ] **NDA firmado** antes de recibir credenciales
-- [ ] **Acuerdo de desarrollo** que especifique ownership
-- [ ] **Cláusulas de confidencialidad** sobre credenciales
-- [ ] **Responsabilidades** sobre security breaches
+### 6. **Configuración de Precios**
+- **Gratis**: Sí
+- **Países**: Argentina (y otros según necesidad)
 
-### **Compliance**
-- [ ] **GDPR compliance** si aplica
-- [ ] **Financial regulations** para apps bancarias
-- [ ] **Security standards** (PCI DSS, etc.)
-- [ ] **Insurance coverage** para desarrollo
+## 🍎 Apple App Store
 
----
+### 1. **Crear Aplicación**
+- Ir a [App Store Connect](https://appstoreconnect.apple.com)
+- Crear nueva aplicación
+- Seleccionar plataforma (iOS)
 
-## 🎯 **Recomendación Final**
+### 2. **Configuración Básica**
+- **Nombre**: Nombre del banco
+- **Subtítulo**: Descripción corta
+- **Bundle ID**: `com.myreactnativeapp.bancoentrerios`
+- **SKU**: Identificador único
 
-**Para máxima profesionalidad:**
+### 3. **Subir Build**
+- Usar Xcode para subir build
+- O usar `xcodebuild` desde terminal
+- Esperar procesamiento de Apple
 
-1. **Opción 1**: Acceso como colaborador (más simple)
-2. **Opción 2**: Service Accounts para automatización (más escalable)
-3. **Backup plan**: Desarrollo bajo tu cuenta + transferencia
+### 4. **Configuración de Store**
+- **Descripción**: Descripción completa
+- **Palabras clave**: Banco, pagos, finanzas
+- **Screenshots**: Mínimo 1 por dispositivo
+- **Icono**: 1024x1024px
 
-**¡La clave es establecer el proceso desde el inicio del proyecto!** 🔑
+### 5. **Configuración de Contenido**
+- **Clasificación**: 4+ años
+- **Categoría**: Finanzas
+- **Subcategoría**: Banca
+
+## 🔐 Certificados y Firma
+
+### Android
+
+```bash
+# 1. Generar keystore
+./scripts/generate-keystores.sh
+
+# 2. Configurar en build.gradle
+android {
+  signingConfigs {
+    release {
+      storeFile file("keystores/bancoEntreRios.keystore")
+      storePassword "password"
+      keyAlias "bancoEntreRios"
+      keyPassword "password"
+    }
+  }
+}
+```
+
+### iOS
+
+```bash
+# 1. Configurar certificados en Xcode
+# 2. Crear perfil de aprovisionamiento
+# 3. Configurar Team ID
+# 4. Verificar Bundle Identifier
+```
+
+## 📊 Monitoreo y Analytics
+
+### 1. **Firebase Analytics**
+```typescript
+// Configurar en cada flavor
+const analyticsConfig = {
+  bancoEntreRios: {
+    projectId: 'banco-entre-rios-analytics',
+    apiKey: 'AIza...'
+  },
+  bancoSantaCruz: {
+    projectId: 'banco-santa-cruz-analytics',
+    apiKey: 'AIza...'
+  }
+};
+```
+
+### 2. **Crashlytics**
+```typescript
+// Configuración automática por flavor
+import crashlytics from '@react-native-firebase/crashlytics';
+
+crashlytics().setAttribute('flavor', currentFlavor);
+crashlytics().setAttribute('bank', currentConfig.displayName);
+```
+
+## 🚨 Troubleshooting
+
+### Errores Comunes
+
+#### **Android**
+- **Error de firma**: Verificar keystore y contraseñas
+- **Error de bundle ID**: Verificar que sea único
+- **Error de versión**: Incrementar versionCode
+
+#### **iOS**
+- **Error de certificado**: Verificar expiración
+- **Error de Bundle ID**: Verificar en Xcode
+- **Error de provisioning**: Verificar perfil
+
+### Soluciones
+
+```bash
+# Limpiar build
+cd android && ./gradlew clean
+cd ios && xcodebuild clean
+
+# Verificar configuración
+npm run config:validate
+
+# Verificar flavor
+npm run config:list
+```
+
+## 📈 Métricas de Éxito
+
+### 1. **Descargas**
+- Objetivo: 1000+ descargas en primer mes
+- Métrica: Descargas por día/semana
+
+### 2. **Retención**
+- Objetivo: 70% retención a 7 días
+- Métrica: Usuarios activos diarios
+
+### 3. **Calificación**
+- Objetivo: 4.5+ estrellas
+- Métrica: Promedio de calificaciones
+
+### 4. **Crash Rate**
+- Objetivo: <1% crash rate
+- Métrica: Crashes por sesión
+
+## 🔄 Actualizaciones
+
+### 1. **Proceso de Update**
+```bash
+# 1. Incrementar versión
+npm run version:bump bancoEntreRios patch
+
+# 2. Build de release
+./scripts/build-release.sh bancoEntreRios production android
+
+# 3. Subir a stores
+# 4. Monitorear métricas
+```
+
+### 2. **Rollback Plan**
+- Mantener versión anterior disponible
+- Monitorear métricas post-update
+- Plan de contingencia para issues críticos
+
+## 📚 Recursos Adicionales
+
+### Documentación
+- [Google Play Console](https://support.google.com/googleplay/android-developer)
+- [App Store Connect](https://developer.apple.com/app-store-connect/)
+- [React Native Deployment](https://reactnative.dev/docs/deployment)
+
+### Herramientas
+- [Firebase Console](https://console.firebase.google.com)
+- [App Store Connect API](https://developer.apple.com/app-store-connect-api/)
+- [Google Play Developer API](https://developers.google.com/android-publisher)
+
+## 🎯 Conclusión
+
+La publicación exitosa requiere:
+
+1. **Preparación cuidadosa** de assets y configuración
+2. **Builds limpios** y verificados
+3. **Configuración correcta** en las stores
+4. **Monitoreo continuo** de métricas
+5. **Plan de actualizaciones** regular
+
+Siguiendo esta guía, cada banco tendrá su aplicación publicada exitosamente en las tiendas de aplicaciones.
