@@ -3,9 +3,9 @@
  * Tokens dinámicos que se adaptan al flavor/banco activo
  */
 
-import { configManager } from '../../core/ConfigManager';
+import { useCurrentTenant } from '../../stores';
 
-// Base tokens (consistentes entre bancos)
+// Base tokens (no cambian por banco)
 export const baseTokens = {
   // Spacing
   spacing: {
@@ -15,29 +15,9 @@ export const baseTokens = {
     lg: 24,
     xl: 32,
     xxl: 48,
-    xxxl: 64,
   },
   
-  // Typography
-  fontSize: {
-    xs: 12,
-    sm: 14,
-    md: 16,
-    lg: 20,
-    xl: 24,
-    xxl: 32,
-    xxxl: 40,
-  },
-  
-  fontWeight: {
-    light: '300',
-    regular: '400',
-    medium: '500',
-    semibold: '600',
-    bold: '700',
-  },
-  
-  // Layout
+  // Border radius
   borderRadius: {
     xs: 4,
     sm: 8,
@@ -70,8 +50,45 @@ export const baseTokens = {
 
 // Dynamic tokens (cambian por banco)
 export const getDynamicTokens = () => {
-  const theme = configManager.getTheme();
-  const tenantConfig = configManager.getCurrentTenant();
+  // Usar el hook directamente para obtener el tenant actual
+  const currentTenant = useCurrentTenant();
+  
+  if (!currentTenant) {
+    // Fallback si no hay tenant configurado
+    return {
+      colors: {
+        primary: '#0066CC',
+        primaryLight: '#3388DD',
+        primaryDark: '#004499',
+        secondary: '#666666',
+        accent: '#FF6B35',
+        success: '#28A745',
+        warning: '#FFC107',
+        error: '#DC3545',
+        info: '#17A2B8',
+        background: '#FFFFFF',
+        surface: '#F8F9FA',
+        surfaceVariant: '#F5F5F5',
+        text: '#000000',
+        textSecondary: '#666666',
+        textDisabled: '#999',
+        border: '#E0E0E0',
+        borderFocus: '#0066CC',
+        online: '#4CAF50',
+        offline: '#9E9E9E',
+        pending: '#FF9800',
+      },
+      typography: {
+        fontFamily: {
+          regular: 'System',
+          bold: 'System-Bold',
+          light: 'System-Light',
+        },
+      },
+    };
+  }
+  
+  const theme = currentTenant.theme;
   
   return {
     // Colors dinámicos por banco

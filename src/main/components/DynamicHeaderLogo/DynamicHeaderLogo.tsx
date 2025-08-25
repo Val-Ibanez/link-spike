@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../../core/themes/ThemeProvider';
-import { svgAssetManager } from '../../core/utils/SvgAssetManager';
 import BancoSantaCruzSvgLogo from '../SVG/BancoSantaCruzSvgLogo';
 import BancoEntreRiosSvgLogo from '../SVG/BancoEntreRiosSvgLogo';
 import BancoSantaFeSvgLogo from '../SVG/BancoSantaFeSvgLogo';
@@ -10,15 +8,23 @@ import LinkSvgLogo from '../SVG/LinkSvgLogo';
 interface DynamicHeaderLogoProps {
   width?: number;
   height?: number;
+  // Props agnósticas para evitar hooks internos
+  logoType?: string;
+  displayName?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  showBankName?: boolean;
 }
 
 const DynamicHeaderLogo: React.FC<DynamicHeaderLogoProps> = ({
   width = 35,
   height = 35,
+  logoType = 'bancoSantaCruz', // Valor por defecto
+  displayName = 'Banco',
+  backgroundColor = '#FFFFFF',
+  textColor = '#000000',
+  showBankName = true,
 }) => {
-  const { theme, tenantConfig } = useTheme();
-  const logoType = svgAssetManager.getCurrentLogoType();
-
   // Mapeo seguro de logos con manejo de undefined
   const logoComponents: Record<string, React.ReactElement> = {
     bancoSantaCruz: <BancoSantaCruzSvgLogo width={width} height={height} />,
@@ -32,21 +38,23 @@ const DynamicHeaderLogo: React.FC<DynamicHeaderLogoProps> = ({
     if (logoType && logoComponents[logoType]) {
       return logoComponents[logoType];
     }
-    return null;
+    // Fallback al primer logo disponible
+    return logoComponents.bancoSantaCruz || null;
   };
 
   const currentLogo = getCurrentLogo();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      <View
-      >
+    <View style={[styles.container, { backgroundColor }]}>
+      <View>
         {currentLogo}
       </View>
 
-   {tenantConfig?.displayName !== 'Link' &&   <Text style={[styles.bankName, { color: theme.text }]}>
-        {tenantConfig?.displayName || 'Banco'}
-      </Text>}
+      {showBankName && displayName !== 'Link' && (
+        <Text style={[styles.bankName, { color: textColor }]}>
+          {displayName}
+        </Text>
+      )}
     </View>
   );
 };
@@ -55,7 +63,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    // flex: 1,
   },
   bankName: {
     fontSize: 18,

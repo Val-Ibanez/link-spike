@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '../../core/themes/ThemeProvider';
-import { ProfileSvg } from '../SVG';
+import { useDetectedFlavor, useCurrentTenant } from '../../stores';
 import { DynamicHeaderLogo } from '../DynamicHeaderLogo';
+import { ProfileSvg } from '../SVG';
 
 interface HeaderProps {
   onMenuPress: () => void;
@@ -16,7 +17,15 @@ const Header = ({
   onMenuPress,
   onProfilePress,
 }: HeaderProps): React.JSX.Element => {
-  const { theme, tenantConfig } = useTheme();
+  const { theme } = useTheme();
+  
+  // ✅ Hooks optimizados que solo se re-renderizan cuando cambia su valor específico
+  const currentFlavor = useDetectedFlavor();
+  const currentTenant = useCurrentTenant();
+
+  // Log para debuggear
+  console.log('🔍 Header - currentFlavor:', currentFlavor);
+  console.log('🔍 Header - currentTenant:', currentTenant?.displayName);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
@@ -38,7 +47,16 @@ const Header = ({
             />
           </View>
         </TouchableOpacity>
-        <DynamicHeaderLogo />
+        
+        {/* Usar el componente agnóstico con props */}
+        <DynamicHeaderLogo
+          logoType={currentFlavor || 'bancoSantaCruz'}
+          displayName={currentTenant?.displayName || 'Banco'}
+          backgroundColor={theme.surface}
+          textColor={theme.text}
+          showBankName={true}
+        />
+        
         <TouchableOpacity
           style={styles.avatarContainer}
           onPress={onProfilePress}

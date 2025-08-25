@@ -1,21 +1,31 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  Text,
   View,
+  Text,
   TouchableOpacity,
+  ScrollView,
   Alert,
+  SafeAreaView,
+  StyleSheet,
 } from 'react-native';
 import { useTheme } from '../../core/themes/ThemeProvider';
-import { createThemedStyles } from '../../core/themes/styles';
-import { configManager } from '../../core/ConfigManager';
+import { useAppInfo, useCurrentTenant } from '../../stores';
 import { featureFlags } from '../../core/utils/FeatureFlags';
 
-export default function SettingsScreen(): React.JSX.Element {
+const SettingsScreen: React.FC = () => {
   const { theme, tenantConfig } = useTheme();
-  const styles = createThemedStyles(theme);
-  const appInfo = configManager.getAppInfo();
+  const appInfo = useAppInfo();
+
+  // Verificar que tenemos la información necesaria
+  if (!tenantConfig || !appInfo) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <Text style={styles.heading2}>Cargando configuración...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const SettingItem = ({
     title,
@@ -51,7 +61,7 @@ export default function SettingsScreen(): React.JSX.Element {
           onPress={() =>
             Alert.alert(
               'Información de la App',
-              `Banco: ${tenantConfig.displayName}\nFlavor: ${appInfo.flavor}\nVersión: ${appInfo.version}\nBuild: ${appInfo.buildNumber}\nEnvironment: ${appInfo.enviroment}`,
+              `Banco: ${tenantConfig.displayName}\nFlavor: ${appInfo.flavor}\nVersión: ${appInfo.version}\nBuild: ${appInfo.buildNumber}\nEnvironment: ${appInfo.environment}`,
             )
           }
         />
@@ -72,7 +82,6 @@ export default function SettingsScreen(): React.JSX.Element {
           title="Assets y Temas"
           subtitle="Personalización del banco"
           onPress={() => {
-            const appInfo = configManager.getAppInfo();
             Alert.alert(
               'Assets del Banco',
               `Flavor: ${appInfo.flavor}\nVersión: ${appInfo.version}\nNombre: ${tenantConfig.displayName}`,
@@ -115,4 +124,43 @@ export default function SettingsScreen(): React.JSX.Element {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f0f0f0', // Placeholder for safe area background
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0', // Placeholder for container background
+  },
+  heading2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    padding: 12,
+    color: '#333',
+  },
+  heading3: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#555',
+  },
+  bodyTextSecondary: {
+    fontSize: 14,
+    color: '#888',
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+});
+
+export default SettingsScreen;

@@ -11,6 +11,7 @@ import 'react-native-gesture-handler';
 
 import { ThemeProvider, useTheme } from './src/main/core/themes/ThemeProvider';
 import { AppNavigationContainer } from './src/main/navigation/NavigationContainer';
+import { AppInitializer } from './src/main/components';
 
 function AppContent(): React.JSX.Element {
   const { theme } = useTheme();
@@ -22,8 +23,6 @@ function AppContent(): React.JSX.Element {
         backgroundColor={theme.primary}
       />
       <AppNavigationContainer />
-      {/* 🔥 HOT RELOAD TEST - Cambio temporal para probar */}
-      {/* ✅ HOT RELOAD FUNCIONA - Segundo cambio para confirmar */}
     </>
   );
 }
@@ -31,7 +30,9 @@ function AppContent(): React.JSX.Element {
 function App(): React.JSX.Element {
   return (
     <ThemeProvider>
-      <AppContent />
+      <AppInitializer>
+        <AppContent />
+      </AppInitializer>
     </ThemeProvider>
   );
 }

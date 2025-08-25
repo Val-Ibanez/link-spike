@@ -39,59 +39,52 @@ export const Button: React.FC<ButtonProps> = ({
   
   // Estilos dinámicos
   const getVariantStyle = (): ViewStyle => {
-    switch (variant) {
-      case 'primary':
-        return {
-          backgroundColor: tokens.colors.primary,
-          borderRadius: tokens.borderRadius.md,
-          ...tokens.shadow.sm,
-        };
-      case 'secondary':
-        return {
-          backgroundColor: tokens.colors.secondary,
-          borderRadius: tokens.borderRadius.md,
-          ...tokens.shadow.sm,
-        };
-      case 'outline':
-        return {
-          backgroundColor: 'transparent',
-          borderColor: tokens.colors.primary,
-          borderWidth: 2,
-          borderRadius: tokens.borderRadius.md,
-        };
-      case 'ghost':
-        return {
-          backgroundColor: 'transparent',
-          borderRadius: tokens.borderRadius.md,
-        };
-      default:
-        return {};
-    }
+    const variantStyles = {
+      primary: {
+        backgroundColor: tokens.colors.primary,
+        borderRadius: tokens.borderRadius.md,
+        ...tokens.shadow.sm,
+      },
+      secondary: {
+        backgroundColor: tokens.colors.secondary,
+        borderRadius: tokens.borderRadius.md,
+        ...tokens.shadow.sm,
+      },
+      outline: {
+        backgroundColor: 'transparent',
+        borderColor: tokens.colors.primary,
+        borderWidth: 2,
+        borderRadius: tokens.borderRadius.md,
+      },
+      ghost: {
+        backgroundColor: 'transparent',
+        borderRadius: tokens.borderRadius.md,
+      },
+    } as const;
+
+    return variantStyles[variant as keyof typeof variantStyles] || {};
   };
 
   const getSizeStyle = (): ViewStyle => {
-    switch (size) {
-      case 'sm':
-        return {
-          paddingVertical: tokens.spacing.sm,
-          paddingHorizontal: tokens.spacing.md,
-          minHeight: 36,
-        };
-      case 'md':
-        return {
-          paddingVertical: tokens.spacing.md,
-          paddingHorizontal: tokens.spacing.lg,
-          minHeight: 48,
-        };
-      case 'lg':
-        return {
-          paddingVertical: tokens.spacing.lg,
-          paddingHorizontal: tokens.spacing.xl,
-          minHeight: 56,
-        };
-      default:
-        return {};
-    }
+    const sizeStyles = {
+      sm: {
+        paddingVertical: tokens.spacing.sm,
+        paddingHorizontal: tokens.spacing.md,
+        minHeight: 36,
+      },
+      md: {
+        paddingVertical: tokens.spacing.md,
+        paddingHorizontal: tokens.spacing.lg,
+        minHeight: 48,
+      },
+      lg: {
+        paddingVertical: tokens.spacing.lg,
+        paddingHorizontal: tokens.spacing.xl,
+        minHeight: 56,
+      },
+    } as const;
+
+    return sizeStyles[size as keyof typeof sizeStyles] || {};
   };
 
   const getTextStyle = (): TextStyle => {
@@ -102,38 +95,39 @@ export const Button: React.FC<ButtonProps> = ({
 
     const variantTextStyle: TextStyle = {
       ...baseTextStyle,
-      fontSize: tokens.fontSize.md,
+      fontSize: 16, // Valor hardcodeado en lugar de tokens.fontSize.md
     };
 
-    switch (variant) {
-      case 'primary':
-      case 'secondary':
-        return {
-          ...variantTextStyle,
-          color: '#FFFFFF',
-        };
-      case 'outline':
-      case 'ghost':
-        return {
-          ...variantTextStyle,
-          color: tokens.colors.primary,
-        };
-      default:
-        return variantTextStyle;
-    }
+    const variantTextStyles = {
+      primary: {
+        ...variantTextStyle,
+        color: '#FFFFFF',
+      },
+      secondary: {
+        ...variantTextStyle,
+        color: '#FFFFFF',
+      },
+      outline: {
+        ...variantTextStyle,
+        color: tokens.colors.primary,
+      },
+      ghost: {
+        ...variantTextStyle,
+        color: tokens.colors.primary,
+      },
+    } as const;
+
+    return variantTextStyles[variant as keyof typeof variantTextStyles] || variantTextStyle;
   };
 
   const getSizeTextStyle = (): TextStyle => {
-    switch (size) {
-      case 'sm':
-        return { fontSize: tokens.fontSize.sm };
-      case 'md':
-        return { fontSize: tokens.fontSize.md };
-      case 'lg':
-        return { fontSize: tokens.fontSize.lg };
-      default:
-        return { fontSize: tokens.fontSize.md };
-    }
+    const sizeTextStyles = {
+      sm: { fontSize: 14 }, // Valor hardcodeado
+      md: { fontSize: 16 }, // Valor hardcodeado
+      lg: { fontSize: 18 }, // Valor hardcodeado
+    } as const;
+
+    return sizeTextStyles[size as keyof typeof sizeTextStyles] || {};
   };
 
   const buttonStyles: ViewStyle = {

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { configManager } from '../core/ConfigManager'
+import { getFlavorConfig } from '../core/FlavorConfig'
 import { TenantConfig } from '../core/types/tenant'
 
 // 🏦 Flavor Store - Maneja la configuración del flavor actual
@@ -31,7 +31,7 @@ export const useFlavorStore = create<FlavorState>()(
           set({ isLoading: true })
           
           // Obtener configuración del flavor
-          const config = configManager.getFlavorConfig(flavorName)
+          const config = getFlavorConfig(flavorName)
           
           if (!config) {
             throw new Error(`No se encontró configuración para el flavor: ${flavorName}`)

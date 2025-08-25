@@ -21,58 +21,48 @@ export const Card: React.FC<CardProps> = ({
   
   // Estilos dinámicos
   const getVariantStyle = (): ViewStyle => {
-    switch (variant) {
-      case 'default':
-        return {
-          backgroundColor: tokens.colors.surface,
-          ...tokens.shadow.sm,
-        };
-      case 'elevated':
-        return {
-          backgroundColor: tokens.colors.surface,
-          ...tokens.shadow.lg,
-        };
-      case 'outlined':
-        return {
-          backgroundColor: tokens.colors.surface,
-          borderWidth: 1,
-          borderColor: tokens.colors.border,
-        };
-      case 'filled':
-        return {
-          backgroundColor: tokens.colors.surfaceVariant,
-        };
-      default:
-        return {};
-    }
+    const variantStyles = {
+      default: {
+        backgroundColor: tokens.colors.surface,
+        ...tokens.shadow.sm,
+      },
+      elevated: {
+        backgroundColor: tokens.colors.surface,
+        ...tokens.shadow.lg,
+      },
+      outlined: {
+        backgroundColor: tokens.colors.surface,
+        borderWidth: 1,
+        borderColor: tokens.colors.border,
+      },
+      filled: {
+        backgroundColor: tokens.colors.surfaceVariant,
+      },
+    } as const;
+
+    return variantStyles[variant as keyof typeof variantStyles] || {};
   };
 
   const getPaddingStyle = (): ViewStyle => {
-    switch (padding) {
-      case 'sm':
-        return { padding: tokens.spacing.sm };
-      case 'md':
-        return { padding: tokens.spacing.md };
-      case 'lg':
-        return { padding: tokens.spacing.lg };
-      case 'none':
-      default:
-        return {};
-    }
+    const paddingStyles = {
+      sm: { padding: tokens.spacing.sm },
+      md: { padding: tokens.spacing.md },
+      lg: { padding: tokens.spacing.lg },
+      none: {},
+    } as const;
+
+    return paddingStyles[padding as keyof typeof paddingStyles] || {};
   };
 
   const getMarginStyle = (): ViewStyle => {
-    switch (margin) {
-      case 'sm':
-        return { margin: tokens.spacing.sm };
-      case 'md':
-        return { margin: tokens.spacing.md };
-      case 'lg':
-        return { margin: tokens.spacing.lg };
-      case 'none':
-      default:
-        return {};
-    }
+    const marginStyles = {
+      sm: { margin: tokens.spacing.sm },
+      md: { margin: tokens.spacing.md },
+      lg: { margin: tokens.spacing.lg },
+      none: {},
+    } as const;
+
+    return marginStyles[margin as keyof typeof marginStyles] || {};
   };
 
   const cardStyles: ViewStyle = {

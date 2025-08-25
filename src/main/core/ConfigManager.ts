@@ -1,89 +1,58 @@
+// 🏦 ConfigManager - Wrapper de compatibilidad para migración gradual
+// TODO: Migrar todos los usos a useConfigStore y eliminar este archivo
+import { useConfigStore } from '../stores/configStore';
 import Config from 'react-native-config';
-import { Platform } from 'react-native';
-import { getFlavorConfig } from './FlavorConfig';
-import { TenantConfig } from './types/tenant';
-import { getFlavorNative, getFlavorNativeSync } from './utils/FlavorDetector';
 
-class ConfigManager {
-  private currentTenant: TenantConfig | null = null;
-
-  getCurrentTenant(): TenantConfig {
-    if (this.currentTenant) return this.currentTenant;
-
-    // Usar getFlavorNativeSync para obtener el flavor del BuildConfig (sincrónico)
-    const flavor = getFlavorNativeSync();
-    
-    console.log(`🔍 ConfigManager.getCurrentTenant() - Flavor detectado: ${flavor}`);
-    console.log(`🔍 ConfigManager.getCurrentTenant() - Platform: ${Platform.OS}`);
-
-    const tenantConfig = getFlavorConfig(flavor);
-    if (!tenantConfig) {
-      console.error(`❌ ConfigManager.getCurrentTenant() - No se encontró configuración para flavor: ${flavor}`);
-      throw new Error(`No se encontró configuración para flavor: ${flavor}`);
-    }
-
-    console.log(`✅ ConfigManager.getCurrentTenant() - Usando configuración para: ${tenantConfig.displayName}`);
-    console.log(`✅ ConfigManager.getCurrentTenant() - Theme primary: ${tenantConfig.theme.primary}`);
-    this.currentTenant = tenantConfig;
-    return tenantConfig;
-  }
-
-  getFlavorConfig(flavorName: string): TenantConfig | null {
-    return getFlavorConfig(flavorName);
-  }
-
-  getAppInfo() {
-    const config = this.getCurrentTenant();
-    return {
-      displayName: config.displayName,
-      flavor: getFlavorNativeSync() || 'NO_DETECTADO',
-      bundleId: Config.BUNDLE_ID || 'com.myreactnativeapp',
-      version: Config.VERSION_NAME || '1.0.0',
-      buildNumber: Config.BUILD_NUMBER || '1',
-      apiBaseUrl: config.api.baseUrl,
-      theme: config.theme,
-      enviroment: 'prueba'
-    };
-  }
-
-  // Métodos de conveniencia para acceder a configuraciones específicas
-  getTheme() {
-    const config = this.getCurrentTenant();
-    return config.theme;
-  }
+// Exportar la instancia del store para compatibilidad
+export const configManager = {
+  // ✅ Usar los nuevos hooks del store
+  getCurrentTenant: () => {
+    const store = useConfigStore.getState();
+    return store.currentTenant;
+  },
   
-  getApiBaseUrl(): string {
-    const config = this.getCurrentTenant();
-    return config.api.baseUrl;
-  }
+  getAppInfo: () => {
+    const store = useConfigStore.getState();
+    return store.appInfo;
+  },
   
-  isFeatureEnabled(feature: keyof TenantConfig['features']): boolean {
-    const config = this.getCurrentTenant();
-    const features = config.features;
-    return features?.[feature] === true;
-  }
+  // ✅ Métodos que acceden directamente al estado
+  getTheme: () => {
+    const store = useConfigStore.getState();
+    return store.currentTenant?.theme;
+  },
   
-  getSupportInfo() {
-    const config = this.getCurrentTenant();
-    return config.support;
-  }
+  getApiBaseUrl: () => {
+    const store = useConfigStore.getState();
+    return store.currentTenant?.api.baseUrl;
+  },
   
-  getPaymentConfig() {
-    const config = this.getCurrentTenant();
-    return config.payment;
-  }
-
-  getVersionInfo() {
+  isFeatureEnabled: (feature: string) => {
+    const store = useConfigStore.getState();
+    const features = store.currentTenant?.features;
+    return features?.[feature as keyof typeof features] === true;
+  },
+  
+  getSupportInfo: () => {
+    const store = useConfigStore.getState();
+    return store.currentTenant?.support;
+  },
+  
+  getPaymentConfig: () => {
+    const store = useConfigStore.getState();
+    return store.currentTenant?.payment;
+  },
+  
+  getVersionInfo: () => {
+    // Información de versión desde react-native-config
     return {
       versionName: Config.VERSION_NAME || '1.0.0',
       versionCode: Config.VERSION_CODE || '1',
-      buildNumber: Config.BUILD_NUMBER || '1', 
+      buildNumber: Config.BUILD_NUMBER || '1',
       releaseStage: Config.RELEASE_STAGE || 'dev',
       fullVersion: `${Config.VERSION_NAME || '1.0.0'} (${Config.BUILD_NUMBER || '1'})`,
       isProduction: Config.RELEASE_STAGE === 'prod',
       isDevelopment: Config.RELEASE_STAGE === 'dev',
     };
-  }
-}
-
-export const configManager = new ConfigManager();
+  },
+};
