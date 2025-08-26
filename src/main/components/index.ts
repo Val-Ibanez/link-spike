@@ -15,7 +15,7 @@ export { Button } from './Button';
 export { Card } from './Card';
 
 // Componente de inicialización
-export { default as AppInitializer } from './AppInitializer';
+export { default as AppInitializer } from './AppInitializer/AppInitializer';
 
 // Tokens del design system
 export * from './tokens';

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
-import { useInitializeConfig } from '../stores';
+import { useInitializeConfig } from '../../stores';
+import Config from 'react-native-config';
 
 interface AppInitializerProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
   // ✅ USAR SELECTOR INDIVIDUAL: Referencia estable, no cambia en cada render
   const initializeConfig = useInitializeConfig();
-  
+
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +38,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
 
     // ✅ SOLO UNA VEZ: Sin dependencias circulares
     initializeApp();
-  }, [initializeConfig]); // ← ✅ SOLO initializeConfig como dependencia
+  }, [initializeConfig]); 
+  
+  // ← ✅ SOLO initializeConfig como dependencia
 
   // Mostrar loading mientras se inicializa
   if (!isInitialized) {

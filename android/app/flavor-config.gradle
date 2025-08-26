@@ -48,6 +48,9 @@ ext.applyFlavorConfig = { flavor, flavorName ->
     flavor.resValue "string", "app_name", config.appName
     flavor.resValue "string", "build_config_package", config.bundleId
     
+    // ✅ BuildConfig para FLAVOR (recomendado)
+    flavor.buildConfigField "String", "FLAVOR", "\"${flavorName}\""
+    
     // Versioning dinámico
     def versionSuffix = getVersionSuffix(flavorName, config.buildNumber)
     flavor.versionNameSuffix versionSuffix

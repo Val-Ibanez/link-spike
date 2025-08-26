@@ -46,6 +46,8 @@ function detectFlavorByPattern(identifier: string): FlavorName | null {
   return null;
 }
 
+console.log('A VER', NativeModules.PlatformConstants?.packageName )
+
 // 📱 FUNCIÓN PARA DETECTAR FLAVOR EN ANDROID
 function detectAndroidFlavor(): FlavorName {
   try {
@@ -78,17 +80,25 @@ function detectAndroidFlavor(): FlavorName {
 // 🍎 FUNCIÓN PARA DETECTAR FLAVOR EN IOS
 function detectIOSFlavor(): FlavorName {
   try {
-    console.log("🔍 FlavorDetector iOS: Detectando por Bundle ID");
+    console.log("🔍 FlavorDetector iOS: Detectando por Config.FLAVOR");
     
-    const bundleId = NativeModules.PlatformConstants?.bundleIdentifier ?? "";
-    console.log("🔍 FlavorDetector iOS: Bundle ID nativo:", bundleId);
+    // ✅ USAR react-native-config en lugar de bundle ID
+    const { Config } = require('react-native-config');
+    const flavor = Config.FLAVOR;
     
-    const detectedFlavor = detectFlavorByPattern(bundleId);
-    if (detectedFlavor) {
-      return detectedFlavor;
+    if (flavor) {
+      console.log("✅ FlavorDetector iOS: Flavor detectado por Config.FLAVOR:", flavor);
+      
+      // Verificar que el flavor sea válido
+      const detectedFlavor = detectFlavorByPattern(flavor);
+      if (detectedFlavor) {
+        return detectedFlavor;
+      }
+      
+      console.warn("⚠️ FlavorDetector iOS: Flavor no válido, usando fallback");
+    } else {
+      console.warn("⚠️ FlavorDetector iOS: Config.FLAVOR no está definido, usando fallback");
     }
-    
-    console.warn("⚠️ FlavorDetector iOS: No se pudo detectar flavor del bundle ID, usando fallback");
     
   } catch (error) {
     console.error("❌ Error al detectar flavor en iOS:", error);
@@ -98,7 +108,7 @@ function detectIOSFlavor(): FlavorName {
 }
 
 // 🚀 FUNCIÓN PRINCIPAL SINCRÓNICA
-export function getFlavorNativeSync(): FlavorName {
+export function getFlavorNativeSync(): string {
   if (Platform.OS === "android") {
     return detectAndroidFlavor();
   } else if (Platform.OS === "ios") {
@@ -109,7 +119,7 @@ export function getFlavorNativeSync(): FlavorName {
 }
 
 // 🔄 FUNCIÓN ASYNC (mantenemos para compatibilidad)
-export async function getFlavorNative(): Promise<FlavorName> {
+export async function getFlavorNative(): Promise<string> {
   if (Platform.OS === "android") {
     try {
       console.log('🔍 FlavorDetector ANDROID: Llamando a FlavorModule.getFlavor()');

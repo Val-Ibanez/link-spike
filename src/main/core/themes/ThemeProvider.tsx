@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, NativeModules } from 'react-native';
 import { useCurrentTenant } from '../../stores';
 import { TenantConfig } from '../types/tenant';
 
@@ -19,7 +19,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   // ✅ SOLO ESPERAR A QUE EL TENANT ESTÉ DISPONIBLE
   // NO inicializar nada aquí, eso lo hace AppInitializer
-  
+  const { Config } = require('react-native-config');
+    console.log('valeria', currentTenant)
+
   if (!currentTenant) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

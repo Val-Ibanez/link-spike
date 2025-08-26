@@ -14,8 +14,11 @@ const flavorConfigs = {
   link,
 } as Record<string, TenantConfig>;
 
+
+
 export function getCurrentFlavor(): TenantConfig | null {
   const flavorName = Config.FLAVOR;
+  
   return flavorName ? getFlavorConfig(flavorName) : null;
 }
   

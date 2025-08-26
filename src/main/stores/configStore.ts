@@ -44,6 +44,13 @@ export const useConfigStore = create<ConfigState>()(
         try {
           console.log('🚀 ConfigStore: Inicializando configuración...');
           
+          // ✅ VALIDAR: Si ya tenemos tenant config válido, no reinicializar
+          const currentState = get();
+          if (currentState.currentTenant && currentState.detectedFlavor) {
+            console.log('✅ ConfigStore: Ya inicializado, saltando...');
+            return;
+          }
+          
           // Detectar flavor una sola vez
           const flavor = getFlavorNativeSync();
           console.log(`🔍 ConfigStore: Flavor detectado: ${flavor}`);
@@ -67,6 +74,12 @@ export const useConfigStore = create<ConfigState>()(
           };
           
           // ✅ ACTUALIZAR ESTADO UNA SOLA VEZ
+          console.log('🔧 ConfigStore: Actualizando estado...', {
+            detectedFlavor: flavor,
+            tenantDisplayName: tenantConfig.displayName,
+            hasAppInfo: !!appInfo
+          });
+          
           set({
             detectedFlavor: flavor,
             currentTenant: tenantConfig,
@@ -86,6 +99,14 @@ export const useConfigStore = create<ConfigState>()(
           }
           
           console.log(`✅ ConfigStore: Configuración inicializada para ${tenantConfig.displayName}`);
+          
+          // ✅ VERIFICAR: Confirmar que el estado se actualizó correctamente
+          const finalState = get();
+          console.log('🔍 ConfigStore: Estado final:', {
+            hasCurrentTenant: !!finalState.currentTenant,
+            hasAppInfo: !!finalState.appInfo,
+            detectedFlavor: finalState.detectedFlavor
+          });
         } catch (error) {
           console.error('❌ ConfigStore: Error al inicializar:', error);
           throw error;
@@ -118,8 +139,9 @@ export const useConfigStore = create<ConfigState>()(
       name: 'config-storage',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
-        currentTenant: state.currentTenant,
-        detectedFlavor: state.detectedFlavor
+        // ✅ Solo persistir detectedFlavor si no es null
+        ...(state.detectedFlavor && { detectedFlavor: state.detectedFlavor })
+        // ❌ NO persistir currentTenant - se debe calcular en cada sesión
       })
     }
   )

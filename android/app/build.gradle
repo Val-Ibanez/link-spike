@@ -2,23 +2,19 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-// Aplicar configuración de flavors
-apply from: "flavor-config.gradle"
-
-// React Native Config - Especificar TODAS las variantes para cada flavor
+// React Native Config - Especificar SOLO las variantes Debug que usamos
 project.ext.envConfigFiles = [
         bancoSantaCruzDebug: ".env.bancoSantaCruz",
-        bancoSantaCruzRelease: ".env.bancoSantaCruz",
         bancoEntreRiosDebug: ".env.bancoEntreRios",
-        bancoEntreRiosRelease: ".env.bancoEntreRios",
         bancoSantaFeDebug: ".env.bancoSantaFe",
-        bancoSantaFeRelease: ".env.bancoSantaFe",
         linkDebug: ".env.link",
-        linkRelease: ".env.link",
     ]
 
-// Aplicar dotenv.gradle ANTES de usar project.env
+// Aplicar dotenv.gradle AHORA para que las variables estén disponibles
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
+// Aplicar configuración de flavors DESPUÉS de que las variables estén disponibles
+apply from: "flavor-config.gradle"
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -99,12 +95,9 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode project.env.get("VERSION_CODE")?.toInteger() ?: 1
-        versionName project.env.get("VERSION_NAME") ?: "1.0.0"
         buildConfigField "String", "BUILD_NUMBER", "\"${project.env.get("BUILD_NUMBER") ?: "1"}\""
         buildConfigField "String", "RELEASE_STAGE", "\"${project.env.get("RELEASE_STAGE") ?: "dev"}\""
-        resValue "string", "version_name", project.env.get("VERSION_NAME") ?: "1.0.0"
-        resValue "string", "build_number", project.env.get("BUILD_NUMBER") ?: "1"
+        resValue "string", "build_config_package", "com.myreactnativeapp"
     }
     signingConfigs {
         debug {
@@ -139,24 +132,28 @@ android {
             keyPassword System.getenv('LINK_KEY_PASSWORD') ?: 'defaultpass'
         }
     }
-    flavorDimensions "default"
+    flavorDimensions "bank"
     productFlavors {
         
         bancoSantaCruz {
-            dimension "default"
-            applyFlavorConfig(it, "bancoSantaCruz")
+            dimension "bank"
+            applicationId "com.myreactnativeapp.bancosantacruz"
+            buildConfigField "String", "FLAVOR", "\"bancoSantaCruz\""
         }
         bancoEntreRios {
-            dimension "default"
-            applyFlavorConfig(it, "bancoEntreRios")
+            dimension "bank"
+            applicationId "com.myreactnativeapp.bancoentrerios"
+            buildConfigField "String", "FLAVOR", "\"bancoEntreRios\""
         }
         bancoSantaFe {
-            dimension "default"
-            applyFlavorConfig(it, "bancoSantaFe")
+            dimension "bank"
+            applicationId "com.myreactnativeapp.bancosantafe"
+            buildConfigField "String", "FLAVOR", "\"bancoSantaFe\""
         }
         link {
-            dimension "default"
-            applyFlavorConfig(it, "link")
+            dimension "bank"
+            applicationId "com.myreactnativeapp.link"
+            buildConfigField "String", "FLAVOR", "\"link\""
         }
     }
 
